@@ -1,9 +1,15 @@
 {
   "tabWidth": 2,
-  "semi": true,
-  "trailingComma": "all",
-  "bracketSpacing": true,
-  "bracketSameLine": false,
+  "trailingComma": "es5",
   "singleQuote": true,
-  "jsxSingleQuote": true
+  "jsxSingleQuote": true,
+  "printWidth": 100,
+  "useTabs": false,
+  "semi": true,
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "quoteProps": "as-needed",
+  "arrowParens": "always",
+  "singleAttributePerLine": true,
+  "plugins": ["prettier-plugin-organize-imports"]
 }
