@@ -1,17 +1,46 @@
 @import 'tailwindcss';
 
+@theme {
+  --*: initial;
+
+  --font-family-heading: 'Montserrat', sans-serif;
+  --font-family-subheading: 'Ubunutu Sans Mono', monospace;
+  --font-family-body: 'Ubuntu Sans', sans-serif;
+
+  --color-purple-100: rgba(95, 75, 135, 0.2);
+  --color-purple-200: rgba(95, 75, 135, 0.4);
+  --color-purple-300: rgba(95, 75, 135, 0.6);
+  --color-purple-400: rgba(95, 75, 135, 0.8);
+  --color-purple-500: rgba(95, 75, 135, 1);
+
+  --color-pink-100: rgba(135, 75, 125, 0.2);
+  --color-pink-200: rgba(135, 75, 125, 0.4);
+  --color-pink-300: rgba(135, 75, 125, 0.6);
+  --color-pink-400: rgba(135, 75, 125, 0.8);
+  --color-pink-500: rgba(135, 75, 125, 1);
+
+  --color-blue-100: rgba(70, 100, 130, 0.2);
+  --color-blue-200: rgba(70, 100, 130, 0.4);
+  --color-blue-300: rgba(70, 100, 130, 0.6);
+  --color-blue-400: rgba(70, 100, 130, 0.8);
+  --color-blue-500: rgba(70, 100, 130, 1);
+}
+
 html,
 body,
 #root {
   margin: 0;
   padding: 0;
-  background-color: theme('colors.grey.100');
-  font-family: theme('fontFamily.body');
-  color: theme('colors.purple.400');
+  color: var(--color-purple-500);
+  font-family: var(--font-family-body);
   scroll-behavior: smooth;
 }
 
 html {
-  scroll-behavior: smooth;
   overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-purple-100);
 }

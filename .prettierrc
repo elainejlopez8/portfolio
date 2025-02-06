@@ -10,5 +10,15 @@
   "bracketSpacing": true,
   "quoteProps": "as-needed",
   "arrowParens": "always",
-  "plugins": ["prettier-plugin-organize-imports"]
+  "plugins": [
+    "prettier-plugin-css-order",
+    "prettier-plugin-organize-imports",
+    "prettier-plugin-style-order",
+    "prettier-plugin-multiline-arrays",
+    "prettier-plugin-organize-attributes",
+    "prettier-plugin-tailwindcss"
+  ],
+  "tailwindStylesheet": "./src/index.css",
+  "tailwindFunctions": ["clsx"],
+  "tailwindPreserveWhitespace": true
 }
