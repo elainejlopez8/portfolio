@@ -1,8 +1,8 @@
+import landing from '@/assets/landing.png';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import landing from '../../assets/landing.png';
 
-export default function LandingPage() {
+function Landing() {
   const [aboutMe, setAboutMe] = useState(null);
 
   useEffect(() => {
@@ -36,3 +36,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+export default Landing;

@@ -1,11 +1,11 @@
+import PageLayout from '@/components/PageLayout/PageLayout';
+import { PageLayoutProviderWrapper } from '@/components/PageLayout/PageLayoutProvider';
+import Landing from '@/pages/Landing';
 import { RouteObject, useRoutes } from 'react-router-dom';
-import { PageLayoutProviderWrapper } from './components/PageLayout';
-import PageLayout from './components/PageLayout/PageLayout';
 // import PageLayout from './components/PageLayout';
 // import { PageLayoutProviderWrapper } from './components/PageLayout/PageLayoutProvider';
 // import ResumeItemCard from './components/Resume/ResumeCard';
 // import AboutMe from './pages/AboutMe';
-import Landing from './pages/Landing';
 // import ProjectCard from './pages/ProjectCard';
 // import Projects from './pages/Projects';
 // import Resume from './pages/Resume';

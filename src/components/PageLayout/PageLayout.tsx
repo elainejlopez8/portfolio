@@ -1,5 +1,5 @@
+import { LoadingPage } from '@/pages/LoadingScreen';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
-import { LoadingPage } from '../../pages/LoadingScreen';
 // import Footer from '../Footer';
 // import { NavBar } from '../NavBar';
 import { usePageLayout } from './PageLayoutProvider';
