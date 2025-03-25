@@ -1,7 +1,11 @@
 import loading from '@/assets/loading.gif';
 
 export const LoadingPage = () => (
-  <div className='container flex h-screen'>
-    <img src={loading} alt='loading logo' className='p-5 sm:w-1/2 md:portrait:w-4/5 lg:w-2/5 m-auto' />
+  <div className='flex h-screen w-screen overflow-hidden'>
+    <img
+      src={loading}
+      alt='loading logo'
+      className='p-5 max-w-sm m-auto h-auto landscape:max-h-full landscape:w-auto'
+    />
   </div>
 );

@@ -28,10 +28,10 @@ const PageLayout = ({ children: children }: { children: ReactNode }) => {
   return loading ? (
     <LoadingPage />
   ) : (
-    <div className='flex min-h-screen flex-col transition-all'>
+    <div className='min-h-screen max-w-screen transition-all'>
       {memoisedHeader}
-      <div className='flex flex-1'>
-        <main className='flex w-full flex-col [&>*]:w-full'>{children}</main>
+      <div className=''>
+        <main className=''>{children}</main>
       </div>
       {memoisedFooter}
     </div>
