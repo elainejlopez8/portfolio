@@ -7,7 +7,7 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',
-    debug: true,
+    debug: false,
     ns: ['aboutme', 'general', 'projects', 'resume'],
     defaultNS: 'general',
     backend: {
