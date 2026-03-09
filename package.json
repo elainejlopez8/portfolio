@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prettier": "prettier . --write",
-    "postinstall": "husky",
+    "preinstall": "node ./scripts/check-yarn.js",
+    "prepare": "husky install",
     "prepack": "pinst --disable",
     "postpack": "pinst --enable"
   },
@@ -69,5 +70,9 @@
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
-  }
+  },
+  "engines": {
+    "yarn": ">=3.0.0"
+  },
+  "packageManager": "yarn@3.6.2"
 }
