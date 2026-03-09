@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import React, { JSX } from 'react';
 
 export type PageElementProps = JSX.Element | null | undefined;
 
