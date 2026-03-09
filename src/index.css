@@ -1,8 +1,6 @@
 @import 'tailwindcss';
 
 @theme {
-  --*: initial;
-
   --font-family-heading: 'Montserrat', sans-serif;
   --font-family-subheading: 'Ubunutu Sans Mono', monospace;
   --font-family-body: 'Ubuntu Sans', sans-serif;
@@ -31,9 +29,9 @@ body,
 #root {
   margin: 0;
   padding: 0;
+  scroll-behavior: smooth;
   color: var(--color-purple-500);
   font-family: var(--font-family-body);
-  scroll-behavior: smooth;
 }
 
 html {

@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { MarkdownProps } from '@/types';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
@@ -6,11 +7,8 @@ import rehypeSanitize from 'rehype-sanitize';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 
-type Props = {
-  source: string | null | undefined;
-};
-
-export default function Markdown({ source }: Props) {
+export default function Markdown(props: MarkdownProps) {
+  const { source } = props;
   if (!source) return null;
 
   const sanitizeSchema = {

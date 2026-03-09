@@ -1,4 +1,4 @@
-import useContent from '@/hooks/useContent';
+import { useContent } from '@/hooks/useContent';
 import { JSX } from 'react';
 import { MdAlternateEmail } from 'react-icons/md';
 import { PiCodepenLogoBold, PiGithubLogoBold } from 'react-icons/pi';
@@ -12,15 +12,15 @@ const iconMap: Record<string, JSX.Element> = {
 };
 
 const Footer = () => {
-  const { t } = useContent();
+  const { t } = useContent('general');
   const footerLinks = t('footer.urls', { returnObjects: true }) as Record<
     string,
     { url: string; icon?: string; alt?: string }
   >;
 
   return (
-    <footer className='py-4 rounded-md w-full bg-gradient-to-b from-transparent via-purple-100 to-purple-200'>
-      <div className='gap-2 mb-2 flex justify-center'>
+    <footer className='w-full rounded-md bg-gradient-to-b from-transparent via-purple-100 to-purple-200 py-4'>
+      <div className='mb-2 flex justify-center gap-2'>
         {Object.entries(footerLinks).map(([key, link]) => (
           <a
             key={key}
@@ -33,7 +33,7 @@ const Footer = () => {
           </a>
         ))}
       </div>
-      <p className='text-sm text-center'>{t('footer.text', { year: new Date().getFullYear(), name: t('name') })}</p>
+      <p className='text-center text-sm'>{t('footer.text', { year: new Date().getFullYear(), name: t('name') })}</p>
     </footer>
   );
 };

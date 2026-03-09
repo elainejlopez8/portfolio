@@ -1,30 +1,21 @@
 import landing from '@/assets/landing.png';
 import Markdown from '@/components/Markdown';
-import useContent from '@/hooks/useContent';
+import { useContent } from '@/hooks/useContent';
 import { Button } from 'react-bootstrap';
 
 function Landing() {
-  const { t } = useContent({ ns: 'aboutme' });
-  const { t: tg } = useContent();
+  const { t } = useContent('aboutMe');
+  const { t: tg } = useContent('general');
 
   return (
-    <main className='md:flex-row p-6 gap-8 flex min-h-screen w-full flex-col-reverse items-center justify-center'>
-      <div className='md:text-left flex-1 text-center'>
-        <h1 className='text-4xl md:text-5xl lg:text-6xl font-semibold'>{t('subtitle', { name: tg('name') })}</h1>
-        <div className='mt-4'>
-          <Markdown source={t('profession')} />
-        </div>
+    <main className='my-auto flex flex-col items-center gap-6 text-center landscape:flex-row-reverse landscape:text-justify'>
+      <img src={landing} alt='hi bitmoji' className='pointer-events-none object-contain' />
+      <div className=''>
+        <h1 className='*:text-5xl'>{t('subtitle', { name: tg('name') })}</h1>
+        <Markdown source={t('profession')} />
         <Button href='/about-me' variant='primary' className='mt-6' aria-label={t('viewPortfolio')}>
           {t('viewPortfolio')}
         </Button>
-      </div>
-
-      <div className='flex flex-1 items-center justify-center'>
-        <img
-          src={landing}
-          alt='hi bitmoji'
-          className='w-44 sm:w-56 md:w-64 lg:w-72 pointer-events-none object-contain'
-        />
       </div>
     </main>
   );

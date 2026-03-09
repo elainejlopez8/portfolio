@@ -1,13 +1,8 @@
 import loadingImg from '@/assets/loading.gif';
+import { PageLayoutContextProps } from '@/types';
 import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import Footer from './Footer';
 import Header from './Header';
-
-type PageLayoutContextProps = {
-  setLoaded: (v: boolean) => void;
-  loaded: boolean;
-  initialised: boolean;
-};
 
 const defaultCtx: PageLayoutContextProps = {
   setLoaded: () => {},
@@ -45,14 +40,18 @@ const PageLayout: FC<PageLayoutProps> = ({ children, showHeaderFooter = true }) 
   return (
     <PageLayoutContext.Provider value={value}>
       {loading ? (
-        <div className='p-6 flex min-h-screen w-full items-center justify-center'>
-          <img src={loadingImg} alt='Loading' className='p-5 sm:w-3/4 md:w-1/2 h-auto w-fit object-contain' />
+        <div className='flex min-h-screen w-full items-center justify-center overflow-hidden'>
+          <img
+            src={loadingImg}
+            alt='Loading'
+            className='h-auto w-fit object-contain p-5 sm:w-1/2 md:w-2/3 md:p-2.5 lg:w-3/4 md:landscape:w-2/5'
+          />
         </div>
       ) : (
         <div className='flex min-h-screen w-full flex-col transition-all'>
           {pageLayoutLoaded && showHeaderFooter && <Header />}
-          <main className='px-4 py-6 container mx-auto flex-1'>{children}</main>
-          {pageLayoutLoaded && showHeaderFooter && <Footer />}zz
+          <main className='container mx-auto flex flex-1 px-4 py-6'>{children}</main>
+          {pageLayoutLoaded && showHeaderFooter && <Footer />}
         </div>
       )}
     </PageLayoutContext.Provider>

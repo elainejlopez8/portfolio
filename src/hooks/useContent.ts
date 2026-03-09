@@ -1,16 +1,13 @@
-import { useTranslation, UseTranslationOptions, UseTranslationResponse } from 'react-i18next';
+import { CONTENT_KEYS } from '@/services/content/i18n';
+import { KeyPrefix } from 'i18next';
+import { useTranslation, UseTranslationOptions } from 'react-i18next';
 
-type UseContentOptions = {
-  ns?: string | string[];
-  keyPrefix?: string;
-  options?: UseTranslationOptions<string>;
+export const useContent = <
+  Namespace extends CONTENT_KEYS = 'general',
+  KPrefix extends KeyPrefix<Namespace> = undefined,
+>(
+  namespace: Namespace = 'general' as Namespace,
+  options?: UseTranslationOptions<KPrefix>
+) => {
+  return useTranslation(namespace, options);
 };
-
-export default function useContent({
-  ns = 'general',
-  keyPrefix,
-  options,
-}: UseContentOptions = {}): UseTranslationResponse<string, string> {
-  const useTranslationOptions = keyPrefix ? { ...(options || {}), keyPrefix } : options;
-  return useTranslation(ns, useTranslationOptions as UseTranslationOptions<string>);
-}
