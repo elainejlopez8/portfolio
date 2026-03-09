@@ -1,14 +1,7 @@
-import PageLayout from '@/components/PageLayout/PageLayout';
-import { PageLayoutProviderWrapper } from '@/components/PageLayout/PageLayoutProvider';
+import PageLayout from '@/components/PageLayout';
+import AboutMe from '@/pages/AboutMe';
 import Landing from '@/pages/Landing';
-import { RouteObject, useRoutes } from 'react-router-dom';
-// import PageLayout from './components/PageLayout';
-// import { PageLayoutProviderWrapper } from './components/PageLayout/PageLayoutProvider';
-// import ResumeItemCard from './components/Resume/ResumeCard';
-// import AboutMe from './pages/AboutMe';
-// import ProjectCard from './pages/ProjectCard';
-// import Projects from './pages/Projects';
-// import Resume from './pages/Resume';
+import { RouteObject, useLocation, useRoutes } from 'react-router-dom';
 
 function App() {
   const routes: RouteObject[] = [
@@ -18,7 +11,7 @@ function App() {
     },
     {
       path: '/about-me',
-      // element: <AboutMe />,
+      element: <AboutMe />,
     },
     {
       path: '/projects',
@@ -46,11 +39,10 @@ function App() {
     },
   ];
 
-  return (
-    <PageLayoutProviderWrapper>
-      <PageLayout>{useRoutes(routes)}</PageLayout>
-    </PageLayoutProviderWrapper>
-  );
+  const location = useLocation();
+  const showHeaderFooter = location.pathname !== '/';
+
+  return <PageLayout showHeaderFooter={showHeaderFooter}>{useRoutes(routes)}</PageLayout>;
 }
 
 export default App;
