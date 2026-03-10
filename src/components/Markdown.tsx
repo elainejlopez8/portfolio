@@ -25,6 +25,7 @@ export default function Markdown(props: MarkdownProps) {
         a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
           <a {...props} target={props.target ?? '_blank'} rel='noopener noreferrer' />
         ),
+        h1: (props) => <h1 {...props} />,
         h2: (props) => <h2 {...props} />,
         div: (props) => <div {...props} />,
         p: (props) => <p {...props} />,

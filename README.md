@@ -1,3 +1,3 @@
 # Welcome to my portfolio
 
-[![Super-Linter](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE_NAME>/badge.svg)](https://github.com/marketplace/actions/super-linter)
+Welcome to my digital portfolio created using React, TypeScript, Tailwind CSS and Vite technologies.
