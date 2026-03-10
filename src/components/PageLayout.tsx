@@ -50,7 +50,7 @@ const PageLayout: FC<PageLayoutProps> = ({ children, showHeaderFooter = true }) 
       ) : (
         <div className='flex min-h-screen w-full flex-col transition-all'>
           {pageLayoutLoaded && showHeaderFooter && <Header />}
-          <main className='container mx-auto flex flex-1 px-4 py-6'>{children}</main>
+          <main className='layout-container layout-section container mx-auto flex flex-1'>{children}</main>
           {pageLayoutLoaded && showHeaderFooter && <Footer />}
         </div>
       )}

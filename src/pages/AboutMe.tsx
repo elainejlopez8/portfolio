@@ -2,35 +2,29 @@ import aboutImg from '@/assets/about.jpg';
 import Markdown from '@/components/Markdown';
 import { usePageLayout } from '@/components/PageLayout';
 import { useContent } from '@/hooks/useContent';
+import type { CONTENT_KEYS } from '@/services/content/i18n';
+import type { PageProps } from '@/types';
 import { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
 
-const AboutMe = () => {
+const DEFAULT_SECTION_ID = 'aboutMe';
+const DEFAULT_TITLE = 'About Me';
+
+const AboutMe = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: PageProps) => {
   const { setLoaded } = usePageLayout();
-  const { t } = useContent('aboutMe');
-  const { t: tg } = useContent('general');
-  const pathName = useLocation().pathname;
-  const navLinks = tg('navLinks', { returnObjects: true });
-  const title = Object.entries(navLinks).find(([, link]) => link.href === pathName)?.[1].label;
+  const { t } = useContent(sectionId as CONTENT_KEYS);
 
   useEffect(() => setLoaded(true), [setLoaded]);
 
   return (
-    <Container
-      fluid='lg'
-      className='flex flex-col gap-y-4 bg-gradient-to-b from-transparent via-purple-100 to-transparent p-5 *:text-center'
-      id='about-me'>
-      <h1 className='text-6xl uppercase md:text-7xl'>{title}</h1>
-      <h2 className='text-3xl md:text-4xl'>{t('tagline')}</h2>
-
-      <div className='flex flex-col gap-y-4 md:px-2 lg:px-5 landscape:flex-row-reverse landscape:gap-x-4'>
-        <img
-          src={aboutImg}
-          alt={t('title')}
-          className='pointer-events-none mx-auto my-auto w-11/12 rotate-2 border-8 border-white object-contain !p-3 md:w-1/2 landscape:w-2/5 lg:landscape:w-1/3'
-        />
-        <Markdown source={t('blurb')} />
+    <Container fluid='lg' className='about-section' id={sectionId}>
+      <h1 className='type-display uppercase'>{title}</h1>
+      <h2 className='type-heading'>{t('tagline')}</h2>
+      <div className='about-section-content'>
+        <img src={aboutImg} alt={title} className='about-section-media' />
+        <div className='about-section-copy'>
+          <Markdown source={t('blurb')} />
+        </div>
       </div>
     </Container>
   );

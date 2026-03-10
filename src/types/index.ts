@@ -7,3 +7,8 @@ export type PageLayoutContextProps = {
 export type MarkdownProps = {
   source: string | null | undefined;
 };
+
+export type PageProps = {
+  sectionId?: string;
+  title?: string;
+};

@@ -1,8 +1,10 @@
 export const general = {
   name: 'Elaine Lopez',
+  helloWorld: 'Hello World! 👋 My name is',
+  learnMore: 'Learn more',
   navLinks: [
     {
-      href: '/#about-me',
+      href: '/#aboutme',
       label: 'About Me',
     },
     {
@@ -14,6 +16,17 @@ export const general = {
       label: 'Resume',
     },
   ],
+  header: {
+    experience: `<p className='home-header-stat-value'>{{ numberOfYears }}+<span className='home-header-stat-unit'>Years</span></p>`,
+    web: {
+      text: 'Web Development',
+      icons: ['FaReact', 'TbBrandTypescript', 'FaNodeJs', 'FaNpm'],
+    },
+    design: {
+      text: 'UX/UI Design',
+      icons: ['FaFigma', 'TbUxCircle'],
+    },
+  },
   footer: {
     text: '© {{ year }} {{ name }}',
     urls: [

@@ -19,8 +19,8 @@ const Footer = () => {
   >;
 
   return (
-    <footer className='w-full rounded-md bg-gradient-to-b from-transparent via-purple-100 to-purple-200 py-4'>
-      <div className='mb-2 flex justify-center gap-2'>
+    <footer className='layout-section w-full rounded-md bg-gradient-to-b from-transparent via-purple-100 to-purple-200'>
+      <div className='layout-cluster-tight layout-offset-tight flex justify-center'>
         {Object.entries(footerLinks).map(([key, link]) => (
           <a
             key={key}
@@ -28,12 +28,14 @@ const Footer = () => {
             target='_blank'
             rel='noopener noreferrer'
             aria-label={link.alt}
-            className='*:text-xl'>
+            className='type-icon'>
             {iconMap[link.icon || '']}
           </a>
         ))}
       </div>
-      <p className='text-center text-sm'>{t('footer.text', { year: new Date().getFullYear(), name: t('name') })}</p>
+      <p className='type-caption text-center'>
+        {t('footer.text', { year: new Date().getFullYear(), name: t('name') })}
+      </p>
     </footer>
   );
 };

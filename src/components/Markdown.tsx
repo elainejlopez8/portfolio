@@ -29,6 +29,7 @@ export default function Markdown(props: MarkdownProps) {
         h2: (props) => <h2 {...props} />,
         div: (props) => <div {...props} />,
         p: (props) => <p {...props} />,
+        span: (props) => <span {...props} />,
       }}>
       {source}
     </ReactMarkdown>

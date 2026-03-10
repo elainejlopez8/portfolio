@@ -1,5 +1,6 @@
 import PageLayout from '@/components/PageLayout';
 import AboutMe from '@/pages/AboutMe';
+import Home from '@/pages/Home';
 import Landing from '@/pages/Landing';
 import { RouteObject, useLocation, useRoutes } from 'react-router-dom';
 
@@ -8,6 +9,10 @@ function App() {
     {
       path: '/',
       element: <Landing />,
+    },
+    {
+      path: '/welcome',
+      element: <Home />,
     },
     {
       path: '/about-me',

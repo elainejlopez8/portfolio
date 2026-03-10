@@ -7,21 +7,18 @@ const Header = () => {
   const navLinks = t('navLinks', { returnObjects: true }) as Record<string, { href: string; label: string }>;
 
   return (
-    <Navbar
-      collapseOnSelect
-      expand='lg'
-      className='mx-auto mb-4 w-full rounded-md bg-gradient-to-b from-purple-200 to-transparent'>
-      <Container className='px-4'>
-        <Navbar.Brand href='/'>
-          <img src={logo} alt='Portfolio Site Logo' className='mr-3 h-10 w-auto object-contain sm:h-12 md:h-14' />
+    <Navbar collapseOnSelect expand='lg' className='site-header'>
+      <Container className='layout-container'>
+        <Navbar.Brand href='/' className='site-header-brand'>
+          <img src={logo} alt='Portfolio Site Logo' className='site-header-logo' />
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls='responsive-navbar-nav' className='border-0' />
+        <Navbar.Toggle aria-controls='responsive-navbar-nav' className='site-header-toggle' />
 
         <Navbar.Collapse id='responsive-navbar-nav'>
-          <Nav className='ml-auto flex items-center gap-4'>
+          <Nav className='site-header-nav'>
             {Object.entries(navLinks).map(([key, link]) => (
-              <Nav.Link key={key} href={link.href} className='text-lg'>
+              <Nav.Link key={key} href={link.href} className='type-nav'>
                 {link.label}
               </Nav.Link>
             ))}
