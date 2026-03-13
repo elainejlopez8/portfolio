@@ -1,7 +1,9 @@
 import HomeHeader from '@/components/HomeHeader';
-import AboutMe from '@/pages/AboutMe';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import AboutMe from './AboutMe';
+import Projects from './Projects';
+import Resume from './Resume';
 
 const Home = () => {
   const location = useLocation();
@@ -22,6 +24,8 @@ const Home = () => {
     <div className='layout-stack flex w-full flex-col'>
       <HomeHeader />
       <AboutMe />
+      <Projects />
+      <Resume />
     </div>
   );
 };

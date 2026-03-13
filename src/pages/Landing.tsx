@@ -41,13 +41,13 @@ const Landing = () => {
         alt='hi bitmoji'
         className='landing-media pointer-events-none object-contain sm:w-1/2 lg:w-2/5'
       />
-      <div className='landing-copy type-stack-base flex flex-col *:!mb-0 landscape:text-left'>
+      <div className='landing-copy type-stack-base flex flex-col *:mb-0! landscape:text-left'>
         <h1 className='type-display'>{t('subtitle', { name: tg('name') })}</h1>
         <h2 className='type-heading'>{t('profession')}</h2>
         <Button
           href='/welcome#home'
           variant='primary'
-          className='landing-cta btn mx-auto !text-pink-500 hover:!text-white lg:w-1/2'
+          className='landing-cta btn mx-auto text-pink-500! hover:text-white! lg:w-1/2'
           target='_self'
           onClick={handleScrollToAbout}
           aria-label={t('viewPortfolio')}>

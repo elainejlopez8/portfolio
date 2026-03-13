@@ -99,7 +99,7 @@ const HomeHeader = () => {
     '--home-header-shell-extra-height': HOME_HEADER_SHELL_EXTRA_HEIGHT,
   } as CSSProperties;
 
-  const COLLAPSE_THRESHOLD = 0.5;
+  const COLLAPSE_THRESHOLD = 0.3;
   const isCollapsed = shrinkProgress >= COLLAPSE_THRESHOLD;
 
   const collapseStyle: CSSProperties = {
