@@ -41,7 +41,6 @@ const HomeHeader = ({ onLearnMore }: HomeHeaderProps) => {
   const webExperienceIcons = tg('header.web.icons', { returnObjects: true }) as string[];
   const designExperienceIcons = tg('header.design.icons', { returnObjects: true }) as string[];
 
-  const navigate = useNavigate();
   const [isNavigatingToAbout, setIsNavigatingToAbout] = useState(false);
   const [shrinkProgress, setShrinkProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
