@@ -5,7 +5,7 @@ import { default as tseslint, default as typescriptEslint } from 'typescript-esl
 
 export default [
   {
-    ignores: ['*.config*', '**/*type*'],
+    ignores: ['*.config*', '**/*type*', '**/*types*', '**/dist/**', '**/build/**', '**/node_modules/**'],
   },
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],

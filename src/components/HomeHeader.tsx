@@ -113,7 +113,7 @@ const HomeHeader = () => {
               href='/welcome#aboutMe'
               variant='primary'
               size='sm'
-              className='btn btn-primary home-header-cta !text-pink-500 hover:!transform-none hover:!text-white'
+              className='btn btn-primary home-header-cta text-pink-500! hover:transform-none! hover:text-white!'
               target='_self'
               onClick={handleScrollToAbout}
               aria-label={t('viewPortfolio')}>
