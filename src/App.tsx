@@ -1,7 +1,6 @@
 import PageLayout from '@/components/PageLayout';
 import AboutMe from '@/pages/AboutMe';
 import Home from '@/pages/Home';
-import Landing from '@/pages/Landing';
 import Projects from '@/pages/Projects';
 import Resume from '@/pages/Resume';
 import { RouteObject, useLocation, useRoutes } from 'react-router-dom';
@@ -10,10 +9,6 @@ function App() {
   const routes: RouteObject[] = [
     {
       path: '/',
-      element: <Landing />,
-    },
-    {
-      path: '/welcome',
       element: <Home />,
     },
     {

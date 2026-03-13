@@ -16,9 +16,10 @@ export const usePageLayout = () => useContext(PageLayoutContext);
 type PageLayoutProps = {
   children: ReactNode;
   showHeaderFooter?: boolean;
+  onlyShowChildren?: boolean;
 };
 
-const PageLayout: FC<PageLayoutProps> = ({ children, showHeaderFooter = true }) => {
+const PageLayout: FC<PageLayoutProps> = ({ children, showHeaderFooter = true, onlyShowChildren = false }) => {
   const [pageLayoutLoaded, setPageLayoutLoaded] = useState(false);
 
   const value = useMemo(
@@ -33,9 +34,24 @@ const PageLayout: FC<PageLayoutProps> = ({ children, showHeaderFooter = true }) 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (onlyShowChildren) {
+      setLoading(false);
+      setPageLayoutLoaded(false);
+      return;
+    }
     const t = setTimeout(() => setLoading(false), 6800);
     return () => clearTimeout(t);
-  }, []);
+  }, [onlyShowChildren]);
+
+  if (onlyShowChildren) {
+    return (
+      <PageLayoutContext.Provider value={value}>
+        <div className='flex min-h-screen w-full flex-col overflow-hidden transition-all'>
+          <main className='flex w-full flex-1 overflow-hidden'>{children}</main>
+        </div>
+      </PageLayoutContext.Provider>
+    );
+  }
 
   return (
     <PageLayoutContext.Provider value={value}>
@@ -50,7 +66,7 @@ const PageLayout: FC<PageLayoutProps> = ({ children, showHeaderFooter = true }) 
       ) : (
         <div className='flex min-h-screen w-full flex-col transition-all'>
           {pageLayoutLoaded && showHeaderFooter && <Header />}
-          <main className='layout-container layout-section container mx-auto flex flex-1'>{children}</main>
+          <main className='flex flex-1'>{children}</main>
           {pageLayoutLoaded && showHeaderFooter && <Footer />}
         </div>
       )}

@@ -6,7 +6,6 @@ import { FaFigma, FaNodeJs, FaNpm, FaReact } from 'react-icons/fa6';
 import { PiCodepenLogoBold, PiGithubLogoBold } from 'react-icons/pi';
 import { TbBrandTypescript, TbUxCircle } from 'react-icons/tb';
 import { TfiLinkedin } from 'react-icons/tfi';
-import { useNavigate } from 'react-router-dom';
 import Markdown from './Markdown';
 
 const iconMap: Record<string, ReactNode> = {
@@ -25,9 +24,14 @@ const HOME_HEADER_MIN_SCALE = 0.82;
 const HOME_HEADER_SHRINK_DISTANCE_FACTOR = 0.95;
 const HOME_HEADER_SHELL_EXTRA_HEIGHT = 'clamp(10rem, 16vw, 18rem)';
 
-const HomeHeader = () => {
+type HomeHeaderProps = {
+  onLearnMore?: () => void;
+};
+
+const HomeHeader = ({ onLearnMore }: HomeHeaderProps) => {
   const { t: tg } = useContent('general');
   const { t } = useContent('aboutMe');
+  const aboutMeHref = `${import.meta.env.BASE_URL}#aboutMe`;
   const footerLinks = tg('footer.urls', { returnObjects: true }) as Array<{
     href: string;
     icon?: string;
@@ -89,9 +93,12 @@ const HomeHeader = () => {
 
     setIsNavigatingToAbout(true);
 
-    scrollTimeoutRef.current = window.setTimeout(() => {
-      navigate('/welcome#aboutMe');
-    }, 260);
+    if (onLearnMore) {
+      onLearnMore();
+    }
+
+    // Use window.location.hash to update the hash and trigger scroll in Home.tsx
+    window.location.hash = '#aboutMe';
   };
 
   const homeHeaderStyle = {
@@ -122,7 +129,7 @@ const HomeHeader = () => {
 
           <div className='home-header-actions' style={collapseStyle}>
             <Button
-              href='/welcome#aboutMe'
+              href={aboutMeHref}
               variant='primary'
               size='sm'
               className='btn btn-primary home-header-cta text-pink-500! hover:transform-none! hover:text-white!'

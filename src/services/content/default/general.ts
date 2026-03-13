@@ -4,7 +4,7 @@ export const general = {
   learnMore: 'Learn more',
   navLinks: [
     {
-      href: '/#aboutme',
+      href: '/#aboutMe',
       label: 'About Me',
     },
     {
