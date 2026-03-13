@@ -99,6 +99,16 @@ const HomeHeader = () => {
     '--home-header-shell-extra-height': HOME_HEADER_SHELL_EXTRA_HEIGHT,
   } as CSSProperties;
 
+  const COLLAPSE_THRESHOLD = 0.5;
+  const isCollapsed = shrinkProgress >= COLLAPSE_THRESHOLD;
+
+  const collapseStyle: CSSProperties = {
+    display: isCollapsed ? 'none' : 'flex',
+    transform: isCollapsed ? 'translateY(-6px)' : 'none',
+    transition: 'opacity 180ms ease, transform 180ms ease',
+    pointerEvents: isCollapsed ? 'none' : 'auto',
+  };
+
   return (
     <Container fluid='lg' className='home-header-shell' id='home' ref={containerRef}>
       <div className='home-header' style={homeHeaderStyle}>
@@ -106,9 +116,11 @@ const HomeHeader = () => {
           <p className='type-body'>{tg('helloWorld')}</p>
           <h1 className='type-display'>{tg('name')}</h1>
           <h3 className='home-header-profession type-heading'>{t('profession')}</h3>
-          <p className='type-body home-header-short-blurb'>{t('short_blurb')}</p>
+          <p className='type-body home-header-short-blurb' style={collapseStyle}>
+            {t('short_blurb')}
+          </p>
 
-          <div className='home-header-actions'>
+          <div className='home-header-actions' style={collapseStyle}>
             <Button
               href='/welcome#aboutMe'
               variant='primary'

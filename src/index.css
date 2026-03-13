@@ -251,7 +251,7 @@ p {
 
 .home-header-shell {
   position: relative;
-  min-height: calc(100svh + var(--home-header-shell-extra-height, clamp(8rem, 12vw, 14rem)));
+  min-height: 100vh;
 }
 
 .home-header {
