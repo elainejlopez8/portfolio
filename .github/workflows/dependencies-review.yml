@@ -1,4 +1,5 @@
 name: 'Dependency Review'
+
 on: [pull_request]
 
 permissions:
@@ -6,9 +7,17 @@ permissions:
 
 jobs:
   dependency-review:
+    if: ${{ vars.ENABLE_DEPENDENCY_REVIEW == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v4
+
+  dependency-review-skipped:
+    if: ${{ vars.ENABLE_DEPENDENCY_REVIEW != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Dependency Review Disabled'
+        run: echo 'Dependency Review skipped. Enable Dependency Graph / GitHub Advanced Security, then set ENABLE_DEPENDENCY_REVIEW=true.'
