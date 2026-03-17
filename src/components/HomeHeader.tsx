@@ -55,7 +55,6 @@ const HomeHeader = ({ onLearnMore }: HomeHeaderProps) => {
 	const [isNavigatingToAbout, setIsNavigatingToAbout] = useState(false);
 	const [shrinkProgress, setShrinkProgress] = useState(0);
 	const containerRef = useRef<HTMLDivElement | null>(null);
-	const scrollTimeoutRef = useRef<number | null>(null);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -90,10 +89,6 @@ const HomeHeader = ({ onLearnMore }: HomeHeaderProps) => {
 
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
-
-			if (scrollTimeoutRef.current !== null) {
-				window.clearTimeout(scrollTimeoutRef.current);
-			}
 		};
 	}, []);
 
