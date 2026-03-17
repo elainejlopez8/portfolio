@@ -1,8 +1,46 @@
 import { useContent } from '@/hooks/useContent';
-import { kebabCase, snakeCase, startCase } from 'lodash';
+import { kebabCase, startCase } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import { ResumeCategories } from '../../types';
 import ResumeTimeline from './ResumeTimeline';
+
+type Role = {
+  title: string;
+  team?: string;
+  start_date?: string;
+  end_date?: string;
+  description?: string;
+};
+
+type Company = {
+  company: string;
+  roles: Role[];
+};
+
+type EmploymentContent = {
+  companies: Company[];
+};
+
+type Education = {
+  name: string;
+  qualification?: string;
+  start_date?: string;
+  end_date?: string;
+  description?: string;
+};
+
+type Certification = {
+  name: string;
+  certifier?: string;
+  date?: string;
+  url?: string;
+  description?: string;
+};
+
+type Certifications = {
+  viewCert?: string;
+  certs: Certification[];
+};
 
 export const useCreateResumeTimeline = (category: ResumeCategories) => {
   const { t } = useContent('resume');
@@ -30,53 +68,60 @@ export const useResumeContent = (category: ResumeCategories, resumeItem: string)
   const [date, setDate] = useState('');
   const [team, setTeam] = useState('');
   const [url, setUrl] = useState('');
+  const { t } = useContent('resume');
 
   useEffect(() => {
-    const jsonUrl = `/src/assets/${snakeCase(category)}.json`;
-    fetch(jsonUrl)
-      .then((res) => res.json())
-      .then((content) => {
-        const json = JSON.parse(JSON.stringify(content));
+    const resumeContent = t(category, { returnObjects: true }) as
+      | EmploymentContent
+      | Education[]
+      | Certifications
+      | Record<string, unknown>;
 
-        switch (category) {
-          case ResumeCategories.employmentHistory:
-            setTitle(json[kebabCase(resumeItem)].title);
-            setSubtitle(json[kebabCase(resumeItem)].company);
-            setDate(json[kebabCase(resumeItem)].start_date + ' - ' + json[kebabCase(resumeItem)].end_date);
-            setDescription(json[kebabCase(resumeItem)].description);
-            setTeam(json[kebabCase(resumeItem)].team);
-            setUrl('');
-            break;
-          case ResumeCategories.education:
-            setTitle(json[kebabCase(resumeItem)].school);
-            setSubtitle(json[kebabCase(resumeItem)].qualification);
-            setDate(json[kebabCase(resumeItem)].start_date + ' - ' + json[kebabCase(resumeItem)].end_date);
-            setDescription(json[kebabCase(resumeItem)].description);
-            setTeam('');
-            setUrl('');
+    type Item = Role & { company?: string } & Partial<Education> & Partial<Certification> & Record<string, unknown>;
 
-            break;
-          case ResumeCategories.certifications:
-            setTitle(json[kebabCase(resumeItem)].name);
-            setSubtitle(json[kebabCase(resumeItem)].certifier);
-            setDate(json[kebabCase(resumeItem)].date);
-            setDescription(json[kebabCase(resumeItem)].description);
-            setTeam('');
-            setUrl(json[kebabCase(resumeItem)].url);
-            break;
-          default:
-            setTitle('');
-            setSubtitle('');
-            setDate('');
-            setDescription('');
-            setTeam('');
-            setUrl('');
+    let item: Item = {} as Item;
 
-            break;
+    if (category === ResumeCategories.employmentHistory) {
+      const companies = (resumeContent as EmploymentContent)?.companies ?? [];
+      for (const company of companies) {
+        const match = (company.roles ?? []).find(
+          (r) => r.title === resumeItem || kebabCase(r.title) === kebabCase(resumeItem)
+        );
+        if (match) {
+          item = { ...match, company: company.company } as Item;
+          break;
         }
-      })
-      .catch((error) => console.error(error));
-  }, [category, resumeItem]);
+      }
+    } else if (category === ResumeCategories.education) {
+      const education = resumeContent as Education[];
+      item = (education ?? []).find(
+        (e) => e.name === resumeItem || kebabCase(e.name) === kebabCase(resumeItem)
+      ) as Item;
+      if (!item) item = {} as Item;
+    } else if (category === ResumeCategories.certifications) {
+      const certs = (resumeContent as Certifications)?.certs ?? [];
+      item =
+        (certs.find((c) => c.name === resumeItem || kebabCase(c.name) === kebabCase(resumeItem)) as Item) ||
+        ({} as Item);
+    } else {
+      const rc = resumeContent as Record<string, unknown>;
+      const direct = rc[resumeItem] ?? rc[kebabCase(resumeItem)];
+      item = (direct as Item) || ({} as Item);
+    }
+
+    setTitle((item.title as string) || (item.name as string) || (item.school as string) || '');
+    setSubtitle((item.company as string) || (item.certifier as string) || (item.qualification as string) || '');
+    const start = (item.start_date as string) || '';
+    const end = (item.end_date as string) || '';
+    if (start || end) {
+      setDate(start + (end ? ' - ' + end : ''));
+    } else {
+      setDate((item.date as string) || '');
+    }
+    setDescription((item.description as string) || '');
+    setTeam((item.team as string) || '');
+    setUrl((item.url as string) || '');
+  }, [category, resumeItem, t]);
 
   return { title, subtitle, description, date, team, url };
 };
