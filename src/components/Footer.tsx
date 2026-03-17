@@ -1,5 +1,5 @@
 import { useContent } from '@/hooks/useContent';
-import { JSX } from 'react';
+import type { JSX } from 'react';
 import { MdAlternateEmail } from 'react-icons/md';
 import { PiCodepenLogoBold, PiGithubLogoBold } from 'react-icons/pi';
 import { TfiLinkedin } from 'react-icons/tfi';
@@ -19,7 +19,7 @@ const Footer = () => {
   >;
 
   return (
-    <footer className='layout-section w-full rounded-md bg-gradient-to-b from-transparent via-purple-100 to-purple-200'>
+    <footer className='layout-section w-full rounded-md bg-linear-to-b from-transparent via-purple-100 to-purple-200'>
       <div className='layout-cluster-tight layout-offset-tight flex justify-center'>
         {Object.entries(footerLinks).map(([key, link]) => (
           <a

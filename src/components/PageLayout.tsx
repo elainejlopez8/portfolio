@@ -1,6 +1,6 @@
 import loadingImg from '@/assets/loading.gif';
-import { PageLayoutContextProps } from '@/types';
-import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
+import type { PageLayoutContextProps } from '@/types';
+import { createContext, type FC, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 
