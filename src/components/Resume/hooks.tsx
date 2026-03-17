@@ -32,8 +32,8 @@ export const useResumeContent = (category: ResumeCategories, resumeItem: string)
   const [url, setUrl] = useState('');
 
   useEffect(() => {
-    const url = `/src/assets/${snakeCase(category)}.json`;
-    fetch(url)
+    const jsonUrl = `/src/assets/${snakeCase(category)}.json`;
+    fetch(jsonUrl)
       .then((res) => res.json())
       .then((content) => {
         const json = JSON.parse(JSON.stringify(content));
@@ -76,7 +76,7 @@ export const useResumeContent = (category: ResumeCategories, resumeItem: string)
         }
       })
       .catch((error) => console.error(error));
-  }, [category]);
+  }, [category, resumeItem]);
 
   return { title, subtitle, description, date, team, url };
 };
