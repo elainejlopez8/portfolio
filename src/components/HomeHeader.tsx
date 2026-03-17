@@ -1,6 +1,6 @@
 import landing from '@/assets/landing.png';
 import { useContent } from '@/hooks/useContent';
-import { type CSSProperties, type MouseEvent, type type ReactNode, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, type MouseEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { FaFigma, FaNodeJs, FaNpm, FaReact } from 'react-icons/fa6';
 import { PiCodepenLogoBold, PiGithubLogoBold } from 'react-icons/pi';
@@ -206,7 +206,6 @@ const HomeHeader = ({ onLearnMore, showMainContent }: HomeHeaderProps) => {
           <div className='home-header-stats'>
             <div className='home-header-stat'>
               <Markdown
-
                 source={tg('header.experience', {
                   numberOfYears: new Date().getFullYear() - 2023,
                 })}

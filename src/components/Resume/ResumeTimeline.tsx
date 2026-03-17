@@ -15,7 +15,7 @@ import { MdSchool, MdWork } from 'react-icons/md';
 import { PiCertificateBold } from 'react-icons/pi';
 
 interface ResumeTimelineProps {
-  details: string; 
+  details: string;
   category?: ResumeCategories;
 }
 
