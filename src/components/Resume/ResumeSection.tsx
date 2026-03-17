@@ -1,5 +1,5 @@
 import { kebabCase } from 'lodash';
-import { ResumeCategories } from '../../types';
+import { ResumeCategories } from '@/types';
 import { useCreateResumeTimeline } from './hooks';
 import { Link } from 'react-router-dom';
 
