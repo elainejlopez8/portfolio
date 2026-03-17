@@ -15,7 +15,7 @@ Personal portfolio site built with React, TypeScript, Vite, Tailwind CSS, and Re
 
 ## Prerequisites
 
-- Node.js
+- Node.js `>= 20.0.0`
 - Yarn `>= 3.0.0`
 
 > This repository is configured to use Yarn only. `npm install` is blocked by `scripts/check-yarn.js`.
