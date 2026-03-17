@@ -80,7 +80,6 @@
         "noSparseArray": "error",
         "noUnsafeDeclarationMerging": "error",
         "noUnsafeNegation": "error",
-        "noUnusedExpressions": "off",
         "noUselessRegexBackrefs": "error",
         "noWith": "error",
         "useGetterReturn": "error",

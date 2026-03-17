@@ -112,6 +112,6 @@ Use these layout classes so spacing scales with the same rhythm tokens:
 - Markdown-based rich text is rendered through `src/components/Markdown.tsx`.
 - Husky, lint-staged, Commitlint, and GitHub Actions are configured for formatting and linting workflows.
 
-
 ## Github Actions
+
 [![Super-Linter](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE_NAME>/badge.svg)](https://github.com/marketplace/actions/super-linter)
