@@ -12,7 +12,7 @@ import { kebabCase } from 'lodash';
 import { Button } from 'react-bootstrap';
 import { MdSchool, MdWork } from 'react-icons/md';
 import { PiCertificateBold } from 'react-icons/pi';
-import { ResumeCategories } from '../../types';
+import { ResumeCategories } from '@/types';
 
 export default function CreateResumeTimeline({ details: details }: { details: string }) {
   const content = JSON.parse(details);
