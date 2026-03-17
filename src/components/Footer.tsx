@@ -13,18 +13,19 @@ const iconMap: Record<string, JSX.Element> = {
 
 const Footer = () => {
 	const { t } = useContent("general");
-	const footerLinks = t("footer.urls", { returnObjects: true }) as Record<
-		string,
-		{ url: string; icon?: string; alt?: string }
-	>;
+	const footerLinks = t("footer.urls", { returnObjects: true }) as {
+		href: string;
+		icon?: string;
+		alt?: string;
+	}[];
 
 	return (
 		<footer className="layout-section w-full rounded-md bg-linear-to-b from-transparent via-purple-100 to-purple-200">
 			<div className="layout-cluster-tight layout-offset-tight flex justify-center">
-				{Object.entries(footerLinks).map(([key, link]) => (
+				{footerLinks.map((link, index) => (
 					<a
-						key={key}
-						href={link.url}
+						key={index}
+						href={link.href}
 						target="_blank"
 						rel="noopener noreferrer"
 						aria-label={link.alt}
