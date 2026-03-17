@@ -31,7 +31,9 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
       for (let j = 0; j < content?.companies[i]?.roles?.length; j++) {
         const prefix = content?.companies[i]?.roles[j];
         items.push(
-          <TimelineItem>
+          <TimelineItem
+            key={`${content?.companies[i]?.company ?? 'company'}-${prefix?.title ?? 'role'}-${prefix?.start_date ?? ''}-${prefix?.end_date ?? ''}-${i}-${j}`}
+          >
             <TimelineSeparator>
               <TimelineDot color='primary' className='text-xl md:text-2xl lg:text-3xl'>
                 <MdWork />
