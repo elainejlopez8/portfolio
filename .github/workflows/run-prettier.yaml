@@ -22,7 +22,7 @@ jobs:
           persist-credentials: false
 
       - name: Prettify code
-        uses: creyD/prettier_action@v3.1
+        uses: creyD/prettier_action@394fa2de3b2acce9f63808b958c54aa823a43b71
         with:
           prettier_options: --write **/*.{js,jsx,ts,tsx,json,html,cjs,md}
         env:
