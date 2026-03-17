@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
-import { MarkdownProps } from '@/types';
-import React from 'react';
+
+import type { MarkdownProps } from '@/types';
+import type React from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';

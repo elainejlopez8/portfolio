@@ -1,6 +1,6 @@
 import landing from '@/assets/landing.png';
 import { useContent } from '@/hooks/useContent';
-import { type CSSProperties, type MouseEvent, ReactNode, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, type MouseEvent, type type ReactNode, useEffect, useRef, useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { FaFigma, FaNodeJs, FaNpm, FaReact } from 'react-icons/fa6';
 import { PiCodepenLogoBold, PiGithubLogoBold } from 'react-icons/pi';
@@ -39,8 +39,12 @@ const HomeHeader = ({ onLearnMore, showMainContent }: HomeHeaderProps) => {
     alt?: string;
   }>;
   const socialLinks = footerLinks.filter((link) => link.alt !== 'Email');
-  const webExperienceIcons = tg('header.web.icons', { returnObjects: true }) as string[];
-  const designExperienceIcons = tg('header.design.icons', { returnObjects: true }) as string[];
+  const webExperienceIcons = tg('header.web.icons', {
+    returnObjects: true,
+  }) as string[];
+  const designExperienceIcons = tg('header.design.icons', {
+    returnObjects: true,
+  }) as string[];
 
   const [isNavigatingToAbout, setIsNavigatingToAbout] = useState(false);
   const [shrinkProgress, setShrinkProgress] = useState(0);
@@ -201,7 +205,12 @@ const HomeHeader = ({ onLearnMore, showMainContent }: HomeHeaderProps) => {
 
           <div className='home-header-stats'>
             <div className='home-header-stat'>
-              <Markdown source={tg('header.experience', { numberOfYears: new Date().getFullYear() - 2023 })} />
+              <Markdown
+
+                source={tg('header.experience', {
+                  numberOfYears: new Date().getFullYear() - 2023,
+                })}
+              />
               <p className='home-header-stat-copy'>
                 <span>{tg('header.web.text')}</span>
                 <span className='home-header-stat-icons home-header-stat-icons--web'>
@@ -212,7 +221,11 @@ const HomeHeader = ({ onLearnMore, showMainContent }: HomeHeaderProps) => {
               </p>
             </div>
             <div className='home-header-stat'>
-              <Markdown source={tg('header.experience', { numberOfYears: new Date().getFullYear() - 2021 })} />
+              <Markdown
+                source={tg('header.experience', {
+                  numberOfYears: new Date().getFullYear() - 2021,
+                })}
+              />
               <p className='home-header-stat-copy'>
                 <span>{tg('header.design.text')}</span>
                 <span className='home-header-stat-icons home-header-stat-icons--design'>

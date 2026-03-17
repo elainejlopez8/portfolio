@@ -1,9 +1,8 @@
 import loadingImg from '@/assets/loading.gif';
-import { PageLayoutContextProps } from '@/types';
-import { createContext, FC, lazy, ReactNode, Suspense, useContext, useEffect, useMemo, useState } from 'react';
-
-const Header = lazy(() => import('./Header'));
-const Footer = lazy(() => import('./Footer'));
+import type { PageLayoutContextProps } from '@/types';
+import { createContext, type FC, type ReactNode, Suspense, useContext, useEffect, useMemo, useState } from 'react';
+import Footer from './Footer';
+import Header from './Header';
 
 const defaultCtx: PageLayoutContextProps = {
   setLoaded: () => {},

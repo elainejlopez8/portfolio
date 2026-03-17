@@ -1,5 +1,5 @@
 import { useContent } from '@/hooks/useContent';
-import { JSX } from 'react';
+import type { JSX } from 'react';
 import { MdAlternateEmail } from 'react-icons/md';
 import { PiCodepenLogoBold, PiGithubLogoBold } from 'react-icons/pi';
 import { TfiLinkedin } from 'react-icons/tfi';

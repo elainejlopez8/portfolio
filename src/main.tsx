@@ -5,7 +5,10 @@ import App from './App.tsx';
 import './index.css';
 import './services/content/i18n.js';
 
-const root = createRoot(document.getElementById('root')!);
+const rootElement = document.getElementById('root');
+if (!rootElement) throw new Error('Root element not found');
+
+const root = createRoot(rootElement);
 
 (async () => {
   const { BrowserRouter } = await import('react-router-dom');
