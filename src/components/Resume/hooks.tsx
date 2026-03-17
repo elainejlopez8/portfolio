@@ -1,7 +1,7 @@
 import { useContent } from '@/hooks/useContent';
 import { kebabCase, startCase } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
-import { ResumeCategories } from '../../types';
+import { ResumeCategories } from '@/types';
 import ResumeTimeline from './ResumeTimeline';
 
 type Role = {
