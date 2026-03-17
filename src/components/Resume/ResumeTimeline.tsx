@@ -102,7 +102,7 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
             <TimelineConnector />
           </TimelineSeparator>
           <TimelineContent sx={{ py: '12px', px: '20px' }}>
-            <a href={`/resume/${ResumeCategories.certifications}/${kebabCase(content?.certs[i]?.name)}`}>
+            <Link to={`/resume/${ResumeCategories.certifications}/${kebabCase(content?.certs[i]?.name)}`}>
               <Typography component='span' className='text-xl font-black text-blue-400 md:text-2xl lg:text-3xl'>
                 {content?.certs[i]?.name}
               </Typography>
@@ -112,7 +112,7 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
               <Typography className='text-base text-pink-300 md:text-lg lg:text-xl'>
                 {content?.certs[i]?.date}
               </Typography>
-            </a>
+            </Link>
             {content?.certs[i]?.description && (
               <Typography className='mt-2 hidden text-base whitespace-pre-line sm:flex md:text-lg lg:text-xl'>
                 {content?.certs[i]?.description}
