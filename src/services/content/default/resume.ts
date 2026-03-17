@@ -112,8 +112,8 @@ export const resume = {
     viewCert: 'View Certificate',
     certs: [
       {
-        name: 'Github Foundations Certification',
-        certifier: 'Github',
+        name: 'GitHub Foundations Certification',
+        certifier: 'GitHub',
         date: '30 May 2024',
         url: 'https://www.credly.com/badges/bda52cd4-7411-40d5-afaa-5458e28b738f/public_url',
       },
