@@ -2,7 +2,7 @@
 
 :root {
   --font-heading: 'Montserrat', sans-serif;
-  --font-subheading: 'Ubunutu Sans Mono', monospace;
+  --font-subheading: 'Ubuntu Sans Mono', monospace;
   --font-body: 'Ubuntu Sans', sans-serif;
 
   --font-size-heading-1: clamp(2.25rem, 1.6rem + 3vw, 4.5rem);
