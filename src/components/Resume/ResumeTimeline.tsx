@@ -32,8 +32,7 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
         const prefix = content?.companies[i]?.roles[j];
         items.push(
           <TimelineItem
-            key={`${content?.companies[i]?.company ?? 'company'}-${prefix?.title ?? 'role'}-${prefix?.start_date ?? ''}-${prefix?.end_date ?? ''}-${i}-${j}`}
-          >
+            key={`${content?.companies[i]?.company ?? 'company'}-${prefix?.title ?? 'role'}-${prefix?.start_date ?? ''}-${prefix?.end_date ?? ''}-${i}-${j}`}>
             <TimelineSeparator>
               <TimelineDot color='primary' className='text-xl md:text-2xl lg:text-3xl'>
                 <MdWork />
@@ -64,9 +63,7 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
   if (isEducation) {
     for (let i = 0; i < content?.length; i++)
       items.push(
-        <TimelineItem
-          key={`${content[i]?.qualification}-${content[i]?.start_date}-${content[i]?.end_date}-${i}`}
-        >
+        <TimelineItem key={`${content[i]?.qualification}-${content[i]?.start_date}-${content[i]?.end_date}-${i}`}>
           <TimelineSeparator>
             <TimelineDot color='secondary' className='text-xl md:text-2xl lg:text-3xl'>
               <MdSchool />
