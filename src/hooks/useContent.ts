@@ -1,6 +1,6 @@
-import { CONTENT_KEYS } from '@/services/content/i18n';
-import { KeyPrefix } from 'i18next';
-import { useTranslation, UseTranslationOptions } from 'react-i18next';
+import type { CONTENT_KEYS } from '@/services/content/i18n';
+import type { KeyPrefix } from 'i18next';
+import { useTranslation, type UseTranslationOptions } from 'react-i18next';
 
 export const useContent = <
   Namespace extends CONTENT_KEYS = 'general',

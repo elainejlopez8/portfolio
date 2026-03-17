@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-@theme {
+:root {
   --font-heading: 'Montserrat', sans-serif;
   --font-subheading: 'Ubunutu Sans Mono', monospace;
   --font-body: 'Ubuntu Sans', sans-serif;
