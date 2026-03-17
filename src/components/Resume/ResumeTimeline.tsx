@@ -93,7 +93,8 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
   if (isCertification) {
     for (let i = 0; i < content?.certs?.length; i++)
       items.push(
-        <TimelineItem>
+        <TimelineItem
+          key={`${content?.certs[i]?.name}-${content?.certs[i]?.certifier}-${content?.certs[i]?.date}-${i}`}>
           <TimelineSeparator>
             <TimelineDot color='grey' className='text-xl md:text-2xl lg:text-3xl'>
               <PiCertificateBold />
