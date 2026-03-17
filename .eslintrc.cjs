@@ -13,10 +13,6 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
         moduleDirectory: ['node_modules', 'src'],
       },
-      alias: {
-        map: [['@', './src']],
-        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-      },
     },
     'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
   },
