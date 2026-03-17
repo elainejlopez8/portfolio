@@ -29,18 +29,14 @@ function App() {
     {
       path: '/resume',
       element: <Resume />,
-      children: [
-        {
-          path: ':resumeCategory',
-          element: <Resume />,
-          children: [
-            {
-              path: '/resume/:resumeCategory/:resumeItem',
-              element: <ResumeItemCard />,
-            },
-          ],
-        },
-      ],
+    },
+    {
+      path: '/resume/:resumeCategory',
+      element: <Resume />,
+    },
+    {
+      path: '/resume/:resumeCategory/:resumeItem',
+      element: <ResumeItemCard />,
     },
   ];
 
