@@ -26,6 +26,30 @@ jobs:
           # list of files that changed across commits
           fetch-depth: 0
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache Yarn cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .yarn/cache
+            .yarn/unplugged
+            .yarn/releases
+            .yarn/build-state.yml
+            .yarn/install-state.gz
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Enable Corepack and install dependencies
+        run: |
+          corepack enable
+          corepack prepare yarn@stable --activate
+          yarn install --immutable
+
       - name: Super-linter
         uses: super-linter/super-linter@v8.3.1 # x-release-please-version
         env:
