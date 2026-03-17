@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
