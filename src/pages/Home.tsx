@@ -1,20 +1,24 @@
-import HomeHeader from '@/components/HomeHeader';
-import PageLayout from '@/components/PageLayout';
-import { useEffect, useState } from 'react';
+import PageLayout, { usePageLayout } from '@/components/PageLayout';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import AboutMe from './AboutMe';
-import Projects from './Projects';
-import Resume from './Resume';
+
+const HomeHeader = lazy(() => import('@/components/HomeHeader'));
+const AboutMe = lazy(() => import('./AboutMe'));
+const Projects = lazy(() => import('./Projects'));
+const Resume = lazy(() => import('./Resume'));
 
 const Home = () => {
   const location = useLocation();
   const [showMainContent, setShowMainContent] = useState(location.hash === '#aboutMe');
+  const { setLoaded } = usePageLayout();
 
   useEffect(() => {
     if (location.hash === '#aboutMe') {
       setShowMainContent(true);
     }
   }, [location.hash]);
+
+  useEffect(() => setLoaded(true), [setLoaded]);
 
   useEffect(() => {
     if (!showMainContent || location.hash !== '#aboutMe') {
@@ -39,7 +43,9 @@ const Home = () => {
   if (!showMainContent) {
     return (
       <PageLayout onlyShowChildren>
-        <HomeHeader onLearnMore={handleLearnMore} />
+        <Suspense fallback={null}>
+          <HomeHeader onLearnMore={handleLearnMore} showMainContent={showMainContent} />
+        </Suspense>
       </PageLayout>
     );
   }
@@ -47,10 +53,12 @@ const Home = () => {
   return (
     <PageLayout>
       <div className='layout-stack flex w-full flex-col'>
-        <HomeHeader />
-        <AboutMe />
-        <Projects />
-        <Resume />
+        <Suspense fallback={null}>
+          <HomeHeader showMainContent={showMainContent} />
+          <AboutMe />
+          <Projects />
+          <Resume />
+        </Suspense>
       </div>
     </PageLayout>
   );

@@ -1,6 +1,6 @@
 import loadingImg from '@/assets/loading.gif';
 import type { PageLayoutContextProps } from '@/types';
-import { createContext, type FC, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, type FC, type ReactNode, Suspense, useContext, useEffect, useMemo, useState } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 
@@ -20,11 +20,26 @@ type PageLayoutProps = {
 };
 
 const PageLayout: FC<PageLayoutProps> = ({ children, showHeaderFooter = true, onlyShowChildren = false }) => {
-  const [pageLayoutLoaded, setPageLayoutLoaded] = useState(false);
+  const [pageLayoutLoaded, setPageLayoutLoadedState] = useState<boolean>(() => {
+    try {
+      return typeof window !== 'undefined' && localStorage.getItem('pageLayoutLoaded') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const setLoaded = (loaded: boolean) => {
+    setPageLayoutLoadedState(loaded);
+    try {
+      if (typeof window !== 'undefined') localStorage.setItem('pageLayoutLoaded', String(loaded));
+    } catch {
+      /* ignore */
+    }
+  };
 
   const value = useMemo(
     () => ({
-      setLoaded: setPageLayoutLoaded,
+      setLoaded,
       loaded: pageLayoutLoaded,
       initialised: true,
     }),
@@ -36,12 +51,12 @@ const PageLayout: FC<PageLayoutProps> = ({ children, showHeaderFooter = true, on
   useEffect(() => {
     if (onlyShowChildren) {
       setLoading(false);
-      setPageLayoutLoaded(false);
+      setLoaded(false);
       return;
     }
-    const t = setTimeout(() => setLoading(false), 6800);
-    return () => clearTimeout(t);
-  }, [onlyShowChildren]);
+    const timeout = setTimeout(() => setLoading(false), 6800);
+    return () => clearTimeout(timeout);
+  }, [onlyShowChildren, pageLayoutLoaded]);
 
   if (onlyShowChildren) {
     return (
@@ -65,9 +80,17 @@ const PageLayout: FC<PageLayoutProps> = ({ children, showHeaderFooter = true, on
         </div>
       ) : (
         <div className='flex min-h-screen w-full flex-col transition-all'>
-          {pageLayoutLoaded && showHeaderFooter && <Header />}
+          {pageLayoutLoaded && showHeaderFooter && (
+            <Suspense fallback={null}>
+              <Header />
+            </Suspense>
+          )}
           <main className='flex flex-1'>{children}</main>
-          {pageLayoutLoaded && showHeaderFooter && <Footer />}
+          {pageLayoutLoaded && showHeaderFooter && (
+            <Suspense fallback={null}>
+              <Footer />
+            </Suspense>
+          )}
         </div>
       )}
     </PageLayoutContext.Provider>

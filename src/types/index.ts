@@ -12,3 +12,9 @@ export type PageProps = {
   sectionId?: string;
   title?: string;
 };
+
+export enum ResumeCategories {
+  employmentHistory = 'employmentHistory',
+  education = 'education',
+  certifications = 'certifications',
+}

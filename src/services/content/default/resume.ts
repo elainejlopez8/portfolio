@@ -1,5 +1,9 @@
 export const resume = {
-  url: 'https://drive.google.com/file/d/1kvwsEEKZDgI0qyDSuHiHeeyW0a54IZi4/view?usp=drive_link',
+  downloadResume: {
+    text: 'Download Resume',
+    icon: 'PiDownloadSimpleBold',
+    url: 'https://drive.google.com/file/d/1kvwsEEKZDgI0qyDSuHiHeeyW0a54IZi4/view?usp=drive_link',
+  },
   employmentHistory: {
     companies: [
       {
@@ -104,12 +108,15 @@ export const resume = {
         "Activities and societies: College Choir (2015-2016) and St. Vincent De Paul's Buddies Day Program (2015)\n\nAchieved Academic Merit earned in Society and Culture (2015)\n\nAwarded Consistent Effort in Photography, Video and Digital Imaging (2015), Consistent Effort in Information Processes and Technology (2016), Consistent Effort in Society and Culture (2016) and Consistent Effort in Music 1 (2016)",
     },
   ],
-  certifications: [
-    {
-      name: 'Github Foundations Certifcation',
-      certifier: 'Github',
-      date: '30 May 2024',
-      url: 'https://www.credly.com/badges/bda52cd4-7411-40d5-afaa-5458e28b738f/public_url',
-    },
-  ],
+  certifications: {
+    viewCert: 'View Certificate',
+    certs: [
+      {
+        name: 'GitHub Foundations Certification',
+        certifier: 'GitHub',
+        date: '30 May 2024',
+        url: 'https://www.credly.com/badges/bda52cd4-7411-40d5-afaa-5458e28b738f/public_url',
+      },
+    ],
+  },
 };

@@ -26,9 +26,10 @@ const HOME_HEADER_SHELL_EXTRA_HEIGHT = 'clamp(10rem, 16vw, 18rem)';
 
 type HomeHeaderProps = {
   onLearnMore?: () => void;
+  showMainContent?: boolean;
 };
 
-const HomeHeader = ({ onLearnMore }: HomeHeaderProps) => {
+const HomeHeader = ({ onLearnMore, showMainContent }: HomeHeaderProps) => {
   const { t: tg } = useContent('general');
   const { t } = useContent('aboutMe');
   const aboutMeHref = `${import.meta.env.BASE_URL}#aboutMe`;
@@ -99,9 +100,54 @@ const HomeHeader = ({ onLearnMore }: HomeHeaderProps) => {
     if (onLearnMore) {
       onLearnMore();
     }
+    // Wait for the About section to render, then animate scroll to it.
+    let attempts = 0;
 
-    // Use window.location.hash to update the hash and trigger scroll in Home.tsx
-    window.location.hash = '#aboutMe';
+    const tryScroll = () => {
+      const el = document.getElementById('aboutMe');
+
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const headerEl = document.querySelector('.site-header') as HTMLElement | null;
+        const headerHeight = headerEl ? headerEl.offsetHeight : 0;
+        const targetY = Math.max(0, window.pageYOffset + rect.top - headerHeight - 8);
+
+        // Custom animated scroll for slower, consistent timing
+        const startY = window.pageYOffset;
+        const distance = targetY - startY;
+        const duration = 800; // ms - slower than browser default
+        const startTime = performance.now();
+
+        const easeInOutQuad = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+
+        const step = (now: number) => {
+          const elapsed = now - startTime;
+          const progress = Math.min(1, Math.max(0, elapsed / duration));
+          const eased = easeInOutQuad(progress);
+          const currentY = Math.round(startY + distance * eased);
+          window.scrollTo(0, currentY);
+
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          } else {
+            setIsNavigatingToAbout(false);
+          }
+        };
+
+        window.requestAnimationFrame(step);
+
+        return;
+      }
+
+      attempts += 1;
+      if (attempts <= 20) {
+        window.setTimeout(tryScroll, 20);
+      } else {
+        setIsNavigatingToAbout(false);
+      }
+    };
+
+    window.setTimeout(tryScroll, 0);
   };
 
   const homeHeaderStyle = {
@@ -131,16 +177,18 @@ const HomeHeader = ({ onLearnMore }: HomeHeaderProps) => {
           </p>
 
           <div className='home-header-actions' style={collapseStyle}>
-            <Button
-              href={aboutMeHref}
-              variant='primary'
-              size='sm'
-              className='btn btn-primary home-header-cta text-pink-500! hover:transform-none! hover:text-white!'
-              target='_self'
-              onClick={handleScrollToAbout}
-              aria-label={t('viewPortfolio')}>
-              {tg('learnMore')}
-            </Button>
+            {!showMainContent && (
+              <Button
+                href={aboutMeHref}
+                variant='primary'
+                size='sm'
+                className='btn btn-primary home-header-cta text-pink-500! hover:transform-none! hover:text-white!'
+                target='_self'
+                onClick={handleScrollToAbout}
+                aria-label={t('viewPortfolio')}>
+                {tg('learnMore')}
+              </Button>
+            )}
 
             {socialLinks.map((link) => (
               <a
@@ -158,27 +206,31 @@ const HomeHeader = ({ onLearnMore }: HomeHeaderProps) => {
           <div className='home-header-stats'>
             <div className='home-header-stat'>
               <Markdown
-                source={t('header.experience', {
+                source={tg('header.experience', {
                   numberOfYears: new Date().getFullYear() - 2023,
                 })}
               />
               <p className='home-header-stat-copy'>
-                <Markdown source={t('header.web.text')} />
+                <span>{tg('header.web.text')}</span>
                 <span className='home-header-stat-icons home-header-stat-icons--web'>
-                  {webExperienceIcons?.map((icon) => iconMap[icon || ''])}
+                  {webExperienceIcons?.map((icon, index) => (
+                    <span key={`web-icon-${index}`}>{iconMap[icon || '']}</span>
+                  ))}
                 </span>
               </p>
             </div>
             <div className='home-header-stat'>
               <Markdown
-                source={t('header.experience', {
+                source={tg('header.experience', {
                   numberOfYears: new Date().getFullYear() - 2021,
                 })}
               />
               <p className='home-header-stat-copy'>
-                <Markdown source={t('header.design.text')} />
+                <span>{tg('header.design.text')}</span>
                 <span className='home-header-stat-icons home-header-stat-icons--design'>
-                  {designExperienceIcons?.map((icon) => iconMap[icon || ''])}
+                  {designExperienceIcons?.map((icon, index) => (
+                    <span key={`design-icon-${index}`}>{iconMap[icon || '']}</span>
+                  ))}
                 </span>
               </p>
             </div>
