@@ -13,7 +13,7 @@ import kebabCase from 'lodash/kebabCase';
 import { Button } from 'react-bootstrap';
 import { MdSchool, MdWork } from 'react-icons/md';
 import { PiCertificateBold } from 'react-icons/pi';
-
+import { Link } from 'react-router-dom';
 interface ResumeTimelineProps {
   details: string;
   category?: ResumeCategories;
@@ -42,7 +42,7 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
             </TimelineSeparator>
 
             <TimelineContent sx={{ py: '12px', px: '20px' }}>
-              <a href={`/resume/${kebabCase(ResumeCategories.employmentHistory)}/${kebabCase(prefix?.title)}`}>
+              <Link to={`/resume/${kebabCase(ResumeCategories.employmentHistory)}/${kebabCase(prefix?.title)}`}>
                 <Typography component='span' className='text-blue-400'>
                   {prefix?.title} <span className='text-right'>{prefix?.team}</span>
                 </Typography>
@@ -51,7 +51,7 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
                 <Typography className='text-base text-pink-300 md:text-lg lg:text-xl'>
                   {prefix?.start_date} - {prefix?.end_date}
                 </Typography>
-              </a>
+              </Link>
               <Typography className='mt-2 hidden text-base whitespace-pre-line sm:flex md:text-lg lg:text-xl'>
                 {prefix?.description}
               </Typography>
