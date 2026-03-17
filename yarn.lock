@@ -12,83 +12,45 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@augment-vir/assert@npm:^30.3.0, @augment-vir/assert@npm:^30.8.4":
-  version: 30.8.4
-  resolution: "@augment-vir/assert@npm:30.8.4"
+"@augment-vir/assert@npm:^31.59.3, @augment-vir/assert@npm:^31.67.1, @augment-vir/assert@npm:^31.68.1":
+  version: 31.68.1
+  resolution: "@augment-vir/assert@npm:31.68.1"
   dependencies:
-    "@augment-vir/core": "npm:^30.8.4"
-    "@date-vir/duration": "npm:^7.0.1"
+    "@augment-vir/core": "npm:^31.68.1"
+    "@date-vir/duration": "npm:^8.2.0"
     deep-eql: "npm:^5.0.2"
-    expect-type: "npm:^1.1.0"
-    type-fest: "npm:^4.29.0"
-  checksum: 10c0/db02a60305769a15c5044f08c06276142ea11063bf654fbd3bde90cfd2254db1ff8c20019f7287eca88ddaf30847a7276991726ba56b0dd2ab4d7a26de73f1ae
+    expect-type: "npm:^1.3.0"
+    type-fest: "npm:^5.4.4"
+  checksum: 10c0/60454dc054735a5a0e95421f069721440bd11e1631c774bf2355fd5d81b9dd71ca981703ba7daa5defc2a5981335e824dcd67fb5e43752ad6d4847008abc17fd
   languageName: node
   linkType: hard
 
-"@augment-vir/assert@npm:^31.1.0, @augment-vir/assert@npm:^31.9.1":
-  version: 31.9.1
-  resolution: "@augment-vir/assert@npm:31.9.1"
+"@augment-vir/common@npm:^31.59.3, @augment-vir/common@npm:^31.67.1":
+  version: 31.68.1
+  resolution: "@augment-vir/common@npm:31.68.1"
   dependencies:
-    "@augment-vir/core": "npm:^31.9.1"
-    "@date-vir/duration": "npm:^7.1.2"
-    deep-eql: "npm:^5.0.2"
-    expect-type: "npm:^1.1.0"
-    type-fest: "npm:^4.33.0"
-  checksum: 10c0/1bf8acf0479768ee8974340dbcc75416f113dcb86e0e1610dcadaf03337b874470c44359138d8f73a626d167538e60fe4fb268bebeb145617dfb8572571bb759
-  languageName: node
-  linkType: hard
-
-"@augment-vir/common@npm:^30.3.0":
-  version: 30.8.4
-  resolution: "@augment-vir/common@npm:30.8.4"
-  dependencies:
-    "@augment-vir/assert": "npm:^30.8.4"
-    "@augment-vir/core": "npm:^30.8.4"
-    "@date-vir/duration": "npm:^7.0.1"
-    ansi-styles: "npm:^6.2.1"
+    "@augment-vir/assert": "npm:^31.68.1"
+    "@augment-vir/core": "npm:^31.68.1"
+    "@date-vir/duration": "npm:^8.2.0"
+    ansi-styles: "npm:^6.2.3"
+    deepcopy-esm: "npm:^2.1.1"
     json5: "npm:^2.2.3"
-    type-fest: "npm:^4.29.0"
-    typed-event-target: "npm:^4.0.2"
-  checksum: 10c0/d7177f1f3936000f7bd083705289452f28be376ed446d899cbd2d6939911be83baca890429ddec310727a274541a13d796b306440746c0e824631ddd976f107c
+    type-fest: "npm:^5.4.4"
+    typed-event-target: "npm:^4.3.0"
+  checksum: 10c0/b07afd0c0cba5453a4a0c91b36c65b183c96876a15ced120110e78ac5b181d0976d9547d9d4fc43eb4bc0a0b5e85ed3def5f1482c9627f4b209ff14e66634e60
   languageName: node
   linkType: hard
 
-"@augment-vir/common@npm:^31.1.0, @augment-vir/common@npm:^31.3.0":
-  version: 31.9.1
-  resolution: "@augment-vir/common@npm:31.9.1"
+"@augment-vir/core@npm:^31.67.1, @augment-vir/core@npm:^31.68.1":
+  version: 31.68.1
+  resolution: "@augment-vir/core@npm:31.68.1"
   dependencies:
-    "@augment-vir/assert": "npm:^31.9.1"
-    "@augment-vir/core": "npm:^31.9.1"
-    "@date-vir/duration": "npm:^7.1.2"
-    ansi-styles: "npm:^6.2.1"
-    json5: "npm:^2.2.3"
-    type-fest: "npm:^4.33.0"
-    typed-event-target: "npm:^4.0.2"
-  checksum: 10c0/d4833ae495b0d068bb537bddcb9b28a5333975c53abc7dd47780ed8e6e42f67bd080d92a6f0935ce26ad96e6a6496367f327382d1d973261f0737f5f8b54a63d
-  languageName: node
-  linkType: hard
-
-"@augment-vir/core@npm:^30.3.0, @augment-vir/core@npm:^30.8.4":
-  version: 30.8.4
-  resolution: "@augment-vir/core@npm:30.8.4"
-  dependencies:
-    "@date-vir/duration": "npm:^7.0.1"
+    "@date-vir/duration": "npm:^8.2.0"
     browser-or-node: "npm:^3.0.0"
+    diff: "npm:^8.0.3"
     json5: "npm:^2.2.3"
-    type-fest: "npm:^4.29.0"
-  checksum: 10c0/eaa81f766baaf38f610630f26028a7434a17689e2e7df86706f83fb3ab6acd66273dff2270310939dd4676d63ea97de1b5792021a96b16e7836ecbaa3f0f19ea
-  languageName: node
-  linkType: hard
-
-"@augment-vir/core@npm:^31.9.1":
-  version: 31.9.1
-  resolution: "@augment-vir/core@npm:31.9.1"
-  dependencies:
-    "@date-vir/duration": "npm:^7.1.2"
-    browser-or-node: "npm:^3.0.0"
-    json5: "npm:^2.2.3"
-    type-fest: "npm:^4.33.0"
-  checksum: 10c0/00f967bf469e7eea07a6fd7503a765b10e042bf5612a6b8129f28b77c2fab9a84ed7016b05d91a76308b4fe1fc48047af9bafce02cb1cb8347b63a67d4a2079f
+    type-fest: "npm:^5.4.4"
+  checksum: 10c0/6b6d3d1653fb6938bda16473a55ce10e62afcd61500bf061236342c820729a22f0d401b23f4c37c2d53a088e5019c9edca65b92e1dfd215f63611b29331ba625
   languageName: node
   linkType: hard
 
@@ -494,14 +456,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-vir/duration@npm:^7.0.1, @date-vir/duration@npm:^7.1.2":
-  version: 7.2.0
-  resolution: "@date-vir/duration@npm:7.2.0"
+"@date-vir/duration@npm:^8.2.0":
+  version: 8.2.1
+  resolution: "@date-vir/duration@npm:8.2.1"
   dependencies:
-    "@types/luxon": "npm:^3.4.2"
-    luxon: "npm:^3.5.0"
-    type-fest: "npm:^4.33.0"
-  checksum: 10c0/d4f81fc57b3b89cd39c7f8da18bd6e651709b70323a1a8a68ca953e47cb9d104cc8c9398d2589199c06a69941b0c4e5ce0deb48eca0b1e637da03103e689d254
+    "@augment-vir/assert": "npm:^31.68.1"
+    "@types/luxon": "npm:^3.7.1"
+    luxon: "npm:^3.7.2"
+    type-fest: "npm:^5.4.4"
+  checksum: 10c0/ba5b651b2200dbecdef6a3647d2377c580074baf0e9ecf6dc170fc7f8f447b273779eda60e48817edfc494e3da0644524a3fd01bc4dc207b9e2cdb044b923864
   languageName: node
   linkType: hard
 
@@ -2047,10 +2010,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/luxon@npm:^3.4.2":
-  version: 3.4.2
-  resolution: "@types/luxon@npm:3.4.2"
-  checksum: 10c0/d835467de3daf7e17ba78b50bb5a14efd94272439ca067990d71332a54b311544459c69623eddd243b511b28d70194c9591a9ee8cf9c038962c965f991affd7e
+"@types/luxon@npm:^3.7.1":
+  version: 3.7.1
+  resolution: "@types/luxon@npm:3.7.1"
+  checksum: 10c0/2db30c13b58adcd86daa447faa3ba59515fe907ead8ee3e6bb716d662812af0619d712f6c1eb190cdd7f9d2c00444c3ecd80af0f36e8143eb0c5e7339d6b2aca
   languageName: node
   linkType: hard
 
@@ -2380,6 +2343,13 @@ __metadata:
   version: 6.2.1
   resolution: "ansi-styles@npm:6.2.1"
   checksum: 10c0/5d1ec38c123984bcedd996eac680d548f31828bd679a66db2bdf11844634dde55fec3efa9c6bb1d89056a5e79c1ac540c4c784d592ea1d25028a92227d2f2d5c
+  languageName: node
+  linkType: hard
+
+"ansi-styles@npm:^6.2.3":
+  version: 6.2.3
+  resolution: "ansi-styles@npm:6.2.3"
+  checksum: 10c0/23b8a4ce14e18fb854693b95351e286b771d23d8844057ed2e7d083cd3e708376c3323707ec6a24365f7d7eda3ca00327fe04092e29e551499ec4c8b7bfac868
   languageName: node
   linkType: hard
 
@@ -3065,6 +3035,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"deepcopy-esm@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "deepcopy-esm@npm:2.1.1"
+  checksum: 10c0/56a21fd47eeed19f9c1c8c469e5368832596d8a1d21a73648c8acdbfae04e85e86bee7bd3669f1376da3cf0e6a487fb9d0de2f1b68b42e01ff4c90e49c2a1db0
+  languageName: node
+  linkType: hard
+
 "define-data-property@npm:^1.0.1, define-data-property@npm:^1.1.4":
   version: 1.1.4
   resolution: "define-data-property@npm:1.1.4"
@@ -3107,6 +3084,13 @@ __metadata:
   dependencies:
     dequal: "npm:^2.0.0"
   checksum: 10c0/e0928ab8f94c59417a2b8389c45c55ce0a02d9ac7fd74ef62d01ba48060129e1d594501b77de01f3eeafc7cb00773819b0df74d96251cf20b31c5b3071f45c0e
+  languageName: node
+  linkType: hard
+
+"diff@npm:^8.0.3":
+  version: 8.0.3
+  resolution: "diff@npm:8.0.3"
+  checksum: 10c0/d29321c70d3545fdcb56c5fdd76028c3f04c012462779e062303d4c3c531af80d2c360c26b871e6e2b9a971d2422d47e1779a859106c4cac4b5d2d143df70e20
   languageName: node
   linkType: hard
 
@@ -3651,10 +3635,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect-type@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "expect-type@npm:1.1.0"
-  checksum: 10c0/5af0febbe8fe18da05a6d51e3677adafd75213512285408156b368ca471252565d5ca6e59e4bddab25121f3cfcbbebc6a5489f8cc9db131cc29e69dcdcc7ae15
+"expect-type@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "expect-type@npm:1.3.0"
+  checksum: 10c0/8412b3fe4f392c420ab41dae220b09700e4e47c639a29ba7ba2e83cc6cffd2b4926f7ac9e47d7e277e8f4f02acda76fd6931cb81fd2b382fa9477ef9ada953fd
   languageName: node
   linkType: hard
 
@@ -5150,10 +5134,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^3.5.0":
-  version: 3.5.0
-  resolution: "luxon@npm:3.5.0"
-  checksum: 10c0/335789bba95077db831ef99894edadeb23023b3eb2137a1b56acd0d290082b691cf793143d69e30bc069ec95f0b49f36419f48e951c68014f19ffe12045e3494
+"luxon@npm:^3.7.2":
+  version: 3.7.2
+  resolution: "luxon@npm:3.7.2"
+  checksum: 10c0/ed8f0f637826c08c343a29dd478b00628be93bba6f068417b1d8896b61cb61c6deacbe1df1e057dbd9298334044afa150f9aaabbeb3181418ac8520acfdc2ae2
   languageName: node
   linkType: hard
 
@@ -6337,7 +6321,7 @@ __metadata:
     postcss: "npm:^8.5.8"
     prettier: "npm:^3.5.0"
     prettier-plugin-css-order: "npm:^2.1.2"
-    prettier-plugin-multiline-arrays: "npm:^4.0.2"
+    prettier-plugin-multiline-arrays: "npm:^4.1.5"
     prettier-plugin-organize-attributes: "npm:^1.0.0"
     prettier-plugin-organize-imports: "npm:^4.1.0"
     prettier-plugin-style-order: "npm:^0.2.2"
@@ -6436,15 +6420,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-multiline-arrays@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "prettier-plugin-multiline-arrays@npm:4.0.2"
+"prettier-plugin-multiline-arrays@npm:^4.1.5":
+  version: 4.1.5
+  resolution: "prettier-plugin-multiline-arrays@npm:4.1.5"
   dependencies:
-    "@augment-vir/common": "npm:^31.3.0"
-    proxy-vir: "npm:^2.0.1"
+    "@augment-vir/assert": "npm:^31.59.3"
+    "@augment-vir/common": "npm:^31.59.3"
+    proxy-vir: "npm:^2.0.2"
   peerDependencies:
-    prettier: ">=3.0.0"
-  checksum: 10c0/a17fba343fe5a0a4d5f81420659e7a2ba5d1ff745c56c8a336795b698db057d651a8b2fbe8e4e18c50c180b7d34010ba0a53b3c82937cd2238347d99c81ea5de
+    prettier: ">=3.0.0 <4.0.0"
+  checksum: 10c0/0897894adb8984039f143a618684f3ab059e9f7ea3f07b888b40d71b290f3bca4e5882642aaa0fda65b3947d95e3f1525e3af245a8a6be3e38a7359675475b9f
   languageName: node
   linkType: hard
 
@@ -6587,13 +6572,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"proxy-vir@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "proxy-vir@npm:2.0.1"
+"proxy-vir@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "proxy-vir@npm:2.0.2"
   dependencies:
-    "@augment-vir/assert": "npm:^31.1.0"
-    "@augment-vir/common": "npm:^31.1.0"
-  checksum: 10c0/8fd7c242e5c971833ba8dd4e08b7c642c3f9508fe5d93043e665e1a323fa71b0aa727553d8ab6513756fafcc2f937e2ac23bd4a67edac0e0d4d2456ed6018353
+    "@augment-vir/assert": "npm:^31.59.3"
+    "@augment-vir/common": "npm:^31.59.3"
+  checksum: 10c0/558ded5e552afe27b2c39681318dc8439c2ed685b60d64a6b3a028c11789503c9388a003b30c6672792792e8fdefa938d4d3983f52998837f7a9778c73c6be31
   languageName: node
   linkType: hard
 
@@ -7575,6 +7560,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tagged-tag@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "tagged-tag@npm:1.0.0"
+  checksum: 10c0/91d25c9ffb86a91f20522cefb2cbec9b64caa1febe27ad0df52f08993ff60888022d771e868e6416cf2e72dab68449d2139e8709ba009b74c6c7ecd4000048d1
+  languageName: node
+  linkType: hard
+
 "tailwindcss@npm:4.2.1, tailwindcss@npm:^4.2.1":
   version: 4.2.1
   resolution: "tailwindcss@npm:4.2.1"
@@ -7688,10 +7680,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^4.29.0, type-fest@npm:^4.33.0":
-  version: 4.33.0
-  resolution: "type-fest@npm:4.33.0"
-  checksum: 10c0/20015eea353605e08e3f4b967291b225fa4e7c43361de44f39b88131715e41877458af80da59c8f17e40c0e3842298996f0651219dc9823e35c7e46ecbc8a44f
+"type-fest@npm:^5.4.4":
+  version: 5.4.4
+  resolution: "type-fest@npm:5.4.4"
+  dependencies:
+    tagged-tag: "npm:^1.0.0"
+  checksum: 10c0/bf9c6d7df5383fd720aac71da8ce8690ff1c554459d19cf3c72d61eac98255dba57abe20c628f91f4116f66211791462fdafa90b2be2d7405a5a4c295e4d849d
   languageName: node
   linkType: hard
 
@@ -7748,14 +7742,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typed-event-target@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "typed-event-target@npm:4.0.2"
+"typed-event-target@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "typed-event-target@npm:4.3.0"
   dependencies:
-    "@augment-vir/assert": "npm:^30.3.0"
-    "@augment-vir/common": "npm:^30.3.0"
-    "@augment-vir/core": "npm:^30.3.0"
-  checksum: 10c0/cca14e39cecaad75069a084a84ba69142bf05d9841a57b21e569c075efdcade5e75e739b9e1911ae9e32cf84e163ab4df80ece92ec2760e17da10e12a6be67e3
+    "@augment-vir/assert": "npm:^31.67.1"
+    "@augment-vir/common": "npm:^31.67.1"
+    "@augment-vir/core": "npm:^31.67.1"
+  checksum: 10c0/9b5af6d240a007fe1931d7b12613d4d8d8e75be966254cd7e6fa794006f68de6acfe41da31fc76ad109dd4298f96c261b8422f9bb309520cbe3db9a934b12789
   languageName: node
   linkType: hard
 
