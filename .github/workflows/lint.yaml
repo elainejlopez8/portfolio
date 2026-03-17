@@ -48,6 +48,9 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@stable --activate
+          # Ensure plugins are installed into node_modules so tools inside
+          # the Super-Linter container can require() them (not PnP).
+          yarn config set nodeLinker node-modules
           yarn install --immutable
 
       - name: Super-linter
