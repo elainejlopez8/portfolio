@@ -1,8 +1,8 @@
 import pluginJs from '@eslint/js';
+import importPlugin from 'eslint-plugin-import';
 import react from 'eslint-plugin-react';
 import globals from 'globals';
 import { default as tseslint, default as typescriptEslint } from 'typescript-eslint';
-import importPlugin from 'eslint-plugin-import';
 
 export default [
   {
