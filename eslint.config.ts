@@ -2,6 +2,7 @@ import pluginJs from '@eslint/js';
 import react from 'eslint-plugin-react';
 import globals from 'globals';
 import { default as tseslint, default as typescriptEslint } from 'typescript-eslint';
+import importPlugin from 'eslint-plugin-import';
 
 export default [
   {
@@ -15,6 +16,12 @@ export default [
       react: {
         version: 'detect',
       },
+      'import/resolver': {
+        typescript: {
+          project: ['./tsconfig.json'],
+        },
+      },
+      'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
     },
   },
   {
@@ -30,6 +37,7 @@ export default [
     plugins: {
       typescriptEslint,
       react,
+      import: importPlugin,
     },
   },
   {
