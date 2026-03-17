@@ -64,7 +64,9 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
   if (isEducation) {
     for (let i = 0; i < content?.length; i++)
       items.push(
-        <TimelineItem>
+        <TimelineItem
+          key={`${content[i]?.qualification}-${content[i]?.start_date}-${content[i]?.end_date}-${i}`}
+        >
           <TimelineSeparator>
             <TimelineDot color='secondary' className='text-xl md:text-2xl lg:text-3xl'>
               <MdSchool />
