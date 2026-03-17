@@ -145,7 +145,7 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
         },
       }}
       className='md:mx-auto md:w-4/5'>
-      {...items}
+      {items}
     </Timeline>
   );
 }
