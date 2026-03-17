@@ -1,7 +1,7 @@
-import { kebabCase } from 'lodash';
 import { ResumeCategories } from '@/types';
-import { useCreateResumeTimeline } from './hooks';
+import { kebabCase } from 'lodash';
 import { Link } from 'react-router-dom';
+import { useCreateResumeTimeline } from './hooks';
 
 interface ResumeSectionProps {
   category: ResumeCategories;
@@ -15,15 +15,11 @@ export function ResumeSection({ category, useH1 = false }: ResumeSectionProps) {
     <>
       {useH1 ? (
         <h1 className='text-6xl uppercase md:text-7xl'>
-          <Link to="/resume">
-            {resumeCategorySection.title}
-          </Link>
+          <Link to='/resume'>{resumeCategorySection.title}</Link>
         </h1>
       ) : (
         <h2 className='text-3xl uppercase md:text-4xl'>
-          <Link to={`/resume/${kebabCase(category)}`}>
-            {resumeCategorySection.title}
-          </Link>
+          <Link to={`/resume/${kebabCase(category)}`}>{resumeCategorySection.title}</Link>
         </h2>
       )}
       {resumeCategorySection.categoryItems}
