@@ -22,8 +22,7 @@ jobs:
           persist-credentials: false
 
       - name: Prettify code
-        uses: creyD/prettier_action@8c18391fdc98ed0d884c6345f03975edac71b8f0
-        with:
-          prettier_options: --write **/*.{js,jsx,ts,tsx,json,html,cjs,md}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          corepack enable
+          yarn install --immutable
+          yarn prettier
