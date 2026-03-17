@@ -1,3 +1,3 @@
 export const projects = {
-  content: 'Work in Progress...',
+	content: "Work in Progress...",
 };
