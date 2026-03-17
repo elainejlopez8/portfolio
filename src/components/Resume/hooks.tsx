@@ -47,8 +47,6 @@ export const useCreateResumeTimeline = (category: ResumeCategories) => {
   const [title, setTitle] = useState('');
   const [categoryItems, setCategoryItems] = useState(<></>);
 
-  useEffect(() => {}, []);
-
   const createTimelineSection = useCallback(() => {
     return <ResumeTimeline details={JSON.stringify(t(category, { returnObjects: true }))} category={category} />;
   }, [category, t]);
