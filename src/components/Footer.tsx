@@ -19,7 +19,7 @@ const Footer = () => {
   >;
 
   return (
-    <footer className='layout-section w-full rounded-md bg-gradient-to-b from-transparent via-purple-100 to-purple-200'>
+    <footer className='layout-section w-full rounded-md bg-linear-to-b from-transparent via-purple-100 to-purple-200'>
       <div className='layout-cluster-tight layout-offset-tight flex justify-center'>
         {Object.entries(footerLinks).map(([key, link]) => (
           <a

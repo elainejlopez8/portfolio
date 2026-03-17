@@ -1,8 +1,9 @@
 import loadingImg from '@/assets/loading.gif';
 import { PageLayoutContextProps } from '@/types';
-import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
-import Footer from './Footer';
-import Header from './Header';
+import { createContext, FC, lazy, ReactNode, Suspense, useContext, useEffect, useMemo, useState } from 'react';
+
+const Header = lazy(() => import('./Header'));
+const Footer = lazy(() => import('./Footer'));
 
 const defaultCtx: PageLayoutContextProps = {
   setLoaded: () => {},
@@ -65,9 +66,17 @@ const PageLayout: FC<PageLayoutProps> = ({ children, showHeaderFooter = true, on
         </div>
       ) : (
         <div className='flex min-h-screen w-full flex-col transition-all'>
-          {pageLayoutLoaded && showHeaderFooter && <Header />}
+          {pageLayoutLoaded && showHeaderFooter && (
+            <Suspense fallback={null}>
+              <Header />
+            </Suspense>
+          )}
           <main className='flex flex-1'>{children}</main>
-          {pageLayoutLoaded && showHeaderFooter && <Footer />}
+          {pageLayoutLoaded && showHeaderFooter && (
+            <Suspense fallback={null}>
+              <Footer />
+            </Suspense>
+          )}
         </div>
       )}
     </PageLayoutContext.Provider>

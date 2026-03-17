@@ -1,4 +1,5 @@
 import PageLayout from '@/components/PageLayout';
+import ResumeItemCard from '@/components/Resume/ResumeCard';
 import AboutMe from '@/pages/AboutMe';
 import Home from '@/pages/Home';
 import Projects from '@/pages/Projects';
@@ -31,13 +32,15 @@ function App() {
       children: [
         {
           path: ':resumeCategory',
-          // element: <Resume />,
+          element: <Resume />,
+          children: [
+            {
+              path: '/resume/:resumeCategory/:resumeItem',
+              element: <ResumeItemCard />,
+            },
+          ],
         },
       ],
-    },
-    {
-      path: '/resume/:resumeCategory/:resumeItem',
-      // element: <ResumeItemCard />,
     },
   ];
 
