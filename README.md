@@ -15,7 +15,7 @@ Personal portfolio site built with React, TypeScript, Vite, Tailwind CSS, and Re
 
 ## Prerequisites
 
-- Node.js
+- Node.js `>= 20.0.0`
 - Yarn `>= 3.0.0`
 
 > This repository is configured to use Yarn only. `npm install` is blocked by `scripts/check-yarn.js`.
@@ -111,3 +111,7 @@ Use these layout classes so spacing scales with the same rhythm tokens:
 - Styling combines Tailwind utility classes with shared CSS tokens in `src/index.css`.
 - Markdown-based rich text is rendered through `src/components/Markdown.tsx`.
 - Husky, lint-staged, Commitlint, and GitHub Actions are configured for formatting and linting workflows.
+
+## Github Actions
+
+[![Super-Linter](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE_NAME>/badge.svg)](https://github.com/marketplace/actions/super-linter)

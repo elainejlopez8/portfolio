@@ -1,9 +1,11 @@
-import pluginJs from '@eslint/js';
-import react from 'eslint-plugin-react';
-import globals from 'globals';
-import { default as tseslint, default as typescriptEslint } from 'typescript-eslint';
+const pluginJs = require('@eslint/js');
+const importPlugin = require('eslint-plugin-import');
+const react = require('eslint-plugin-react');
+const globals = require('globals');
+const tseslint = require('typescript-eslint');
+const typescriptEslint = tseslint;
 
-export default [
+module.exports = [
   {
     ignores: ['*.config*', '**/*type*', '**/*types*', '**/dist/**', '**/build/**', '**/node_modules/**'],
   },
@@ -15,6 +17,12 @@ export default [
       react: {
         version: 'detect',
       },
+      'import/resolver': {
+        typescript: {
+          project: ['./tsconfig.json'],
+        },
+      },
+      'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
     },
   },
   {
@@ -30,6 +38,7 @@ export default [
     plugins: {
       typescriptEslint,
       react,
+      import: importPlugin,
     },
   },
   {

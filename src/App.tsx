@@ -3,7 +3,7 @@ import AboutMe from '@/pages/AboutMe';
 import Home from '@/pages/Home';
 import Projects from '@/pages/Projects';
 import Resume from '@/pages/Resume';
-import { RouteObject, useLocation, useRoutes } from 'react-router-dom';
+import { type RouteObject, useLocation, useRoutes } from 'react-router-dom';
 
 function App() {
   const routes: RouteObject[] = [

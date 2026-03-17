@@ -1,6 +1,6 @@
 import landing from '@/assets/landing.png';
 import { useContent } from '@/hooks/useContent';
-import { type CSSProperties, type MouseEvent, ReactNode, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, type MouseEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { FaFigma, FaNodeJs, FaNpm, FaReact } from 'react-icons/fa6';
 import { PiCodepenLogoBold, PiGithubLogoBold } from 'react-icons/pi';
@@ -38,10 +38,13 @@ const HomeHeader = ({ onLearnMore }: HomeHeaderProps) => {
     alt?: string;
   }>;
   const socialLinks = footerLinks.filter((link) => link.alt !== 'Email');
-  const webExperienceIcons = tg('header.web.icons', { returnObjects: true }) as string[];
-  const designExperienceIcons = tg('header.design.icons', { returnObjects: true }) as string[];
+  const webExperienceIcons = tg('header.web.icons', {
+    returnObjects: true,
+  }) as string[];
+  const designExperienceIcons = tg('header.design.icons', {
+    returnObjects: true,
+  }) as string[];
 
-  const navigate = useNavigate();
   const [isNavigatingToAbout, setIsNavigatingToAbout] = useState(false);
   const [shrinkProgress, setShrinkProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -154,7 +157,11 @@ const HomeHeader = ({ onLearnMore }: HomeHeaderProps) => {
 
           <div className='home-header-stats'>
             <div className='home-header-stat'>
-              <Markdown source={t('header.experience', { numberOfYears: new Date().getFullYear() - 2023 })} />
+              <Markdown
+                source={t('header.experience', {
+                  numberOfYears: new Date().getFullYear() - 2023,
+                })}
+              />
               <p className='home-header-stat-copy'>
                 <Markdown source={t('header.web.text')} />
                 <span className='home-header-stat-icons home-header-stat-icons--web'>
@@ -163,7 +170,11 @@ const HomeHeader = ({ onLearnMore }: HomeHeaderProps) => {
               </p>
             </div>
             <div className='home-header-stat'>
-              <Markdown source={t('header.experience', { numberOfYears: new Date().getFullYear() - 2021 })} />
+              <Markdown
+                source={t('header.experience', {
+                  numberOfYears: new Date().getFullYear() - 2021,
+                })}
+              />
               <p className='home-header-stat-copy'>
                 <Markdown source={t('header.design.text')} />
                 <span className='home-header-stat-icons home-header-stat-icons--design'>

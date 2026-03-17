@@ -5,7 +5,10 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   const { t } = useContent('general');
-  const navLinks = t('navLinks', { returnObjects: true }) as Array<{ href: string; label: string }>;
+  const navLinks = t('navLinks', { returnObjects: true }) as Array<{
+    href: string;
+    label: string;
+  }>;
 
   return (
     <Navbar collapseOnSelect expand='lg' className='site-header'>
