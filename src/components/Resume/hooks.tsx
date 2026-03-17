@@ -18,7 +18,7 @@ export const useCreateResumeTimeline = (category: ResumeCategories) => {
   useEffect(() => {
     setTitle(startCase(category));
     setCategoryItems(createTimelineSection());
-  }, [category]);
+  }, [category, createTimelineSection]);
 
   return { title, categoryItems };
 };
