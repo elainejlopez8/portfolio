@@ -91,7 +91,7 @@ Configure GitHub like this:
 
 1. Go to repository Settings > Environments.
 2. Create an environment named `production`.
-3. Create an environment named `preview`.
+After that, every push to `main` will auto-deploy on Netlify.
 4. In the `production` environment, add these environment secrets:
 5. `NETLIFY_PRODUCTION_AUTH_TOKEN` — personal access token from Netlify for production deploys.
 6. `NETLIFY_PRODUCTION_SITE_ID` — site ID for the production Netlify site.
