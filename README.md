@@ -2,6 +2,8 @@
 
 Personal portfolio site built with React, TypeScript, Vite, Tailwind CSS, and React Bootstrap.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d9ab6c78-1eaf-412d-892e-3b0603e7df49/deploy-status)](https://app.netlify.com/projects/elainejlopezportfolio/deploys)
+
 ## Tech stack
 
 - React 19
@@ -67,6 +69,25 @@ Current routes are defined in `src/App.tsx`:
 - `/about-me` — about section page
 - `/projects` — projects page
 - `/resume` — resume page
+
+## Deployment
+
+### Netlify auto deploy
+
+This repository now includes [netlify.toml](netlify.toml) so Netlify can build and deploy the site without extra project-level configuration:
+
+- build command: `yarn build`
+- publish directory: `dist`
+- SPA fallback: all routes rewrite to `index.html`
+
+To enable continuous deployment in Netlify:
+
+1. Create or open your Netlify site.
+2. Connect it to this GitHub repository.
+3. Set the production branch to `main`.
+4. Trigger the first deploy.
+
+After that, every push to `main` will auto-deploy on Netlify.
 
 ## Import alias
 

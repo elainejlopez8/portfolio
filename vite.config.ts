@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react';
 import path from 'node:path';
 import { defineConfig } from 'vite';
 
-export default defineConfig(({ command }) => ({
-  base: command === 'serve' ? '/' : '/portfolio/',
+export default defineConfig({
+  base: '/',
   plugins: [react(), tailwindcss()],
   optimizeDeps: {
     rolldownOptions: {},
@@ -19,4 +19,7 @@ export default defineConfig(({ command }) => ({
       '@': path.resolve(__dirname, './src'),
     },
   },
-}));
+  server: {
+    allowedHosts: ['localhost', 'devserver-main--elainejlopezportfolio.netlify.app'],
+  },
+});
