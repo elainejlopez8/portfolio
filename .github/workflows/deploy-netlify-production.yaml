@@ -1,9 +1,6 @@
 name: Deploy Netlify Production
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
@@ -23,6 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
+          ref: main
           persist-credentials: false
 
       - name: Setup Node.js
@@ -50,8 +48,17 @@ jobs:
             exit 1
           fi
 
-      - name: Deploy to Netlify production
+      - name: Deploy to Netlify production if unlocked
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_PRODUCTION_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PRODUCTION_SITE_ID }}
-        run: yarn dlx --package netlify-cli@17.38.1 netlify deploy --dir=dist --prod --message "GitHub Actions deploy ${GITHUB_SHA}"
+        run: yarn dlx --package netlify-cli@17.38.1 netlify deploy --dir=dist --prod-if-unlocked --message "GitHub Actions deploy ${GITHUB_SHA}"
+
+      - name: Write deployment summary
+        run: |
+          {
+            echo '## Netlify production deployment';
+            echo '';
+            echo 'This workflow is manual-only and always deploys the latest code from `main`.';
+            echo 'If Netlify production is locked, the deploy is created as a draft instead of publishing live.';
+          } >> "$GITHUB_STEP_SUMMARY"
