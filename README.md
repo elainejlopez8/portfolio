@@ -84,22 +84,22 @@ This repository now includes [netlify.toml](netlify.toml) so Netlify can build a
 - publish directory: `dist`
 - SPA fallback: all routes rewrite to `index.html`
 
-To enable continuous deployment in Netlify:
-
-1. Create or open your Netlify site.
-2. Connect it to this GitHub repository.
-3. Set the production branch to `main`.
-4. Trigger the first deploy.
-
-# After that, every push to `main` will auto-deploy on Netlify.
-
 Production deploys are triggered by [deploy-netlify-production.yaml](.github/workflows/deploy-netlify-production.yaml) whenever code is pushed to `main`, including merge commits.
 Preview deploys are triggered by [deploy-netlify-preview.yaml](.github/workflows/deploy-netlify-preview.yaml) for pull requests targeting `main`.
 
-To finish the setup, add these GitHub repository secrets:
+Configure GitHub like this:
 
-- `NETLIFY_AUTH_TOKEN` — personal access token from Netlify
-- `NETLIFY_SITE_ID` — site ID for the production Netlify site
+1. Go to repository Settings > Environments.
+2. Create an environment named `production`.
+3. Create an environment named `preview`.
+4. In the `production` environment, add these environment secrets:
+5. `NETLIFY_PRODUCTION_AUTH_TOKEN` — personal access token from Netlify for production deploys.
+6. `NETLIFY_PRODUCTION_SITE_ID` — site ID for the production Netlify site.
+7. In the `preview` environment, add these environment secrets:
+8. `NETLIFY_PREVIEW_AUTH_TOKEN` — personal access token for preview deploys.
+9. `NETLIFY_PREVIEW_SITE_ID` — site ID for the preview Netlify site.
+10. Add required reviewers to the `production` environment if you want manual approval before production deploys.
+11. Restrict deployment branches for the `production` environment to `main`.
 
 You can find the site ID in Netlify under Site configuration > General > Site details.
 
@@ -107,9 +107,11 @@ If you are not already connected to Netlify, create or open your site first:
 
 1. Create or open your Netlify site.
 2. Copy the production site ID.
-3. Create a Netlify personal access token.
-4. Add both values as GitHub repository secrets.
-5. Merge or push to `main`.
+3. Copy the preview site ID if previews use a separate site.
+4. Create Netlify personal access tokens.
+5. Add the production values to the GitHub `production` environment secrets.
+6. Add the preview values to the GitHub `preview` environment secrets.
+7. Merge or push to `main`.
 
 After that, every merge to `main` will deploy the current commit to Netlify production.
 Each pull request to `main` will also create a Netlify preview deploy with the alias `pr-<pull-request-number>`.
