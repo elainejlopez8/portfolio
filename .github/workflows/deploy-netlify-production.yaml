@@ -1,0 +1,55 @@
+name: Deploy Netlify Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: netlify-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: yarn
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build site
+        run: yarn build
+
+      - name: Verify Netlify secrets
+        env:
+          HAS_NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN != '' }}
+          HAS_NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID != '' }}
+        run: |
+          if [[ "$HAS_NETLIFY_AUTH_TOKEN" != 'true' || "$HAS_NETLIFY_SITE_ID" != 'true' ]]; then
+            echo 'Missing NETLIFY_AUTH_TOKEN or NETLIFY_SITE_ID GitHub repository secret.' >&2
+            exit 1
+          fi
+
+      - name: Deploy to Netlify production
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: yarn dlx netlify-cli deploy --dir=dist --prod --message "GitHub Actions deploy ${GITHUB_SHA}"

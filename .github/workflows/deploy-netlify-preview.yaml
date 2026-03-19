@@ -1,0 +1,74 @@
+name: Deploy Netlify Preview
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+
+concurrency:
+  group: netlify-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: yarn
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build site
+        run: yarn build
+
+      - name: Verify Netlify secrets
+        env:
+          HAS_NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN != '' }}
+          HAS_NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID != '' }}
+        run: |
+          if [[ "$HAS_NETLIFY_AUTH_TOKEN" != 'true' || "$HAS_NETLIFY_SITE_ID" != 'true' ]]; then
+            echo 'Missing NETLIFY_AUTH_TOKEN or NETLIFY_SITE_ID GitHub repository secret.' >&2
+            exit 1
+          fi
+
+      - name: Deploy preview to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          PREVIEW_ALIAS: pr-${{ github.event.pull_request.number }}
+        run: |
+          yarn dlx netlify-cli deploy \
+            --dir=dist \
+            --alias "$PREVIEW_ALIAS" \
+            --message "GitHub Actions preview ${GITHUB_SHA}"
+
+      - name: Write job summary
+        env:
+          PREVIEW_ALIAS: pr-${{ github.event.pull_request.number }}
+        run: |
+          {
+            echo '## Netlify preview deploy';
+            echo '';
+            echo "Preview alias: $PREVIEW_ALIAS";
+            echo 'Check the Netlify deploy logs above for the published preview URL.';
+          } >> "$GITHUB_STEP_SUMMARY"
