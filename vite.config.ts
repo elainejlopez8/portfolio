@@ -6,6 +6,14 @@ import { defineConfig } from 'vite';
 export default defineConfig(({ command }) => ({
   base: command === 'serve' ? '/' : '/portfolio/',
   plugins: [react(), tailwindcss()],
+  optimizeDeps: {
+    rolldownOptions: {},
+  },
+  ssr: {
+    optimizeDeps: {
+      rolldownOptions: {},
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
