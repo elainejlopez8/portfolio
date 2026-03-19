@@ -3,12 +3,10 @@
 Personal portfolio site built with React, TypeScript, Vite, Tailwind CSS, and React Bootstrap.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d9ab6c78-1eaf-412d-892e-3b0603e7df49/deploy-status)](https://app.netlify.com/projects/elainejlopezportfolio/deploys)
-<<<<<<< Updated upstream
-=======
-[![Deploy Netlify Production](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-production.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-production.yaml)
-[![Deploy Netlify Preview](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-preview.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-preview.yaml)
 
-> > > > > > > Stashed changes
+[![Deploy Netlify Production](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-production.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-production.yaml)
+
+[![Deploy Netlify Preview](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-preview.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-preview.yaml)
 
 ## Tech stack
 
@@ -115,8 +113,6 @@ If you are not already connected to Netlify, create or open your site first:
 
 After that, every merge to `main` will deploy the current commit to Netlify production.
 Each pull request to `main` will also create a Netlify preview deploy with the alias `pr-<pull-request-number>`.
-
-> > > > > > > Stashed changes
 
 ## Import alias
 
