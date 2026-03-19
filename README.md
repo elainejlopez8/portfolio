@@ -86,7 +86,6 @@ This repository now includes [netlify.toml](netlify.toml) so Netlify can build a
 - publish directory: `dist`
 - SPA fallback: all routes rewrite to `index.html`
 
-<<<<<<< Updated upstream
 To enable continuous deployment in Netlify:
 
 1. Create or open your Netlify site.
