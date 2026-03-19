@@ -58,7 +58,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           PREVIEW_ALIAS: pr-${{ github.event.pull_request.number }}
         run: |
-          yarn dlx netlify-cli deploy \
+          yarn dlx netlify-cli@17.38.1 deploy \
             --dir=dist \
             --alias "$PREVIEW_ALIAS" \
             --message "GitHub Actions preview ${GITHUB_SHA}"
