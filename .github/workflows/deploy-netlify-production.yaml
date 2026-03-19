@@ -54,4 +54,4 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_PRODUCTION_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PRODUCTION_SITE_ID }}
-        run: yarn dlx netlify-cli@17.36.1 deploy --dir=dist --prod --message "GitHub Actions deploy ${GITHUB_SHA}"
+        run: yarn dlx --package netlify-cli@17.38.1 netlify deploy --dir=dist --prod --message "GitHub Actions deploy ${GITHUB_SHA}"

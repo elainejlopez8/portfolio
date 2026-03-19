@@ -11,6 +11,8 @@ jobs:
   build:
     name: Lint
     runs-on: ubuntu-latest
+    env:
+      YARN_NODE_LINKER: node-modules
 
     permissions:
       contents: read
@@ -48,9 +50,6 @@ jobs:
       - name: Enable Corepack and install dependencies
         run: |
           corepack enable
-          # Ensure plugins are installed into node_modules so tools inside
-          # the Super-Linter container can require() them (not PnP).
-          yarn config set nodeLinker node-modules
           yarn install --immutable
 
       - name: Run Prettier & ESLint
