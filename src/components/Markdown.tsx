@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+ 
 
 import type { MarkdownProps } from '@/types';
 import type React from 'react';

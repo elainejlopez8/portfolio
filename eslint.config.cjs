@@ -2,8 +2,8 @@ const pluginJs = require('@eslint/js');
 const importPlugin = require('eslint-plugin-import');
 const react = require('eslint-plugin-react');
 const globals = require('globals');
-const tseslint = require('typescript-eslint');
-const typescriptEslint = tseslint;
+const typescriptEslint = require('@typescript-eslint/eslint-plugin');
+const typescriptParser = require('@typescript-eslint/parser');
 
 module.exports = [
   {
@@ -27,16 +27,19 @@ module.exports = [
   },
   {
     languageOptions: {
-      ecmaVersion: 2020,
+      parser: typescriptParser,
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        ecmaFeatures: { jsx: true },
+        project: ['./tsconfig.app.json', './tsconfig.node.json'],
+      },
       globals: globals.browser,
     },
   },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  react.configs.flat.recommended,
   {
     plugins: {
-      typescriptEslint,
+      '@typescript-eslint': typescriptEslint,
       react,
       import: importPlugin,
     },
