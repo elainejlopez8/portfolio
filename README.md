@@ -3,6 +3,12 @@
 Personal portfolio site built with React, TypeScript, Vite, Tailwind CSS, and React Bootstrap.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d9ab6c78-1eaf-412d-892e-3b0603e7df49/deploy-status)](https://app.netlify.com/projects/elainejlopezportfolio/deploys)
+<<<<<<< Updated upstream
+=======
+[![Deploy Netlify Production](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-production.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-production.yaml)
+[![Deploy Netlify Preview](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-preview.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-preview.yaml)
+
+> > > > > > > Stashed changes
 
 ## Tech stack
 
@@ -80,6 +86,7 @@ This repository now includes [netlify.toml](netlify.toml) so Netlify can build a
 - publish directory: `dist`
 - SPA fallback: all routes rewrite to `index.html`
 
+<<<<<<< Updated upstream
 To enable continuous deployment in Netlify:
 
 1. Create or open your Netlify site.
@@ -87,7 +94,30 @@ To enable continuous deployment in Netlify:
 3. Set the production branch to `main`.
 4. Trigger the first deploy.
 
-After that, every push to `main` will auto-deploy on Netlify.
+# After that, every push to `main` will auto-deploy on Netlify.
+
+Production deploys are triggered by [deploy-netlify-production.yaml](.github/workflows/deploy-netlify-production.yaml) whenever code is pushed to `main`, including merge commits.
+Preview deploys are triggered by [deploy-netlify-preview.yaml](.github/workflows/deploy-netlify-preview.yaml) for pull requests targeting `main`.
+
+To finish the setup, add these GitHub repository secrets:
+
+- `NETLIFY_AUTH_TOKEN` — personal access token from Netlify
+- `NETLIFY_SITE_ID` — site ID for the production Netlify site
+
+You can find the site ID in Netlify under Site configuration > General > Site details.
+
+If you are not already connected to Netlify, create or open your site first:
+
+1. Create or open your Netlify site.
+2. Copy the production site ID.
+3. Create a Netlify personal access token.
+4. Add both values as GitHub repository secrets.
+5. Merge or push to `main`.
+
+After that, every merge to `main` will deploy the current commit to Netlify production.
+Each pull request to `main` will also create a Netlify preview deploy with the alias `pr-<pull-request-number>`.
+
+> > > > > > > Stashed changes
 
 ## Import alias
 
