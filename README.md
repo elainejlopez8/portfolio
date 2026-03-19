@@ -74,7 +74,7 @@ Current routes are defined in `src/App.tsx`:
 
 ## Deployment
 
-### Netlify auto deploy
+### Netlify deploys
 
 This repository now includes [netlify.toml](netlify.toml) so Netlify can build and deploy the site without extra project-level configuration:
 
@@ -82,7 +82,7 @@ This repository now includes [netlify.toml](netlify.toml) so Netlify can build a
 - publish directory: `dist`
 - SPA fallback: all routes rewrite to `index.html`
 
-Production deploys are triggered by [deploy-netlify-production.yaml](.github/workflows/deploy-netlify-production.yaml) whenever code is pushed to `main`, including merge commits. Preview deploys are triggered by [deploy-netlify-preview.yaml](.github/workflows/deploy-netlify-preview.yaml) for pull requests targeting `main`.
+Production deploys are triggered manually through [deploy-netlify-production.yaml](.github/workflows/deploy-netlify-production.yaml). Preview deploys are triggered by [deploy-netlify-preview.yaml](.github/workflows/deploy-netlify-preview.yaml) for pull requests targeting `main`.
 
 Configure GitHub environments like this:
 
@@ -108,9 +108,9 @@ If you are not already connected to Netlify, create or open your site first:
 4. Create Netlify personal access tokens.
 5. Add the production values to the GitHub `production` environment secrets.
 6. Add the preview values to the GitHub `preview` environment secrets.
-7. Merge or push to `main`.
+7. Trigger the production workflow manually when you want a live deploy.
 
-After that, every merge to `main` will deploy the current commit to Netlify production, and each pull request to `main` will create a Netlify preview deploy with the alias `pr-<pull-request-number>`.
+After that, each pull request to `main` will create a Netlify preview deploy with the alias `pr-<pull-request-number>`. Production deploys must be started manually from GitHub Actions and will publish live only when the Netlify production context is unlocked.
 
 ## Import alias
 
