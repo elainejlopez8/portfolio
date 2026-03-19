@@ -1,11 +1,11 @@
 import PageLayout, { usePageLayout } from '@/components/PageLayout';
+import AboutMe from '@/pages/AboutMe';
+import Projects from '@/pages/Projects';
+import Resume from '@/pages/Resume';
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const HomeHeader = lazy(() => import('@/components/HomeHeader'));
-const AboutMe = lazy(() => import('./AboutMe'));
-const Projects = lazy(() => import('./Projects'));
-const Resume = lazy(() => import('./Resume'));
 
 const Home = () => {
   const location = useLocation();
@@ -55,10 +55,10 @@ const Home = () => {
       <div className='layout-stack flex w-full flex-col'>
         <Suspense fallback={null}>
           <HomeHeader showMainContent={showMainContent} />
-          <AboutMe />
-          <Projects />
-          <Resume />
         </Suspense>
+        <AboutMe />
+        <Projects />
+        <Resume />
       </div>
     </PageLayout>
   );
