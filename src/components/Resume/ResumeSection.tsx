@@ -22,7 +22,9 @@ export function ResumeSection({ category, useH1 = false }: ResumeSectionProps) {
           <Link to={`/resume/${kebabCase(category)}`}>{resumeCategorySection.title}</Link>
         </h2>
       )}
-      {resumeCategorySection.categoryItems}
+      <div className='resume-section mt-4'>
+        <div className='resume-section-content'>{resumeCategorySection.categoryItems}</div>
+      </div>
     </>
   );
 }

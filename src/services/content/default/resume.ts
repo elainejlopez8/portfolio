@@ -96,16 +96,14 @@ export const resume = {
       qualification: 'Bachelor of Computing Science (Honours)',
       start_date: 'Jan 2020',
       end_date: 'Nov 2022',
-      description:
-        'Graduated with Second Class Honours (Division 1)\n\nHigh Distinction Grades in Programming Fundamentals, Applications Programming, Introduction to Information Systems, Computing Science Studio 1, Computing Science Studio 2, Technology Research Methods and Honours Project\n\nDistinction grades achieved in Business Requirements Modelling, Engineering Communication, Fundamentals of Interaction Design, Prototyping Physical Interaction, Project Management, Theory of Computing Science and the Professional and Interaction Design Studio',
+      description: '<p className="text-base!">Graduated with Second Class Honours (Division 1)</p>',
     },
     {
       name: 'Rosebank College',
-      qualification: 'Year 12 Higher School Certifcate',
+      qualification: 'Year 12 Higher School Certificate',
       start_date: 'Jan 2015',
       end_date: 'Nov 2016',
-      description:
-        "Activities and societies: College Choir (2015-2016) and St. Vincent De Paul's Buddies Day Program (2015)\n\nAchieved Academic Merit earned in Society and Culture (2015)\n\nAwarded Consistent Effort in Photography, Video and Digital Imaging (2015), Consistent Effort in Information Processes and Technology (2016), Consistent Effort in Society and Culture (2016) and Consistent Effort in Music 1 (2016)",
+      description: `<ul className="list-disc text-left! text-base!"><li>Activities and societies: College Choir (2015-2016) and St. Vincent De Paul's Buddies Day Program (2015)</li><li>Achieved Academic Merit earned in Society and Culture (2015)</li><li>Awarded Consistent Effort in Photography, Video and Digital Imaging (2015), Consistent Effort in Information Processes and Technology (2016), Consistent Effort in Society and Culture (2016) and Consistent Effort in Music 1 (2016)</li></ul>`,
     },
   ],
   certifications: {
