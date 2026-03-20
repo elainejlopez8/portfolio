@@ -34,17 +34,19 @@
   --color-purple-400: rgba(95, 75, 135, 0.8);
   --color-purple-500: rgba(95, 75, 135, 1);
 
-  --color-pink-100: rgba(135, 75, 125, 0.2);
-  --color-pink-200: rgba(135, 75, 125, 0.4);
-  --color-pink-300: rgba(135, 75, 125, 0.6);
-  --color-pink-400: rgba(135, 75, 125, 0.8);
-  --color-pink-500: rgba(135, 75, 125, 1);
+  /* pink contrast steps: subtle -> full */
+  --color-pink-100: rgba(160, 95, 145, 0.08);
+  --color-pink-200: rgba(160, 95, 145, 0.22);
+  --color-pink-300: rgba(160, 95, 145, 0.5);
+  --color-pink-400: rgba(160, 95, 145, 0.78);
+  --color-pink-500: rgba(160, 95, 145, 1);
 
-  --color-blue-100: rgba(70, 100, 130, 0.2);
-  --color-blue-200: rgba(70, 100, 130, 0.4);
-  --color-blue-300: rgba(70, 100, 130, 0.6);
-  --color-blue-400: rgba(70, 100, 130, 0.8);
-  --color-blue-500: rgba(70, 100, 130, 1);
+  /* blue contrast steps: subtle -> full */
+  --color-blue-100: rgba(90, 95, 160, 0.08);
+  --color-blue-200: rgba(90, 95, 160, 0.22);
+  --color-blue-300: rgba(90, 95, 160, 0.5);
+  --color-blue-400: rgba(90, 95, 160, 0.78);
+  --color-blue-500: rgba(90, 95, 160, 1);
 }
 
 html,
@@ -352,15 +354,15 @@ p {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  color: var(--color-blue-400);
-  font-weight: 500;
+  color: var(--color-blue-500);
+  font-weight: 600;
 }
 
 .home-header-stat-icons {
   display: grid;
   gap: 0.5rem;
   margin-inline: auto;
-  color: var(--color-blue-200);
+  color: var(--color-blue-300);
   font-size: clamp(1.75rem, 1.45rem + 0.9vw, 2.5rem);
   text-align: center;
 }
@@ -538,4 +540,45 @@ a:hover {
 
 .navbar {
   --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0'%3e%3cpath stroke='rgb(137, 92, 167)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Resume tabs: prevent uppercase transformation and style active pill */
+/* Resume tabs: keep casing, spacing, and use blue-300 for active state */
+#resume-tabs .nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#resume-tabs .nav .nav-item {
+  margin-right: 16px;
+}
+
+#resume-tabs .nav .nav-item:last-child {
+  margin-right: 0;
+}
+
+#resume-tabs .nav-link {
+  border-radius: 0;
+  padding: 8px 18px;
+  color: var(--color-purple-500);
+  font-weight: 700;
+  text-transform: none;
+}
+
+#resume-tabs .nav-link:hover {
+  transform: none;
+  color: var(--color-pink-500);
+}
+
+#resume-tabs .nav-link.active {
+  border-bottom: 3px solid var(--color-blue-300);
+  background-color: transparent !important;
+  color: var(--color-blue-300) !important;
+  font-weight: 900;
+}
+
+img {
+  pointer-events: none;
 }

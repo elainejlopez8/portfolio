@@ -1,3 +1,4 @@
+import { useContent } from '@/hooks/useContent';
 import { ResumeCategories } from '@/types';
 import {
   Timeline,
@@ -8,24 +9,24 @@ import {
   timelineItemClasses,
   TimelineSeparator,
 } from '@mui/lab';
-import { Typography } from '@mui/material';
 import kebabCase from 'lodash/kebabCase';
 import { Button } from 'react-bootstrap';
-import { MdSchool, MdWork } from 'react-icons/md';
-import { PiCertificateBold } from 'react-icons/pi';
+import { MdWork } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { JSX } from 'react/jsx-runtime';
+import Markdown from '../Markdown';
 interface ResumeTimelineProps {
   details: string;
   category?: ResumeCategories;
 }
 
 export default function ResumeTimeline({ details, category }: ResumeTimelineProps) {
+  const { t } = useContent('resume');
   const content = JSON.parse(details);
   const items = [];
   const isWork = category === ResumeCategories.employmentHistory;
   const isEducation = category === ResumeCategories.education;
   const isCertification = category === ResumeCategories.certifications;
-
   if (isWork) {
     for (let i = 0; i < content?.companies?.length; i++)
       for (let j = 0; j < content?.companies[i]?.roles?.length; j++) {
@@ -34,106 +35,90 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
           <TimelineItem
             key={`${content?.companies[i]?.company ?? 'company'}-${prefix?.title ?? 'role'}-${prefix?.start_date ?? ''}-${prefix?.end_date ?? ''}-${i}-${j}`}>
             <TimelineSeparator>
-              <TimelineDot color='primary' className='text-xl md:text-2xl lg:text-3xl'>
+              <TimelineDot className='bg-blue-400 text-xl text-white md:text-2xl lg:text-3xl'>
                 <MdWork />
               </TimelineDot>
-              <TimelineConnector />
+              <TimelineConnector className='bg-blue-200' />
             </TimelineSeparator>
 
-            <TimelineContent sx={{ py: '12px', px: '20px' }}>
-              <Link to={`/resume/${kebabCase(ResumeCategories.employmentHistory)}/${kebabCase(prefix?.title)}`}>
-                <Typography component='span' className='text-blue-400'>
+            <TimelineContent className='px-5 py-3'>
+              <Link
+                to={`/resume/${kebabCase(ResumeCategories.employmentHistory)}/${kebabCase(prefix?.title)}`}
+                className='text-inherit no-underline'>
+                <span className='text-blue-400'>
                   {prefix?.title} <span className='text-right'>{prefix?.team}</span>
-                </Typography>
+                </span>
 
-                <Typography className='font-bold text-blue-300'>{content?.companies[i]?.company}</Typography>
-                <Typography className='text-base text-pink-300 md:text-lg lg:text-xl'>
+                <div className='font-semibold text-blue-300'>{content?.companies[i]?.company}</div>
+                <div className='text-base text-pink-300 md:text-lg lg:text-xl'>
                   {prefix?.start_date} - {prefix?.end_date}
-                </Typography>
+                </div>
               </Link>
-              <Typography className='mt-2 hidden text-base whitespace-pre-line sm:flex md:text-lg lg:text-xl'>
-                {prefix?.description}
-              </Typography>
+              {prefix?.description && (
+                <div className='mt-2 hidden text-base whitespace-pre-line sm:flex md:text-lg lg:text-xl'>
+                  <Markdown source={prefix?.description} />
+                </div>
+              )}
             </TimelineContent>
           </TimelineItem>
         );
       }
   }
-
+  // For education and certifications, render a responsive card grid
   if (isEducation) {
-    for (let i = 0; i < content?.length; i++)
-      items.push(
-        <TimelineItem key={`${content[i]?.qualification}-${content[i]?.start_date}-${content[i]?.end_date}-${i}`}>
-          <TimelineSeparator>
-            <TimelineDot color='secondary' className='text-xl md:text-2xl lg:text-3xl'>
-              <MdSchool />
-            </TimelineDot>
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent sx={{ py: '12px', px: '20px' }}>
-            <Link to={`/resume/${ResumeCategories.education}/${kebabCase(content[i]?.qualification)}`}>
-              <Typography component='span' className='text-xl font-black text-blue-400 md:text-2xl lg:text-3xl'>
-                {content[i]?.qualification}
-              </Typography>
-              <Typography className='text:lg font-bold text-blue-300 md:text-xl lg:text-2xl'>
-                {content[i]?.name}
-              </Typography>
-              <Typography className='text-base text-pink-300 md:text-lg lg:text-xl'>
-                {content[i]?.start_date} - {content[i]?.end_date}
-              </Typography>
-            </Link>
-            <Typography className='mt-2 hidden text-base whitespace-pre-line sm:flex md:text-lg lg:text-xl'>
-              {content[i]?.description}
-            </Typography>
-          </TimelineContent>
-        </TimelineItem>
+    const cards: JSX.Element[] = [];
+    for (let i = 0; i < content?.length; i++) {
+      const item = content[i];
+      const key = `${item?.qualification}-${item?.start_date}-${item?.end_date}-${i}`;
+      cards.push(
+        <article key={key} className='rounded-lg bg-blue-100 p-4 shadow transition hover:shadow-md dark:bg-purple-700'>
+          <Link
+            to={`/resume/${ResumeCategories.education}/${kebabCase(item?.qualification)}`}
+            className='text-inherit no-underline'>
+            <h3 className='text-xl font-bold text-blue-400'>{item?.qualification}</h3>
+            <div className='text-sm font-semibold text-pink-300'>{item?.name}</div>
+            <time className='mt-2 block text-xs text-blue-300' dateTime={`${item?.start_date || ''}`}>
+              {item?.start_date} {item?.end_date ? ' - ' + item?.end_date : ''}
+            </time>
+            {item?.description && <Markdown source={item?.description} />}
+          </Link>
+        </article>
       );
+    }
+    return <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>{cards}</div>;
   }
 
   if (isCertification) {
-    for (let i = 0; i < content?.certs?.length; i++)
-      items.push(
-        <TimelineItem
-          key={`${content?.certs[i]?.name}-${content?.certs[i]?.certifier}-${content?.certs[i]?.date}-${i}`}>
-          <TimelineSeparator>
-            <TimelineDot color='grey' className='text-xl md:text-2xl lg:text-3xl'>
-              <PiCertificateBold />
-            </TimelineDot>
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent sx={{ py: '12px', px: '20px' }}>
-            <Link to={`/resume/${ResumeCategories.certifications}/${kebabCase(content?.certs[i]?.name)}`}>
-              <Typography component='span' className='text-xl font-black text-blue-400 md:text-2xl lg:text-3xl'>
-                {content?.certs[i]?.name}
-              </Typography>
-              <Typography className='text:lg font-bold text-blue-300 md:text-xl lg:text-2xl'>
-                {content?.certs[i]?.certifier}
-              </Typography>
-              <Typography className='text-base text-pink-300 md:text-lg lg:text-xl'>
-                {content?.certs[i]?.date}
-              </Typography>
-            </Link>
-            {content?.certs[i]?.description && (
-              <Typography className='mt-2 hidden text-base whitespace-pre-line sm:flex md:text-lg lg:text-xl'>
-                {content?.certs[i]?.description}
-              </Typography>
-            )}
-            {content?.certs[i]?.url && (
-              <Typography className='mt-2 whitespace-pre-line'>
-                <Button
-                  href={content?.certs[i]?.url}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='btn text-sm!'>
-                  {content?.viewCert}
+    const cards: JSX.Element[] = [];
+    for (let i = 0; i < content?.certs?.length; i++) {
+      const cert = content?.certs[i];
+      const key = `${cert?.name}-${cert?.certifier}-${cert?.date}-${i}`;
+      cards.push(
+        <article key={key} className='rounded-lg bg-blue-100 p-4 shadow transition hover:shadow-md dark:bg-purple-700'>
+          <Link
+            to={`/resume/${ResumeCategories.certifications}/${kebabCase(cert?.name)}`}
+            className='text-inherit no-underline'>
+            <h3 className='text-lg font-bold text-blue-400'>{cert?.name}</h3>
+            <div className='text-sm font-semibold text-pink-300'>{cert?.certifier}</div>
+            <time className='mt-2 block text-xs text-blue-300' dateTime={`${cert?.date || ''}`}>
+              {cert?.date}
+            </time>
+            {cert?.description && <Markdown source={cert.description} />}
+            {cert?.url && (
+              <div className='mt-3'>
+                <Button href={cert?.url} target='_blank' rel='noopener noreferrer' className='py-2 text-base'>
+                  {t('certifications.viewCert')}
                 </Button>
-              </Typography>
+              </div>
             )}
-          </TimelineContent>
-        </TimelineItem>
+          </Link>
+        </article>
       );
+    }
+    return <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>{cards}</div>;
   }
 
+  // Default: render work timeline using MUI
   return (
     <Timeline
       sx={{

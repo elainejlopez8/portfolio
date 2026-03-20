@@ -5,7 +5,7 @@ import type { CONTENT_KEYS } from '@/services/content/i18n';
 import { ResumeCategories, type PageProps } from '@/types';
 import { camelCase, kebabCase } from 'lodash';
 import { JSX, useEffect, useMemo } from 'react';
-import { Button, Container } from 'react-bootstrap';
+import { Button, Container, Tab, Tabs } from 'react-bootstrap';
 import { PiDownloadSimpleBold } from 'react-icons/pi';
 import { useParams } from 'react-router-dom';
 
@@ -29,14 +29,19 @@ const Resume = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: PageP
       case ResumeCategories.education:
       case kebabCase(ResumeCategories.employmentHistory):
         return <ResumeSection category={camelCase(resumeCategory) as ResumeCategories} useH1={true} />;
-
       default:
         return (
-          <>
-            <ResumeSection category={ResumeCategories.employmentHistory} />
-            <ResumeSection category={ResumeCategories.certifications} />
-            <ResumeSection category={ResumeCategories.education} />
-          </>
+          <Tabs id='resume-tabs' defaultActiveKey={ResumeCategories.employmentHistory} className='mb-3' variant='pills'>
+            <Tab eventKey={ResumeCategories.employmentHistory} title='Employment'>
+              <ResumeSection category={ResumeCategories.employmentHistory} />
+            </Tab>
+            <Tab eventKey={ResumeCategories.certifications} title='Certifications'>
+              <ResumeSection category={ResumeCategories.certifications} />
+            </Tab>
+            <Tab eventKey={ResumeCategories.education} title='Education'>
+              <ResumeSection category={ResumeCategories.education} />
+            </Tab>
+          </Tabs>
         );
     }
   }, [resumeCategory]);
@@ -52,10 +57,11 @@ const Resume = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: PageP
             href={downloadResume.url}
             target='_blank'
             rel='noreferrer noopener'
-            className='mx-auto mt-5! px-4 py-2 uppercase'>
-            <p className='flex flex-row gap-2 *:my-auto *:text-base md:*:text-lg'>
+            size='sm'
+            className='mx-auto mt-2 px-4 py-2 text-sm'>
+            <span className='flex flex-row items-center gap-2 text-sm md:text-base'>
               {downloadResume.text} {iconMap[downloadResume.icon]}
-            </p>
+            </span>
           </Button>
         )}
       </div>
