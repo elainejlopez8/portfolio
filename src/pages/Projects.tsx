@@ -1,6 +1,5 @@
-import waitImg from '@/assets/wait.png';
-import Markdown from '@/components/Markdown';
 import { usePageLayout } from '@/components/PageLayout';
+import ProjectsPlaceholder from '@/components/ProjectsPlaceholder';
 import { useContent } from '@/hooks/useContent';
 import type { CONTENT_KEYS } from '@/services/content/i18n';
 import type { PageProps } from '@/types';
@@ -18,11 +17,7 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
 
   return (
     <Container fluid='lg' className='page-section' id={sectionId}>
-      <h1 className='type-display uppercase'>{title}</h1>
-      <div className='flex flex-col items-center gap-2'>
-        <img src={waitImg} alt={t('content')} className='w-1/4' />
-        <Markdown source={t('content')} />
-      </div>
+      <ProjectsPlaceholder placeholderTitle={title} useAuthenticated={true} />
     </Container>
   );
 };
