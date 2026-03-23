@@ -140,14 +140,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
   const wip: Repo[] = repos
     ? repos.filter((r) => r.topics && (r.topics.includes('wip') || r.topics.includes('in-progress')))
     : [];
-  const unfinished: Repo[] = repos
-    ? repos.filter(
-        (r) =>
-          r.topics &&
-          (r.topics.includes('archived') || r.topics.includes('unfinished') || r.topics.includes('incomplete'))
-      )
-    : [];
-
   const groupByType = (arr: Repo[]) =>
     arr.reduce(
       (acc: Record<string, Repo[]>, r) => {
@@ -159,7 +151,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
       {} as Record<string, Repo[]>
     );
 
-  const unfinishedGroups = groupByType(unfinished);
   const wipGroups = groupByType(wip);
   const completedGroups = groupByType(completed);
   const hasGithubProjects = Boolean(repos && repos.length > 0);
@@ -240,23 +231,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
                     </div>
                   ))}
                 </section>
-              )}
-
-              {(activeTab === 'all' || activeTab === 'unfinished') && Object.keys(unfinishedGroups).length > 0 ? (
-                <section className='mb-6'>
-                  {activeTab === 'all' && <h2 className='mb-6 text-blue-500!'>{t('unfinished')}</h2>}
-                  {Object.keys(unfinishedGroups).map((type) => (
-                    <div key={`unfinished-group-${type}`} className='mb-4'>
-                      <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
-                        {unfinishedGroups[type].map((r) => (
-                          <ProjectCard key={`archived-${r.id}`} r={r} variant='archived' />
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </section>
-              ) : (
-                activeTab === 'unfinished' && <p className='text-muted'>{t('noUnfinished')}</p>
               )}
             </>
           )}
