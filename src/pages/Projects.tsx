@@ -5,8 +5,7 @@ import { usePageLayout } from '@/components/PageLayout';
 import ProjectCard from '@/components/ProjectCard';
 import { useContent } from '@/hooks/useContent';
 import { CONTENT_KEYS } from '@/services/content/i18n';
-import { logClientError } from '@/services/vercelLogger';
-import type { CodePenApiItem, CodePenProject, PageProps, Repo } from '@/types';
+import type { PageProps, Repo } from '@/types';
 import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 
@@ -15,16 +14,9 @@ const DEFAULT_TITLE = 'Projects';
 const GITHUB_REPOS_ENDPOINT = '/api/github-repos';
 const DEFAULT_GITHUB_USERNAME = 'elainejlopez8';
 
-const mapCodePenItem = (item: CodePenApiItem): CodePenProject => ({
-  url: item.link || item.pen_link || item.url || '#',
-  title: item.title || item.slug || item.name || 'Untitled',
-  description: item.description || '',
-});
-
 const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: PageProps) => {
   const { setLoaded } = usePageLayout();
   const [repos, setRepos] = useState<Repo[] | null>(null);
-  const [codePen, setCodePen] = useState<CodePenProject[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -94,34 +86,7 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
       }
     }
 
-    async function fetchCodepen() {
-      const username = import.meta.env.VITE_CODEPEN_USERNAME || '';
-      const endpoint = username ? `https://cpv2api.com/pens/user/${encodeURIComponent(username)}?limit=12` : '';
-      if (!endpoint) return;
-
-      try {
-        const res = await fetch(endpoint);
-        if (!res.ok) throw new Error(`CodePen: ${res.status}`);
-        const data = await res.json();
-        if (!mounted) return;
-
-        const items = Array.isArray(data)
-          ? data.map((p: CodePenApiItem) => mapCodePenItem(p))
-          : Array.isArray(data?.data)
-            ? data.data.map((p: CodePenApiItem) => mapCodePenItem(p))
-            : [];
-
-        setCodePen(items);
-      } catch (e) {
-        void logClientError('Error fetching CodePen projects', e, {
-          endpoint,
-          sectionId,
-        });
-      }
-    }
-
     fetchGithub();
-    fetchCodepen();
 
     return () => {
       mounted = false;
@@ -155,7 +120,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
   const wipGroups = groupByType(wip);
   const completedGroups = groupByType(completed);
   const hasGithubProjects = Boolean(repos && repos.length > 0);
-  const hasCodepenProjects = Boolean(codePen && codePen.length > 0);
 
   return (
     <Container fluid='lg' className='page-section' id={sectionId}>
@@ -183,21 +147,20 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
                 { key: 'all', label: t('all') },
                 { key: 'wip', label: t('wip') },
                 { key: 'completed', label: t('completed') },
-                { key: 'codepen', label: t('codepenTitle') },
               ].map((tab) => (
                 <button
                   key={tab.key}
                   role='tab'
                   aria-selected={activeTab === tab.key}
                   onClick={() => setActiveTab(tab.key)}
-                  className={`w-full flex-1 border-b-4 border-b-pink-500 px-1.5 py-2 text-sm! font-bold text-pink-500 sm:min-w-40 md:w-auto md:text-base! lg:text-lg! ${activeTab === tab.key ? 'bg-pink-500 text-white md:rounded-t-lg!' : 'btn-outline-secondary'} hover:border-b-blue-300 hover:bg-blue-300 hover:text-white md:hover:rounded-t-lg!`}>
+                  className={`w-full flex-1 border-b-4 border-b-pink-500 px-1.5 py-2 text-sm! font-bold text-pink-500 sm:min-w-40 md:w-auto md:text-base! lg:text-lg! ${activeTab === tab.key ? 'rounded-t-lg! bg-pink-500 text-white' : 'btn-outline-secondary'} hover:rounded-t-lg! hover:border-b-blue-300 hover:bg-blue-300 hover:text-white`}>
                   {tab.label}
                 </button>
               ))}
             </div>
           </div>
 
-          {hasGithubProjects && activeTab !== 'codepen' && (
+          {hasGithubProjects && (
             <>
               {(activeTab === 'all' || activeTab === 'completed') && (
                 <section>
@@ -235,29 +198,7 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
             </>
           )}
 
-          {(activeTab === 'all' || activeTab === 'codepen') &&
-            (hasCodepenProjects ? (
-              <section className='mt-6'>
-                {activeTab === 'all' && <h2 className='mb-6 text-purple-500!'>{t('codepenTitle')}</h2>}
-                <div className='grid grid-cols-1 gap-3 md:grid-cols-2'>
-                  {(codePen ?? []).map((project) => (
-                    <a
-                      key={`${project.url}-${project.title}`}
-                      href={project.url}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='block rounded border bg-pink-100 p-3'>
-                      <strong>{project.title}</strong>
-                      {project.description && <div className='text-sm'>{project.description}</div>}
-                    </a>
-                  ))}
-                </div>
-              </section>
-            ) : (
-              activeTab === 'codepen' && <p className='text-muted'>{t('noCodePenProjects')}</p>
-            ))}
-
-          {!hasGithubProjects && !hasCodepenProjects && (
+          {!hasGithubProjects && (
             <div className='w-full'>
               <img src={waitImg} alt='No projects yet' className='mx-auto mb-4 w-full md:w-1/3' />
               <p className='text-muted'>{t('noProjects')}</p>

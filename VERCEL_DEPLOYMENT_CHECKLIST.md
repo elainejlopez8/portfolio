@@ -48,7 +48,6 @@ Use this checklist when setting up or verifying Vercel deployments for this repo
 - [ ] Copy `.env.local.template` to `.env.local` if needed.
 - [ ] Set `GITHUB_TOKEN` in `.env.local` if you want authenticated repo data locally.
 - [ ] Set `VITE_GITHUB_USERNAME` in `.env.local` if you want public repo fallback locally.
-- [ ] Set `VITE_CODEPEN_USERNAME` in `.env.local` if you want CodePen content locally.
 - [ ] Run `yarn dev:vercel` when testing the frontend together with the API route.
 
 ## Verification
