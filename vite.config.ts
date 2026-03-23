@@ -23,6 +23,6 @@ export default defineConfig({
     sourcemap: false,
   },
   server: {
-    allowedHosts: ['localhost', 'devserver-main--elainejlopezportfolio.netlify.app'],
+    allowedHosts: ['localhost'],
   },
 });

@@ -25,8 +25,8 @@ dist-ssr
 *.sw?
 .vscode/settings.json
 
-# Local Netlify folder
-.netlify
+# Local deployment folder
+.vercel
 
 # Environment variable files
 .env.local

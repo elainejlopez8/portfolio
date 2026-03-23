@@ -1,21 +1,19 @@
 # Elaine Lopez Portfolio
 
-Personal portfolio site built with React, TypeScript, Vite, Tailwind CSS, and React Bootstrap.
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/d9ab6c78-1eaf-412d-892e-3b0603e7df49/deploy-status)](https://app.netlify.com/projects/elainejlopezportfolio/deploys)
-[![Deploy Netlify Production](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-production.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-production.yaml)
-[![Deploy Netlify Preview](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-preview.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-netlify-preview.yaml)
+Personal portfolio site built with React, TypeScript, Vite, Tailwind CSS, and Vercel.
 
 ## Tech stack
 
 - React 19
 - TypeScript
-- Vite
+- Vite 8
 - Tailwind CSS v4
-- React Bootstrap
-- React Router
+- Bootstrap 5 / React Bootstrap
+- Material UI
+- React Router 7
 - i18next / react-i18next
 - React Markdown
+- Vercel API Routes
 
 ## Prerequisites
 
@@ -26,33 +24,65 @@ Personal portfolio site built with React, TypeScript, Vite, Tailwind CSS, and Re
 
 ## Getting started
 
+Install dependencies and run the app with Vite:
+
 ```bash
 yarn install
 yarn dev
 ```
 
-The dev server will start with Vite.
+If you need the API route locally for the Projects page, run Vercel Dev instead:
+
+```bash
+yarn dev:vercel
+```
 
 ## Available scripts
 
-- `yarn dev` — start the local development server
-- `yarn build` — type-check and create a production build
-- `yarn preview` — preview the production build locally
-- `yarn lint` — run ESLint
-- `yarn prettier` — format the codebase with Prettier
+- `yarn dev` - start the Vite development server
+- `yarn dev:vercel` - run the site with Vercel API routes locally
+- `yarn build` - type-check and create a production build
+- `yarn preview` - preview the production build locally
+- `yarn lint` - run Prettier check and ESLint
+- `yarn lint:fix` - auto-fix formatting and lint issues where possible
+- `yarn prettier` - format the codebase with Prettier
+
+## App overview
+
+The home route renders a landing experience that expands into the main portfolio sections:
+
+- About Me
+- Projects
+- Resume
+
+The site also exposes standalone route views for direct navigation.
+
+## Routing
+
+Routes are defined in `src/App.tsx`:
+
+- `/` - home page with the progressive reveal layout
+- `/about-me` - about page
+- `/projects` - projects page
+- `/resume` - resume overview
+- `/resume/:resumeCategory` - a single resume category
+- `/resume/:resumeCategory/:resumeItem` - a single resume item card
 
 ## Project structure
 
-- `src/pages` — route-level pages such as Home, Projects, and Resume
-- `src/components` — reusable UI building blocks
-- `src/services/content/default` — portfolio copy and structured content
-- `src/hooks` — shared hooks such as content access helpers
-- `src/types` — shared TypeScript types
-- `src/index.css` — global styles, design tokens, and layout utilities
+- `src/pages` - route-level pages such as Home, Projects, and Resume
+- `src/components` - reusable UI components
+- `src/components/Resume` - resume timeline and card views
+- `src/services/content/default` - default portfolio copy and structured content
+- `src/services/content/i18n.ts` - translation initialization and content namespaces
+- `src/hooks` - shared hooks such as content access helpers
+- `src/types` - shared TypeScript types
+- `src/index.css` - global styles, design tokens, and layout utilities
+- `api` - Vercel API routes used by the frontend
 
 ## Content management
 
-Portfolio content is currently stored locally in:
+Portfolio content is stored locally in:
 
 - `src/services/content/default/aboutme.ts`
 - `src/services/content/default/projects.ts`
@@ -63,54 +93,86 @@ Translations are initialized in:
 
 - `src/services/content/i18n.ts`
 
-## Routing
+## Environment variables
 
-Current routes are defined in `src/App.tsx`:
+Use `.env.local` for local development. Start from `.env.local.template`.
 
-- `/` — home page
-- `/about-me` — about section page
-- `/projects` — projects page
-- `/resume` — resume page
+```env
+GITHUB_TOKEN=your_github_token_here
+VITE_GITHUB_USERNAME=your-github-username
+VITE_CODEPEN_USERNAME=your-codepen-username
+```
+
+- `GITHUB_TOKEN` is used by `api/github-repos.js` when you want authenticated GitHub repository data locally.
+- `VITE_GITHUB_USERNAME` lets the Projects page fall back to public GitHub repositories if the authenticated API route is not available.
+- `VITE_CODEPEN_USERNAME` enables the CodePen tab on the Projects page.
+
+Do not commit `.env.local` or any real secrets.
+
+## GitHub repo proxy
+
+The Projects page reads repository data through the Vercel API route in `api/github-repos.js`.
+
+- If `GITHUB_TOKEN` is set in Vercel, the API route can return authenticated repository data, including private repos.
+- If `GITHUB_TOKEN` is missing and `VITE_GITHUB_USERNAME` is set, the frontend falls back to public repos for that user.
+- The API route enriches repository data with `topics` and `homepage` values before returning it to the client.
+
+For Vercel, add `GITHUB_TOKEN` in Project Settings -> Environment Variables for both the `Preview` and `Production` environments. Use the minimum GitHub scope required for the repositories you want to expose.
 
 ## Deployment
 
-### Netlify deploys
+This project is configured for Vercel.
 
-This repository now includes [netlify.toml](netlify.toml) so Netlify can build and deploy the site without extra project-level configuration:
+`vercel.json` defines the SPA route rewrites for direct navigation:
 
+- `/about-me` -> `/`
+- `/projects/:path*` -> `/`
+- `/resume/:path*` -> `/`
+
+Vercel project settings:
+
+- framework preset: Vite
 - build command: `yarn build`
-- publish directory: `dist`
-- SPA fallback: all routes rewrite to `index.html`
+- output directory: `dist`
+- install command: `yarn install`
+- runtime environment variable in Vercel: `GITHUB_TOKEN`
 
-Production deploys are triggered manually through [deploy-netlify-production.yaml](.github/workflows/deploy-netlify-production.yaml). Preview deploys are triggered by [deploy-netlify-preview.yaml](.github/workflows/deploy-netlify-preview.yaml) for pull requests targeting `main`.
+GitHub Actions workflows:
 
-Configure GitHub environments like this:
+- `deploy-vercel-preview.yaml` deploys pull requests targeting `main` to the Vercel Preview environment
+- `deploy-vercel-production.yaml` manually deploys the latest `main` commit to the Vercel Production environment after GitHub environment approval
+- `lint.yaml` runs lint checks
+- `run-prettier.yaml` runs formatting checks
 
-1. Go to repository Settings > Environments.
-2. Create an environment named `production`.
-3. Create an environment named `preview`.
-4. In the `production` environment, add these secrets:
-   - `NETLIFY_PRODUCTION_AUTH_TOKEN` — personal access token from Netlify for production deploys.
-   - `NETLIFY_PRODUCTION_SITE_ID` — site ID for the production Netlify site.
-5. In the `preview` environment, add these secrets:
-   - `NETLIFY_PREVIEW_AUTH_TOKEN` — personal access token for preview deploys.
-   - `NETLIFY_PREVIEW_SITE_ID` — site ID for the preview Netlify site.
-6. Add required reviewers to the `production` environment if you want manual approval before production deploys.
-7. Restrict deployment branches for the `production` environment to `main`.
+GitHub environment secrets:
 
-You can find the site ID in Netlify under Site configuration > General > Site details.
+- `preview`: `VERCEL_PREVIEW_TOKEN`, `VERCEL_PREVIEW_ORG_ID`, `VERCEL_PREVIEW_PROJECT_ID`
+- `production`: `VERCEL_PRODUCTION_TOKEN`, `VERCEL_PRODUCTION_ORG_ID`, `VERCEL_PRODUCTION_PROJECT_ID`
 
-If you are not already connected to Netlify, create or open your site first:
+Vercel environment variables:
 
-1. Create or open your Netlify site.
-2. Copy the production site ID.
-3. Copy the preview site ID if previews use a separate site.
-4. Create Netlify personal access tokens.
-5. Add the production values to the GitHub `production` environment secrets.
-6. Add the preview values to the GitHub `preview` environment secrets.
-7. Trigger the production workflow manually when you want a live deploy.
+- `Preview`: `GITHUB_TOKEN`
+- `Production`: `GITHUB_TOKEN`
 
-After that, each pull request to `main` will create a Netlify preview deploy with the alias `pr-<pull-request-number>`. Production deploys must be started manually from GitHub Actions and will publish live only when the Netlify production context is unlocked.
+Where to get the Vercel values:
+
+- `VERCEL_*_TOKEN`: create a token in Vercel Account Settings -> Tokens
+- `VERCEL_*_ORG_ID`: copy the team or personal account ID from the Vercel dashboard or from `.vercel/project.json` after running `vercel link`
+- `VERCEL_*_PROJECT_ID`: copy the project ID from the Vercel dashboard or from `.vercel/project.json` after running `vercel link`
+
+In most cases the preview and production org/project IDs are the same because both workflows deploy the same Vercel project. The secret names are separate so the GitHub environments stay isolated.
+
+If you want Vercel local development parity, use `yarn dev:vercel` so both the frontend and API route run together.
+
+## Deployment flow
+
+1. Create or link the Vercel project.
+2. Add `GITHUB_TOKEN` to the Vercel `Preview` and `Production` environments.
+3. Add the Vercel secrets to the `preview` and `production` GitHub environments.
+4. Open a pull request against `main` to trigger the preview workflow.
+5. Run the production workflow manually when you want to deploy `main`.
+
+See `VERCEL_DEPLOYMENT_CHECKLIST.md` for a full setup and verification list.
 
 ## Import alias
 
@@ -128,7 +190,7 @@ Configured in:
 
 ## Design tokens
 
-Shared typography and layout tokens live in [src/index.css](src/index.css).
+Shared typography and layout tokens live in `src/index.css`.
 
 Use these semantic typography classes instead of one-off text utilities:
 
@@ -152,30 +214,6 @@ Use these layout classes so spacing scales with the same rhythm tokens:
 
 ## Notes
 
-- Styling combines Tailwind utility classes with shared CSS tokens in `src/index.css`.
+- Styling combines Tailwind utilities with shared CSS tokens in `src/index.css`.
 - Markdown-based rich text is rendered through `src/components/Markdown.tsx`.
 - Husky, lint-staged, Commitlint, and GitHub Actions are configured for formatting and linting workflows.
-
-## GitHub private repos (Netlify function)
-
-- **What:** A serverless proxy returns repository metadata server-side so the frontend can display public and private repos without embedding a token. See [netlify/functions/github-repos.js](netlify/functions/github-repos.js).
-- **Frontend:** The Projects UI calls the proxy via [src/components/ProjectCard.tsx](src/components/ProjectCard.tsx) and the page is wired in [src/pages/Projects.tsx](src/pages/Projects.tsx).
-- **Enable private repos (Netlify):** add `GITHUB_TOKEN` to your Netlify site environment variables (Site settings → Build & deploy → Environment → Add variable). The token needs `repo` scope (or use a GitHub App installation token configured for the repos).
-- **Local testing:** Configure your hosting provider's dev tools or run Netlify Dev if needed; see [netlify/functions/github-repos.js](netlify/functions/github-repos.js) for implementation details.
-
-- **Frontend env vars (optional):** you can also set these in a local `.env` (do NOT commit `.env`):
-
-```env
-VITE_GITHUB_USERNAME=your-github-username
-VITE_GITHUB_USE_AUTH=true
-```
-
-- `VITE_GITHUB_USERNAME` is a public client-side value (not a secret). Netlify secret scanning is configured to omit this key to avoid false positives when your public username appears in content or built assets.
-
-- **Vercel:** If you deploy to Vercel instead, create an API route (for example `api/github-repos.ts`) that proxies requests and set `GITHUB_TOKEN` in your Vercel project environment variables.
-- **Security & notes:**
-  - Never commit `GITHUB_TOKEN` or `.env` to the repo. Use the hosting platform's secret storage.
-  - For multi-user apps prefer OAuth or a GitHub App instead of a shared PAT.
-  - Limit token scopes to the minimum required (for private repo listing use `repo` scope).
-
-  - **Per-repo enrichment:** The function supports a `detailed=true` query parameter (for example `/api/github-repos?detailed=true`). When set, the function will make per-repo requests to enrich fields like `topics` and `homepage` from each repository's About section. This increases GitHub API usage and may require an authenticated `GITHUB_TOKEN` to avoid rate limits; use it only when needed.

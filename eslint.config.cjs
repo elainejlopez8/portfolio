@@ -16,7 +16,6 @@ module.exports = [
       '**/build/**',
       '**/node_modules/**',
       'server/**',
-      'netlify/functions/**',
     ],
   },
   {

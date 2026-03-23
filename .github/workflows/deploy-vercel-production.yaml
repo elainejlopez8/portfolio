@@ -1,4 +1,4 @@
-name: Deploy Netlify Production
+name: Deploy Vercel Production
 
 on:
   workflow_dispatch:
@@ -8,11 +8,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: netlify-production
+  group: vercel-production
   cancel-in-progress: true
 
 jobs:
   verify-production-approver:
+    if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-latest
 
     steps:
@@ -59,6 +60,7 @@ jobs:
 
   deploy:
     needs: verify-production-approver
+    if: ${{ !cancelled() && (github.event.repository.private || needs.verify-production-approver.result == 'success') }}
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -82,31 +84,49 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Build site
-        run: yarn build
-
-      - name: Verify Netlify secrets
+      - name: Verify Vercel secrets
         env:
-          HAS_NETLIFY_PRODUCTION_AUTH_TOKEN: ${{ secrets.NETLIFY_PRODUCTION_AUTH_TOKEN != '' }}
-          HAS_NETLIFY_PRODUCTION_SITE_ID: ${{ secrets.NETLIFY_PRODUCTION_SITE_ID != '' }}
+          HAS_VERCEL_PRODUCTION_TOKEN: ${{ secrets.VERCEL_PRODUCTION_TOKEN != '' }}
+          HAS_VERCEL_PRODUCTION_ORG_ID: ${{ secrets.VERCEL_PRODUCTION_ORG_ID != '' }}
+          HAS_VERCEL_PRODUCTION_PROJECT_ID: ${{ secrets.VERCEL_PRODUCTION_PROJECT_ID != '' }}
         run: |
-          if [[ "$HAS_NETLIFY_PRODUCTION_AUTH_TOKEN" != 'true' || "$HAS_NETLIFY_PRODUCTION_SITE_ID" != 'true' ]]; then
-            echo 'Missing NETLIFY_PRODUCTION_AUTH_TOKEN or NETLIFY_PRODUCTION_SITE_ID environment secret on the production environment.' >&2
+          if [[ "$HAS_VERCEL_PRODUCTION_TOKEN" != 'true' || "$HAS_VERCEL_PRODUCTION_ORG_ID" != 'true' || "$HAS_VERCEL_PRODUCTION_PROJECT_ID" != 'true' ]]; then
+            echo 'Missing VERCEL_PRODUCTION_TOKEN, VERCEL_PRODUCTION_ORG_ID, or VERCEL_PRODUCTION_PROJECT_ID secret on the production environment.' >&2
             exit 1
           fi
 
-      - name: Deploy to Netlify production if unlocked
+      - name: Pull Vercel production environment
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_PRODUCTION_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PRODUCTION_SITE_ID }}
-        run: yarn dlx --package netlify-cli@17.38.1 netlify deploy --dir=dist --prod-if-unlocked --message "GitHub Actions deploy ${GITHUB_SHA}"
+          VERCEL_TOKEN: ${{ secrets.VERCEL_PRODUCTION_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_PRODUCTION_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PRODUCTION_PROJECT_ID }}
+        run: yarn dlx --package vercel@latest vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+
+      - name: Build Vercel production artifacts
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_PRODUCTION_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_PRODUCTION_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PRODUCTION_PROJECT_ID }}
+        run: yarn dlx --package vercel@latest vercel build --prod --token="$VERCEL_TOKEN"
+
+      - name: Deploy production to Vercel
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_PRODUCTION_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_PRODUCTION_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PRODUCTION_PROJECT_ID }}
+        run: |
+          DEPLOYMENT_URL="$(yarn dlx --package vercel@latest vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" | tail -n 1)"
+          echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
 
       - name: Write deployment summary
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment_url }}
         run: |
           {
-            echo '## Netlify production deployment';
+            echo '## Vercel production deployment';
             echo '';
             echo 'This workflow is manual-only and always deploys the latest code from `main`.';
             echo 'Deployment approval is enforced by GitHub Environment protection on `production`.';
-            echo 'If Netlify production is locked, the deploy is created as a draft instead of publishing live.';
+            echo "Production URL: $DEPLOYMENT_URL";
           } >> "$GITHUB_STEP_SUMMARY"
