@@ -11,8 +11,8 @@ export default async function handler(request, response) {
       : typeof rawUsername === 'string'
         ? rawUsername
         : undefined;
-    const fallbackUsername =
-      process.env.GITHUB_USERNAME || process.env.VITE_GITHUB_USERNAME || DEFAULT_PUBLIC_GITHUB_USERNAME;
+    // Server-side fallback GitHub username: configure via GITHUB_USERNAME env var.
+    const fallbackUsername = process.env.GITHUB_USERNAME || DEFAULT_PUBLIC_GITHUB_USERNAME;
     const username = requestedUsername || (!githubToken ? fallbackUsername : undefined);
     const url = username
       ? `https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=100&sort=updated`
