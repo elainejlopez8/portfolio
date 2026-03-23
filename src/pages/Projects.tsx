@@ -211,7 +211,7 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
                   role='tab'
                   aria-selected={activeTab === tab.key}
                   onClick={() => setActiveTab(tab.key)}
-                  className={`me-3 w-full border-b-4 border-b-pink-500 px-1.5 py-2 text-sm! font-bold text-pink-500 md:w-1/5 md:text-base! lg:text-lg! ${activeTab === tab.key ? 'bg-pink-500 text-white md:rounded-t-lg!' : 'btn-outline-secondary'} md:hover:rounded-t-lg! hover:border-b-blue-300 hover:bg-blue-300 hover:text-white`}>
+                  className={`me-3 w-full border-b-4 border-b-pink-500 px-1.5 py-2 text-sm! font-bold text-pink-500 md:w-1/5 md:text-base! lg:text-lg! ${activeTab === tab.key ? 'bg-pink-500 text-white md:rounded-t-lg!' : 'btn-outline-secondary'} hover:border-b-blue-300 hover:bg-blue-300 hover:text-white md:hover:rounded-t-lg!`}>
                   {tab.label}
                 </button>
               ))}
