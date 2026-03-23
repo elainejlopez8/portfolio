@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   verify-production-approver:
+    if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-latest
 
     steps:
@@ -59,6 +60,7 @@ jobs:
 
   deploy:
     needs: verify-production-approver
+    if: ${{ !cancelled() && (github.event.repository.private || needs.verify-production-approver.result == 'success') }}
     runs-on: ubuntu-latest
     environment:
       name: production
