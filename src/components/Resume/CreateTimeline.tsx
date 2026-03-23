@@ -71,7 +71,7 @@ export default function CreateResumeTimeline({ details: details }: { details: st
               <Typography component='span' className='text-xl font-black text-blue-400'>
                 {content.educators[i].qualification}
               </Typography>
-              <Typography className='text:lg font-bold text-blue-300'>{content.educators[i].name}</Typography>
+              <Typography className='text-lg font-bold text-blue-300'>{content.educators[i].name}</Typography>
               <Typography className='text-base text-pink-300'>
                 {content.educators[i].start_date} - {content.educators[i].end_date}
               </Typography>
