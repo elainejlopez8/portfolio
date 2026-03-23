@@ -2,6 +2,7 @@ import { config as loadEnv } from 'dotenv';
 import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
+import process from 'node:process';
 
 const rootDir = resolve(import.meta.dirname, '..');
 const envLocalPath = resolve(rootDir, '.env.local');
