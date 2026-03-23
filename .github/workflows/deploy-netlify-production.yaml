@@ -4,15 +4,61 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: read
-  issues: write
 
 concurrency:
   group: netlify-production
   cancel-in-progress: true
 
 jobs:
+  verify-production-approver:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify production environment requires repository owner approval
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const envName = 'production';
+            const repoOwner = context.repo.owner.toLowerCase();
+
+            const { data: environment } = await github.request(
+              'GET /repos/{owner}/{repo}/environments/{environment_name}',
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                environment_name: envName,
+              },
+            );
+
+            const requiredReviewersRule =
+              environment.protection_rules?.find((rule) => rule.type === 'required_reviewers');
+
+            if (!requiredReviewersRule) {
+              core.setFailed(
+                `Environment \"${envName}\" must have required reviewers configured, including @${context.repo.owner}.`,
+              );
+              return;
+            }
+
+            const configuredUserReviewers =
+              requiredReviewersRule.reviewers
+                ?.filter((reviewer) => reviewer.type === 'User')
+                .map((reviewer) => reviewer.reviewer?.login?.toLowerCase())
+                .filter(Boolean) ?? [];
+
+            if (!configuredUserReviewers.includes(repoOwner)) {
+              core.setFailed(
+                `Environment \"${envName}\" required reviewers must include @${context.repo.owner}. Current user reviewers: ${configuredUserReviewers.join(', ') || '(none)'}.`,
+              );
+              return;
+            }
+
+            core.info(`Environment \"${envName}\" includes @${context.repo.owner} as a required reviewer.`);
+
   deploy:
+    needs: verify-production-approver
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -49,15 +95,6 @@ jobs:
             exit 1
           fi
 
-      - name: Require GitHub owner approval
-        uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ secrets.GITHUB_TOKEN }}
-          approvers: ${{ github.repository_owner }}
-          minimum-approvals: 1
-          issue-title: 'Production deploy approval required'
-          issue-body: 'Approve this workflow run to continue deploying to Netlify production.'
-
       - name: Deploy to Netlify production if unlocked
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_PRODUCTION_AUTH_TOKEN }}
@@ -70,5 +107,6 @@ jobs:
             echo '## Netlify production deployment';
             echo '';
             echo 'This workflow is manual-only and always deploys the latest code from `main`.';
+            echo 'Deployment approval is enforced by GitHub Environment protection on `production`.';
             echo 'If Netlify production is locked, the deploy is created as a draft instead of publishing live.';
           } >> "$GITHUB_STEP_SUMMARY"
