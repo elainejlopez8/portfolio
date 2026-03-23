@@ -1,5 +1,6 @@
 import landing from '@/assets/landing.png';
 import { useContent } from '@/hooks/useContent';
+import clsx from 'clsx';
 import { type CSSProperties, type MouseEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { FaFigma, FaNodeJs, FaNpm, FaReact } from 'react-icons/fa6';
@@ -122,34 +123,20 @@ const HomeHeader = ({ onLearnMore, showContent = true }: { onLearnMore?: () => v
   return (
     <Container
       fluid='lg'
-      className='home-header-shell'
+      className={clsx({ 'home-header-shell--initial': !showContent, 'home-header-shell': showContent })}
       id='home'
-      ref={containerRef}
-      style={
-        !showContent
-          ? {
-              minHeight: '100dvh',
-              height: '100dvh',
-              width: '100%',
-              maxWidth: '100%',
-              overflow: 'hidden',
-              margin: 0,
-              padding: 0,
-              display: 'flex',
-              alignItems: 'stretch',
-              justifyContent: 'stretch',
-            }
-          : undefined
-      }>
+      ref={containerRef}>
       <div
         className='home-header'
         style={{
-          ...homeHeaderStyle,
+          ...(showContent && { ...homeHeaderStyle }),
           minHeight: !showContent ? '100dvh' : undefined,
           height: !showContent ? '100dvh' : undefined,
-          width: !showContent ? '100vw' : undefined,
-          maxWidth: !showContent ? '100vw' : undefined,
+          width: !showContent ? '100%' : undefined,
+          maxWidth: !showContent ? '100%' : undefined,
           overflow: !showContent ? 'hidden' : undefined,
+          margin: !showContent ? 0 : undefined,
+          justifyContent: !showContent ? 'center' : undefined,
         }}>
         <div className='home-header-copy'>
           <p className='type-body'>{tg('helloWorld')}</p>
