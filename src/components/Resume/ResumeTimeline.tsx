@@ -1,5 +1,5 @@
 import { useContent } from '@/hooks/useContent';
-import { ResumeCategories } from '@/types';
+import { ResumeCategories, type ResumeTimelineProps } from '@/types';
 import {
   Timeline,
   TimelineConnector,
@@ -15,10 +15,6 @@ import { MdWork } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { JSX } from 'react/jsx-runtime';
 import Markdown from '../Markdown';
-interface ResumeTimelineProps {
-  details: string;
-  category?: ResumeCategories;
-}
 
 export default function ResumeTimeline({ details, category }: ResumeTimelineProps) {
   const { t } = useContent('resume');

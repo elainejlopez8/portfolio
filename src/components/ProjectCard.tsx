@@ -1,12 +1,7 @@
 import { useContent } from '@/hooks/useContent';
-import { Repo } from '@/types';
+import type { ProjectCardProps } from '@/types';
 import { startCase } from 'lodash';
 import React from 'react';
-
-interface CardProps {
-  r: Repo;
-  variant?: 'archived' | 'wip' | 'completed';
-}
 
 const variantStyles = {
   archived: {
@@ -32,7 +27,7 @@ const variantStyles = {
   },
 } as const;
 
-const ProjectCard: React.FC<CardProps> = ({ r, variant = 'wip' }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ r, variant = 'wip' }) => {
   const { t } = useContent('projects');
   const styles = variantStyles[variant];
   const projectName = String(r.name || '');

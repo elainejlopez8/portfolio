@@ -1,20 +1,65 @@
-import { ResumeCategories } from '@/types';
+import { useContent } from '@/hooks/useContent';
+import {
+  ResumeCategories,
+  type Certification,
+  type Certifications,
+  type Education,
+  type EmploymentContent,
+  type Role,
+} from '@/types';
 import { camelCase, kebabCase } from 'lodash';
 import { Container } from 'react-bootstrap';
 import { MdArrowBackIosNew } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
 import { JSX } from 'react/jsx-runtime';
-import { useResumeContent } from './hooks';
 
 function ResumeCard(): JSX.Element | null {
   const { resumeCategory, resumeItem } = useParams<{ resumeCategory?: string; resumeItem?: string }>();
   const category = camelCase(resumeCategory ?? '') as ResumeCategories;
   const itemKey = kebabCase(resumeItem ?? '');
-  const content = useResumeContent(category, itemKey);
+  const { t } = useContent('resume');
 
-  if (!content) return null;
+  const resumeContent = t(category, { returnObjects: true }) as
+    | EmploymentContent
+    | Education[]
+    | Certifications
+    | Record<string, unknown>;
 
-  const { title, subtitle, date, description, team } = content;
+  type Item = Role & { company?: string } & Partial<Education> & Partial<Certification> & Record<string, unknown>;
+
+  let item: Item = {} as Item;
+
+  if (category === ResumeCategories.employmentHistory) {
+    const companies = (resumeContent as EmploymentContent)?.companies ?? [];
+    for (const company of companies) {
+      const match = (company.roles ?? []).find((r) => r.title === itemKey || kebabCase(r.title) === kebabCase(itemKey));
+      if (match) {
+        item = { ...match, company: company.company } as Item;
+        break;
+      }
+    }
+  } else if (category === ResumeCategories.education) {
+    const education = resumeContent as Education[];
+    item = (education ?? []).find((e) => e.name === itemKey || kebabCase(e.name) === kebabCase(itemKey)) as Item;
+    if (!item) item = {} as Item;
+  } else if (category === ResumeCategories.certifications) {
+    const certs = (resumeContent as Certifications)?.certs ?? [];
+    item = (certs.find((c) => c.name === itemKey || kebabCase(c.name) === kebabCase(itemKey)) as Item) || ({} as Item);
+  } else {
+    const rc = resumeContent as Record<string, unknown>;
+    const direct = rc[itemKey] ?? rc[kebabCase(itemKey)];
+    item = (direct as Item) || ({} as Item);
+  }
+
+  const title = (item.title as string) || (item.name as string) || (item.school as string) || '';
+  const subtitle = (item.company as string) || (item.certifier as string) || (item.qualification as string) || '';
+  const start = (item.start_date as string) || '';
+  const end = (item.end_date as string) || '';
+  const date = start || end ? start + (end ? ' - ' + end : '') : (item.date as string) || '';
+  const description = (item.description as string) || '';
+  const team = (item.team as string) || '';
+
+  if (!title && !subtitle && !date && !description && !team) return null;
 
   return (
     <Container fluid='lg' className='flex flex-col gap-y-5'>

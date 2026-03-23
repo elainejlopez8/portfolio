@@ -1,19 +1,47 @@
 import { usePageLayout } from '@/components/PageLayout';
-import { ResumeSection } from '@/components/Resume/ResumeSection';
+import ResumeTimeline from '@/components/Resume/ResumeTimeline';
 import { useContent } from '@/hooks/useContent';
 import type { CONTENT_KEYS } from '@/services/content/i18n';
-import { ResumeCategories, type PageProps } from '@/types';
+import { ResumeCategories, type PageProps, type ResumeSectionProps } from '@/types';
 import { camelCase, kebabCase } from 'lodash';
 import { JSX, useEffect, useMemo } from 'react';
 import { Button, Container, Tab, Tabs } from 'react-bootstrap';
 import { PiDownloadSimpleBold } from 'react-icons/pi';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const DEFAULT_SECTION_ID = 'resume';
 const DEFAULT_TITLE = 'Resume';
 const iconMap: Record<string, JSX.Element> = {
   PiDownloadSimpleBold: <PiDownloadSimpleBold />,
 };
+
+function ResumeSection({ category, useH1 = false }: ResumeSectionProps) {
+  const { t } = useContent('resume');
+  const sectionTitle = category
+    .replace(/([A-Z])/g, ' $1')
+    .trim()
+    .replace(/^./, (s) => s.toUpperCase());
+  const details = JSON.stringify(t(category, { returnObjects: true }));
+
+  return (
+    <>
+      {useH1 ? (
+        <h1 className='text-6xl uppercase md:text-7xl'>
+          <Link to='/resume'>{sectionTitle}</Link>
+        </h1>
+      ) : (
+        <h2 className='text-3xl uppercase md:text-4xl'>
+          <Link to={`/resume/${kebabCase(category)}`}>{sectionTitle}</Link>
+        </h2>
+      )}
+      <div className='resume-section mt-4'>
+        <div className='resume-section-content'>
+          <ResumeTimeline details={details} category={category} />
+        </div>
+      </div>
+    </>
+  );
+}
 
 const Resume = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: PageProps) => {
   const { setLoaded } = usePageLayout();
