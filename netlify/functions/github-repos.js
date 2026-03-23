@@ -91,8 +91,6 @@ const handler = async (event) => {
         }
       }
     }
-
-    // Always return enriched results
     return { statusCode: 200, body: JSON.stringify(trimmed, null, 2) };
   } catch (err) {
     return { statusCode: 500, body: JSON.stringify({ error: err.message || String(err) }) };
