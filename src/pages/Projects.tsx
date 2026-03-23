@@ -64,6 +64,13 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
         if (!mounted) return;
         setRepos(publicRepos);
       } catch (authError: unknown) {
+        // If we never attempted an authenticated request, avoid retrying the same public request.
+        if (!shouldUseAuth) {
+          if (!mounted) return;
+          const message = authError instanceof Error ? authError.message : 'Failed to load GitHub repos';
+          setError(message);
+          return;
+        }
         if (!githubUsername) {
           if (!mounted) return;
           setError(authError instanceof Error ? authError.message : 'Failed to load GitHub repos');
