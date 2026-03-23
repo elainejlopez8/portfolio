@@ -63,15 +63,17 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
           <time className='mb-2 block text-base text-blue-300' dateTime={`${item?.start_date || ''}`}>
             {item?.start_date} {item?.end_date ? ' - ' + item?.end_date : ''}
           </time>
-          {item?.description && item.description.length > 1 ? (
+          {Array.isArray(item?.description) && item.description.length > 1 ? (
             <ul className='text-muted list-disc text-left text-base'>
-              {item.description.map((i: string, idx: number) => (
-                <li key={idx}>{i}</li>
+              {item.description.map((descItem: string, idx: number) => (
+                <li key={idx}>{descItem}</li>
               ))}
             </ul>
-          ) : (
-            <p className='text-muted text-base'>{item.description[0]}</p>
-          )}
+          ) : item?.description ? (
+            <p className='text-muted text-base'>
+              {Array.isArray(item.description) ? item.description[0] : item.description}
+            </p>
+          ) : null}
         </article>
       );
     }
