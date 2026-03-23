@@ -1,8 +1,9 @@
 import { get, head, put } from '@vercel/blob';
 import { vercelLog } from '../lib/vercel-log.js';
-import { content as localContent } from '../src/services/content/default';
 
-const ALLOWED_NAMESPACES = new Set(['general', 'aboutMe', 'projects', 'resume'] as const);
+const ALLOWED_NAMESPACE_VALUES = ['general', 'aboutMe', 'projects', 'resume'] as const;
+type AllowedNamespace = (typeof ALLOWED_NAMESPACE_VALUES)[number];
+const ALLOWED_NAMESPACES = new Set(ALLOWED_NAMESPACE_VALUES);
 
 const coercePayload = (body: unknown) => {
   if (!body) {
@@ -39,21 +40,21 @@ const coercePayload = (body: unknown) => {
 const normalizeEntries = (body: Record<string, unknown>) => {
   if (Array.isArray(body.entries)) {
     return body.entries.filter(
-      (entry): entry is { namespace: keyof typeof localContent; content: unknown } =>
+      (entry): entry is { namespace: AllowedNamespace; content: unknown } =>
         Boolean(entry) &&
         typeof entry === 'object' &&
         typeof entry.namespace === 'string' &&
-        ALLOWED_NAMESPACES.has(entry.namespace as keyof typeof localContent) &&
+        ALLOWED_NAMESPACES.has(entry.namespace as AllowedNamespace) &&
         Object.prototype.hasOwnProperty.call(entry, 'content')
     );
   }
 
   if (
     typeof body.namespace === 'string' &&
-    ALLOWED_NAMESPACES.has(body.namespace as keyof typeof localContent) &&
+    ALLOWED_NAMESPACES.has(body.namespace as AllowedNamespace) &&
     Object.prototype.hasOwnProperty.call(body, 'content')
   ) {
-    return [{ namespace: body.namespace as keyof typeof localContent, content: body.content }];
+    return [{ namespace: body.namespace as AllowedNamespace, content: body.content }];
   }
 
   return [];
@@ -87,10 +88,10 @@ const parseBlobJson = (text: string) => {
   }
 };
 
-const getLocalContentResponse = (namespace: keyof typeof localContent) => ({
+const getLocalContentResponse = (namespace: AllowedNamespace) => ({
   namespace,
   source: 'local',
-  content: localContent[namespace],
+  content: null,
 });
 
 export default async function handler(request, response) {
@@ -103,11 +104,11 @@ export default async function handler(request, response) {
     const rawNamespace = request.query?.namespace;
     const namespace = Array.isArray(rawNamespace) ? rawNamespace[0] : rawNamespace;
 
-    if (typeof namespace !== 'string' || !ALLOWED_NAMESPACES.has(namespace as keyof typeof localContent)) {
+    if (typeof namespace !== 'string' || !ALLOWED_NAMESPACES.has(namespace as AllowedNamespace)) {
       return response.status(400).json({ error: 'Invalid namespace' });
     }
 
-    const typedNamespace = namespace as keyof typeof localContent;
+    const typedNamespace = namespace as AllowedNamespace;
 
     try {
       const blobMetadata = await head(`content/${typedNamespace}.json`);
