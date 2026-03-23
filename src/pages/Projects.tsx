@@ -103,7 +103,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
     const topics = Array.isArray(r.topics) ? r.topics.map((topic) => (topic || '').toLowerCase()) : [];
 
     if (
-      (r as any).completed ||
       /(completed|done|finished)/.test(name) ||
       /(completed|done|finished)/.test(desc) ||
       topics.some((topic) => /(completed|done|finished)/.test(topic))
@@ -112,7 +111,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
 
     const updated = r.updated_at ? new Date(r.updated_at) : null;
     if (
-      r.archived ||
       /(archived|unfinished|incomplete)/.test(name) ||
       /(archived|unfinished|incomplete)/.test(desc) ||
       topics.some((topic) => /(archived|unfinished|incomplete)/.test(topic))
@@ -141,9 +139,16 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
 
   if (repos) {
     if (hasCompletedFlag) {
-      completed = repos.filter((r) => (r as any).completed && !r.archived);
-      wip = repos.filter((r) => !(r as any).completed && !r.archived);
-      unfinished = repos.filter((r) => r.archived);
+      completed = repos.filter(
+        (r) =>
+          r.topics && (r.topics.includes('completed') || r.topics.includes('finished') || r.topics.includes('done'))
+      );
+      wip = repos.filter((r) => r.topics && (r.topics.includes('wip') || r.topics.includes('in-progress')));
+      unfinished = repos.filter(
+        (r) =>
+          r.topics &&
+          (r.topics.includes('archived') || r.topics.includes('unfinished') || r.topics.includes('incomplete'))
+      );
     } else {
       const explicitUnfinished = repos.filter(
         (r) =>
@@ -152,9 +157,9 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
       );
       const explicitUnfinishedIds = new Set(explicitUnfinished.map((r) => r.id));
 
-      unfinished = repos.filter((r) => r.archived || explicitUnfinishedIds.has(r.id));
-      wip = repos.filter((r) => isWip(r) && !r.archived && !explicitUnfinishedIds.has(r.id));
-      completed = repos.filter((r) => !isWip(r) && !r.archived && !explicitUnfinishedIds.has(r.id));
+      unfinished = repos.filter((r) => explicitUnfinishedIds.has(r.id));
+      wip = repos.filter((r) => isWip(r) && !explicitUnfinishedIds.has(r.id));
+      completed = repos.filter((r) => !isWip(r) && !explicitUnfinishedIds.has(r.id));
     }
   }
 
