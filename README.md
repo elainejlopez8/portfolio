@@ -114,8 +114,6 @@ VITE_GITHUB_USERNAME=your-github-username
 
 Do not commit `.env.local` or any real secrets.
 
-CodePen does not provide a traditional public API for listing pens. Private pens are only possible here if `api/codepen-projects.js` talks to an authenticated upstream that you control or can access.
-
 ## GitHub repo proxy
 
 The Projects page reads repository data through the Vercel API route in `api/github-repos.js`.
