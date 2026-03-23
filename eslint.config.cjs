@@ -41,9 +41,17 @@ module.exports = [
         ecmaVersion: 2020,
         sourceType: 'module',
         ecmaFeatures: { jsx: true },
-        project: ['./tsconfig.app.json', './tsconfig.node.json'],
+        project: ['./tsconfig.eslint.json'],
       },
       globals: globals.browser,
+    },
+  },
+  {
+    files: ['api/**/*.js', 'scripts/**/*.js', 'vite.config.ts', 'eslint.config.cjs'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
     },
   },
   {
