@@ -13,6 +13,7 @@ import { Container } from 'react-bootstrap';
 const DEFAULT_SECTION_ID = 'projects';
 const DEFAULT_TITLE = 'Projects';
 const GITHUB_REPOS_ENDPOINT = '/api/github-repos';
+const DEFAULT_GITHUB_USERNAME = 'elainejlopez8';
 
 const mapCodePenItem = (item: CodePenApiItem): CodePenProject => ({
   url: item.link || item.pen_link || item.url || '#',
@@ -32,34 +33,61 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
   useEffect(() => {
     let mounted = true;
 
+    async function fetchGithubRepos(username?: string) {
+      const url = username
+        ? `${GITHUB_REPOS_ENDPOINT}?username=${encodeURIComponent(username)}`
+        : GITHUB_REPOS_ENDPOINT;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        const errorMessage = body && body.error ? String(body.error) : `GitHub proxy: ${response.status}`;
+        throw new Error(errorMessage);
+      }
+
+      return (await response.json()) as Repo[];
+    }
+
     async function fetchGithub() {
+      const githubUsername = import.meta.env.VITE_GITHUB_USERNAME || DEFAULT_GITHUB_USERNAME;
+      const shouldUseAuth = import.meta.env.VITE_GITHUB_USE_AUTH !== 'false';
+
       try {
-        const res = await fetch(GITHUB_REPOS_ENDPOINT);
-        if (res.ok) {
-          const data: Repo[] = await res.json();
+        if (shouldUseAuth) {
+          const data = await fetchGithubRepos();
           if (!mounted) return;
           setRepos(data);
           return;
         }
 
-        const body = await res.json().catch(() => ({}));
-        const errMsg = body && body.error ? String(body.error) : `GitHub proxy: ${res.status}`;
-        const githubUsername = import.meta.env.VITE_GITHUB_USERNAME || '';
-
-        if (errMsg.includes('GITHUB_TOKEN') && githubUsername) {
-          const res2 = await fetch(`${GITHUB_REPOS_ENDPOINT}?username=${encodeURIComponent(githubUsername)}`);
-          if (!res2.ok) throw new Error(`GitHub proxy: ${res2.status}`);
-          const data2: Repo[] = await res2.json();
-
+        const publicRepos = await fetchGithubRepos(githubUsername);
+        if (!mounted) return;
+        setRepos(publicRepos);
+      } catch (authError: unknown) {
+        // If we never attempted an authenticated request, avoid retrying the same public request.
+        if (!shouldUseAuth) {
           if (!mounted) return;
-          setRepos(data2);
+          const message = authError instanceof Error ? authError.message : 'Failed to load GitHub repos';
+          setError(message);
+          return;
+        }
+        if (!githubUsername) {
+          if (!mounted) return;
+          setError(authError instanceof Error ? authError.message : 'Failed to load GitHub repos');
           return;
         }
 
-        throw new Error(errMsg);
-      } catch (e: unknown) {
-        if (!mounted) return;
-        setError(e instanceof Error ? e.message : 'Failed to load GitHub repos');
+        try {
+          const publicRepos = await fetchGithubRepos(githubUsername);
+          if (!mounted) return;
+          setRepos(publicRepos);
+        } catch (publicError: unknown) {
+          if (!mounted) return;
+
+          const message = publicError instanceof Error ? publicError.message : 'Failed to load GitHub repos';
+          const authMessage = authError instanceof Error ? authError.message : null;
+          setError(authMessage && authMessage !== message ? `${message} (${authMessage})` : message);
+        }
       } finally {
         if (!mounted) return;
         setLoading(false);
@@ -112,13 +140,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
   const wip: Repo[] = repos
     ? repos.filter((r) => r.topics && (r.topics.includes('wip') || r.topics.includes('in-progress')))
     : [];
-  const unfinished: Repo[] = repos
-    ? repos.filter(
-        (r) =>
-          r.topics &&
-          (r.topics.includes('archived') || r.topics.includes('unfinished') || r.topics.includes('incomplete'))
-      )
-    : [];
 
   const groupByType = (arr: Repo[]) =>
     arr.reduce(
@@ -131,7 +152,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
       {} as Record<string, Repo[]>
     );
 
-  const unfinishedGroups = groupByType(unfinished);
   const wipGroups = groupByType(wip);
   const completedGroups = groupByType(completed);
   const hasGithubProjects = Boolean(repos && repos.length > 0);
@@ -163,7 +183,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
                 { key: 'all', label: t('all') },
                 { key: 'wip', label: t('wip') },
                 { key: 'completed', label: t('completed') },
-                { key: 'unfinished', label: t('unfinished') },
                 { key: 'codepen', label: t('codepenTitle') },
               ].map((tab) => (
                 <button
@@ -212,23 +231,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
                     </div>
                   ))}
                 </section>
-              )}
-
-              {(activeTab === 'all' || activeTab === 'unfinished') && Object.keys(unfinishedGroups).length > 0 ? (
-                <section className='mb-6'>
-                  {activeTab === 'all' && <h2 className='mb-6 text-blue-500!'>{t('unfinished')}</h2>}
-                  {Object.keys(unfinishedGroups).map((type) => (
-                    <div key={`unfinished-group-${type}`} className='mb-4'>
-                      <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
-                        {unfinishedGroups[type].map((r) => (
-                          <ProjectCard key={`archived-${r.id}`} r={r} variant='archived' />
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </section>
-              ) : (
-                activeTab === 'unfinished' && <p className='text-muted'>{t('noUnfinished')}</p>
               )}
             </>
           )}

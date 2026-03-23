@@ -1,4 +1,4 @@
-import { vercelLog } from './_lib/vercel-log';
+import { vercelLog } from '../lib/vercel-log.js';
 
 const ALLOWED_LEVELS = new Set(['debug', 'info', 'warn', 'error']);
 
