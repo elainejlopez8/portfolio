@@ -44,7 +44,7 @@ const Home = () => {
     return (
       <PageLayout onlyShowChildren>
         <Suspense fallback={null}>
-          <HomeHeader onLearnMore={handleLearnMore} showMainContent={showMainContent} />
+          <HomeHeader onLearnMore={handleLearnMore} showContent={showMainContent} />
         </Suspense>
       </PageLayout>
     );
@@ -54,7 +54,7 @@ const Home = () => {
     <PageLayout>
       <div className='layout-stack flex w-full flex-col'>
         <Suspense fallback={null}>
-          <HomeHeader showMainContent={showMainContent} />
+          <HomeHeader showContent={showMainContent} />
         </Suspense>
         <AboutMe />
         <Projects />
