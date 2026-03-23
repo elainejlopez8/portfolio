@@ -4,15 +4,61 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: read
-  issues: write
 
 concurrency:
   group: netlify-production
   cancel-in-progress: true
 
 jobs:
+  verify-production-approver:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify production environment requires repository owner approval
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const envName = 'production';
+            const repoOwner = context.repo.owner.toLowerCase();
+
+            const { data: environment } = await github.request(
+              'GET /repos/{owner}/{repo}/environments/{environment_name}',
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                environment_name: envName,
+              },
+            );
+
+            const requiredReviewersRule =
+              environment.protection_rules?.find((rule) => rule.type === 'required_reviewers');
+
+            if (!requiredReviewersRule) {
+              core.setFailed(
+                `Environment \"${envName}\" must have required reviewers configured, including @${context.repo.owner}.`,
+              );
+              return;
+            }
+
+            const configuredUserReviewers =
+              requiredReviewersRule.reviewers
+                ?.filter((reviewer) => reviewer.type === 'User')
+                .map((reviewer) => reviewer.reviewer?.login?.toLowerCase())
+                .filter(Boolean) ?? [];
+
+            if (!configuredUserReviewers.includes(repoOwner)) {
+              core.setFailed(
+                `Environment \"${envName}\" required reviewers must include @${context.repo.owner}. Current user reviewers: ${configuredUserReviewers.join(', ') || '(none)'}.`,
+              );
+              return;
+            }
+
+            core.info(`Environment \"${envName}\" includes @${context.repo.owner} as a required reviewer.`);
+
   deploy:
+    needs: verify-production-approver
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -50,7 +96,7 @@ jobs:
           fi
 
       - name: Require GitHub owner approval
-        uses: trstringer/manual-approval@v1
+        uses: trstringer/manual-approval@38dcf9658c1101031a7111c091ce5f87982917d3
         with:
           secret: ${{ secrets.GITHUB_TOKEN }}
           approvers: ${{ github.repository_owner }}
