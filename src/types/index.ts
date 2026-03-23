@@ -20,12 +20,12 @@ export enum ResumeCategories {
 }
 
 export type Repo = {
-  description?: string;
+  description?: string | null;
   id: number | string;
-  language?: string;
+  language?: string | null;
   name: string;
-  prod_url?: string;
-  repo_url?: string;
+  prod_url?: string | null;
+  repo_url?: string | null;
   topics?: string[];
   updated_at?: string;
 };
