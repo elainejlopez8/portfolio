@@ -1,0 +1,87 @@
+name: Deploy Vercel Preview
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vercel-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-preview:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: preview
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: yarn
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Verify Vercel secrets
+        env:
+          HAS_VERCEL_PREVIEW_TOKEN: ${{ secrets.VERCEL_PREVIEW_TOKEN != '' }}
+          HAS_VERCEL_PREVIEW_ORG_ID: ${{ secrets.VERCEL_PREVIEW_ORG_ID != '' }}
+          HAS_VERCEL_PREVIEW_PROJECT_ID: ${{ secrets.VERCEL_PREVIEW_PROJECT_ID != '' }}
+        run: |
+          if [[ "$HAS_VERCEL_PREVIEW_TOKEN" != 'true' || "$HAS_VERCEL_PREVIEW_ORG_ID" != 'true' || "$HAS_VERCEL_PREVIEW_PROJECT_ID" != 'true' ]]; then
+            echo 'Missing VERCEL_PREVIEW_TOKEN, VERCEL_PREVIEW_ORG_ID, or VERCEL_PREVIEW_PROJECT_ID secret on the preview environment.' >&2
+            exit 1
+          fi
+
+      - name: Pull Vercel preview environment
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_PREVIEW_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_PREVIEW_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PREVIEW_PROJECT_ID }}
+        run: yarn dlx --package vercel@latest vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
+
+      - name: Build Vercel preview artifacts
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_PREVIEW_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_PREVIEW_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PREVIEW_PROJECT_ID }}
+        run: yarn dlx --package vercel@latest vercel build --token="$VERCEL_TOKEN"
+
+      - name: Deploy preview to Vercel
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_PREVIEW_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_PREVIEW_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PREVIEW_PROJECT_ID }}
+        run: |
+          DEPLOYMENT_URL="$(yarn dlx --package vercel@latest vercel deploy --prebuilt --token="$VERCEL_TOKEN" | tail -n 1)"
+          echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Write job summary
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment_url }}
+        run: |
+          {
+            echo '## Vercel preview deploy';
+            echo '';
+            echo "Preview URL: $DEPLOYMENT_URL";
+          } >> "$GITHUB_STEP_SUMMARY"

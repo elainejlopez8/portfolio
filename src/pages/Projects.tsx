@@ -11,6 +11,7 @@ import { Container } from 'react-bootstrap';
 
 const DEFAULT_SECTION_ID = 'projects';
 const DEFAULT_TITLE = 'Projects';
+const GITHUB_REPOS_ENDPOINT = '/api/github-repos';
 
 const mapCodePenItem = (item: CodePenApiItem): CodePenProject => ({
   url: item.link || item.pen_link || item.url || '#',
@@ -32,7 +33,7 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
 
     async function fetchGithub() {
       try {
-        const res = await fetch('/.netlify/functions/github-repos');
+        const res = await fetch(GITHUB_REPOS_ENDPOINT);
         if (res.ok) {
           const data: Repo[] = await res.json();
           if (!mounted) return;
@@ -45,7 +46,7 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
         const githubUsername = import.meta.env.VITE_GITHUB_USERNAME || '';
 
         if (errMsg.includes('GITHUB_TOKEN') && githubUsername) {
-          const res2 = await fetch(`/.netlify/functions/github-repos?username=${encodeURIComponent(githubUsername)}`);
+          const res2 = await fetch(`${GITHUB_REPOS_ENDPOINT}?username=${encodeURIComponent(githubUsername)}`);
           if (!res2.ok) throw new Error(`GitHub proxy: ${res2.status}`);
           const data2: Repo[] = await res2.json();
 

@@ -1,6 +1,6 @@
 import landing from '@/assets/landing.png';
 import { useContent } from '@/hooks/useContent';
-import { type CSSProperties, type MouseEvent, type ReactNode, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, type MouseEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { FaFigma, FaNodeJs, FaNpm, FaReact } from 'react-icons/fa6';
 import { PiCodepenLogoBold, PiGithubLogoBold } from 'react-icons/pi';
@@ -24,27 +24,17 @@ const HOME_HEADER_MIN_SCALE = 0.82;
 const HOME_HEADER_SHRINK_DISTANCE_FACTOR = 0.95;
 const HOME_HEADER_SHELL_EXTRA_HEIGHT = 'clamp(10rem, 16vw, 18rem)';
 
-type HomeHeaderProps = {
-  onLearnMore?: () => void;
-  showMainContent?: boolean;
-};
-
-const HomeHeader = ({ onLearnMore, showMainContent }: HomeHeaderProps) => {
+const HomeHeader = ({ onLearnMore, showContent = true }: { onLearnMore?: () => void; showContent?: boolean }) => {
   const { t: tg } = useContent('general');
   const { t } = useContent('aboutMe');
-  const aboutMeHref = `${import.meta.env.BASE_URL}#aboutMe`;
   const footerLinks = tg('footer.urls', { returnObjects: true }) as Array<{
     href: string;
     icon?: string;
     alt?: string;
   }>;
   const socialLinks = footerLinks.filter((link) => link.alt !== 'Email');
-  const webExperienceIcons = tg('header.web.icons', {
-    returnObjects: true,
-  }) as string[];
-  const designExperienceIcons = tg('header.design.icons', {
-    returnObjects: true,
-  }) as string[];
+  const webExperienceIcons = tg('header.web.icons', { returnObjects: true }) as string[];
+  const designExperienceIcons = tg('header.design.icons', { returnObjects: true }) as string[];
 
   const [isNavigatingToAbout, setIsNavigatingToAbout] = useState(false);
   const [shrinkProgress, setShrinkProgress] = useState(0);
@@ -52,6 +42,10 @@ const HomeHeader = ({ onLearnMore, showMainContent }: HomeHeaderProps) => {
   const scrollTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
+    if (!showContent) {
+      setShrinkProgress(0);
+      return;
+    }
     const handleScroll = () => {
       const container = containerRef.current;
 
@@ -86,7 +80,7 @@ const HomeHeader = ({ onLearnMore, showMainContent }: HomeHeaderProps) => {
         window.clearTimeout(scrollTimeoutRef.current);
       }
     };
-  }, []);
+  }, [showContent]);
 
   const handleScrollToAbout = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -97,140 +91,116 @@ const HomeHeader = ({ onLearnMore, showMainContent }: HomeHeaderProps) => {
 
     setIsNavigatingToAbout(true);
 
-    if (onLearnMore) {
-      onLearnMore();
-    }
-    // Wait for the About section to render, then animate scroll to it.
-    let attempts = 0;
-
-    const tryScroll = () => {
-      const el = document.getElementById('aboutMe');
-
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        const headerEl = document.querySelector('.site-header') as HTMLElement | null;
-        const headerHeight = headerEl ? headerEl.offsetHeight : 0;
-        const targetY = Math.max(0, window.pageYOffset + rect.top - headerHeight - 8);
-
-        // Custom animated scroll for slower, consistent timing
-        const startY = window.pageYOffset;
-        const distance = targetY - startY;
-        const duration = 800; // ms - slower than browser default
-        const startTime = performance.now();
-
-        const easeInOutQuad = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
-
-        const step = (now: number) => {
-          const elapsed = now - startTime;
-          const progress = Math.min(1, Math.max(0, elapsed / duration));
-          const eased = easeInOutQuad(progress);
-          const currentY = Math.round(startY + distance * eased);
-          window.scrollTo(0, currentY);
-
-          if (progress < 1) {
-            window.requestAnimationFrame(step);
-          } else {
-            setIsNavigatingToAbout(false);
+    scrollTimeoutRef.current = window.setTimeout(() => {
+      if (onLearnMore) {
+        // Only scroll and update hash if onLearnMore is provided
+        const el = document.getElementById('aboutMe');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.location.hash !== '#aboutMe') {
+            window.location.hash = '#aboutMe';
           }
-        };
-
-        window.requestAnimationFrame(step);
-
-        return;
+        } else {
+          window.location.hash = '#aboutMe';
+        }
+        onLearnMore();
       }
-
-      attempts += 1;
-      if (attempts <= 20) {
-        window.setTimeout(tryScroll, 20);
-      } else {
-        setIsNavigatingToAbout(false);
-      }
-    };
-
-    window.setTimeout(tryScroll, 0);
+      setIsNavigatingToAbout(false);
+    }, 260);
   };
 
   const homeHeaderStyle = {
-    '--home-header-scale': 1 - shrinkProgress * (1 - HOME_HEADER_MIN_SCALE),
+    '--home-header-scale': !showContent ? 1 : 1 - shrinkProgress * (1 - HOME_HEADER_MIN_SCALE),
     '--home-header-shell-extra-height': HOME_HEADER_SHELL_EXTRA_HEIGHT,
+    minHeight: !showContent ? '100vh' : undefined,
+    width: !showContent ? '100vw' : undefined,
+    overflow: !showContent ? 'hidden' : undefined,
+    padding: 0,
+    margin: 0,
   } as CSSProperties;
 
-  const COLLAPSE_THRESHOLD = 0.3;
-  const isCollapsed = shrinkProgress >= COLLAPSE_THRESHOLD;
-
-  const collapseStyle: CSSProperties = {
-    display: isCollapsed ? 'none' : 'flex',
-    transform: isCollapsed ? 'translateY(-6px)' : 'none',
-    transition: 'opacity 180ms ease, transform 180ms ease',
-    pointerEvents: isCollapsed ? 'none' : 'auto',
-  };
-
   return (
-    <Container fluid='lg' className='home-header-shell' id='home' ref={containerRef}>
-      <div className='home-header' style={homeHeaderStyle}>
+    <Container
+      fluid='lg'
+      className='home-header-shell'
+      id='home'
+      ref={containerRef}
+      style={
+        !showContent
+          ? {
+              minHeight: '100dvh',
+              height: '100dvh',
+              width: '100%',
+              maxWidth: '100%',
+              overflow: 'hidden',
+              margin: 0,
+              padding: 0,
+              display: 'flex',
+              alignItems: 'stretch',
+              justifyContent: 'stretch',
+            }
+          : undefined
+      }>
+      <div
+        className='home-header'
+        style={{
+          ...homeHeaderStyle,
+          minHeight: !showContent ? '100dvh' : undefined,
+          height: !showContent ? '100dvh' : undefined,
+          width: !showContent ? '100vw' : undefined,
+          maxWidth: !showContent ? '100vw' : undefined,
+          overflow: !showContent ? 'hidden' : undefined,
+        }}>
         <div className='home-header-copy'>
           <p className='type-body'>{tg('helloWorld')}</p>
           <h1 className='type-display'>{tg('name')}</h1>
           <h3 className='home-header-profession type-heading'>{t('profession')}</h3>
-          <p className='type-body home-header-short-blurb' style={collapseStyle}>
-            {t('short_blurb')}
-          </p>
+          {(!showContent || shrinkProgress === 0) && (
+            <>
+              <p className='type-body home-header-short-blurb'>{t('short_blurb')}</p>
 
-          <div className='home-header-actions' style={collapseStyle}>
-            {!showMainContent && (
-              <Button
-                href={aboutMeHref}
-                variant='primary'
-                size='sm'
-                className='btn btn-primary home-header-cta text-pink-500! hover:transform-none! hover:text-white!'
-                target='_self'
-                onClick={handleScrollToAbout}
-                aria-label={t('viewPortfolio')}>
-                {tg('learnMore')}
-              </Button>
-            )}
+              <div className='home-header-actions'>
+                <Button
+                  href='#aboutMe'
+                  variant='primary'
+                  size='sm'
+                  className='btn btn-primary home-header-cta text-pink-500! hover:transform-none! hover:text-white!'
+                  target='_self'
+                  onClick={handleScrollToAbout}
+                  aria-label={t('viewPortfolio')}>
+                  {tg('learnMore')}
+                </Button>
 
-            {socialLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                target='_blank'
-                rel='noopener noreferrer'
-                aria-label={link.alt}
-                className='home-header-social-link type-icon'>
-                {iconMap[link.icon || '']}
-              </a>
-            ))}
-          </div>
-
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    aria-label={link.alt}
+                    className='home-header-social-link type-icon'>
+                    {iconMap[link.icon || '']}
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
           <div className='home-header-stats'>
             <div className='home-header-stat'>
-              <Markdown
-                source={tg('header.experience', {
-                  numberOfYears: new Date().getFullYear() - 2023,
-                })}
-              />
+              <Markdown source={t('header.experience', { numberOfYears: new Date().getFullYear() - 2023 })} />
               <p className='home-header-stat-copy'>
-                <span>{tg('header.web.text')}</span>
+                <Markdown source={t('header.web.text')} />
                 <span className='home-header-stat-icons home-header-stat-icons--web'>
-                  {webExperienceIcons?.map((icon, index) => (
-                    <span key={`web-icon-${index}`}>{iconMap[icon || '']}</span>
-                  ))}
+                  {webExperienceIcons?.map((icon) => iconMap[icon || ''])}
                 </span>
               </p>
             </div>
             <div className='home-header-stat'>
-              <Markdown
-                source={tg('header.experience', {
-                  numberOfYears: new Date().getFullYear() - 2021,
-                })}
-              />
+              <Markdown source={t('header.experience', { numberOfYears: new Date().getFullYear() - 2021 })} />
               <p className='home-header-stat-copy'>
-                <span>{tg('header.design.text')}</span>
+                <Markdown source={t('header.design.text')} />
                 <span className='home-header-stat-icons home-header-stat-icons--design'>
-                  {designExperienceIcons?.map((icon, index) => (
-                    <span key={`design-icon-${index}`}>{iconMap[icon || '']}</span>
-                  ))}
+                  {designExperienceIcons?.map((icon) => iconMap[icon || ''])}
                 </span>
               </p>
             </div>
