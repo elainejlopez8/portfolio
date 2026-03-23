@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 concurrency:
   group: netlify-production
@@ -47,6 +48,15 @@ jobs:
             echo 'Missing NETLIFY_PRODUCTION_AUTH_TOKEN or NETLIFY_PRODUCTION_SITE_ID environment secret on the production environment.' >&2
             exit 1
           fi
+
+      - name: Require GitHub owner approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ secrets.GITHUB_TOKEN }}
+          approvers: ${{ github.repository_owner }}
+          minimum-approvals: 1
+          issue-title: 'Production deploy approval required'
+          issue-body: 'Approve this workflow run to continue deploying to Netlify production.'
 
       - name: Deploy to Netlify production if unlocked
         env:
