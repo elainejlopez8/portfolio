@@ -1,3 +1,5 @@
+import { vercelLog } from './_lib/vercel-log';
+
 export default async function handler(request, response) {
   try {
     const githubToken = process.env.GITHUB_TOKEN;
@@ -73,6 +75,11 @@ export default async function handler(request, response) {
 
     return response.status(200).json(trimmed);
   } catch (error) {
+    vercelLog('error', '[github-repos] Failed to load repositories', {
+      message: error?.message || String(error),
+      stack: error?.stack,
+      username: request.query?.username,
+    });
     return response.status(500).json({ error: error.message || String(error) });
   }
 }

@@ -5,6 +5,7 @@ import { usePageLayout } from '@/components/PageLayout';
 import ProjectCard from '@/components/ProjectCard';
 import { useContent } from '@/hooks/useContent';
 import { CONTENT_KEYS } from '@/services/content/i18n';
+import { logClientError } from '@/services/vercelLogger';
 import type { CodePenApiItem, CodePenProject, PageProps, Repo } from '@/types';
 import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
@@ -84,7 +85,10 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
 
         setCodePen(items);
       } catch (e) {
-        console.error('Error fetching CodePen projects:', e);
+        void logClientError('Error fetching CodePen projects', e, {
+          endpoint,
+          sectionId,
+        });
       }
     }
 

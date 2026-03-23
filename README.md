@@ -1,5 +1,8 @@
 # Elaine Lopez Portfolio
 
+[![Vercel Preview Deployment](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-vercel-preview.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-vercel-preview.yaml)
+[![Vercel Production Deployment](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-vercel-production.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-vercel-production.yaml)
+
 Personal portfolio site built with React, TypeScript, Vite, Tailwind CSS, and Vercel.
 
 ## Tech stack
