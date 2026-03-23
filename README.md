@@ -106,6 +106,10 @@ Use `.env.local` for local development. Start from `.env.local.template`.
 GITHUB_TOKEN=your_github_token_here
 VITE_GITHUB_USERNAME=your-github-username
 VITE_CODEPEN_USERNAME=your-codepen-username
+CODEPEN_API_BASE_URL=https://your-codepen-compatible-api.example.com
+CODEPEN_API_AUTHORIZATION=
+CODEPEN_API_COOKIE=
+CODEPEN_API_HEADERS_JSON=
 ```
 
 `GITHUB_TOKEN` is server-only for the Vercel API route, so do not prefix it with `VITE_`.
@@ -113,8 +117,12 @@ VITE_CODEPEN_USERNAME=your-codepen-username
 - `GITHUB_TOKEN` is used by `api/github-repos.js` when you want authenticated GitHub repository data locally.
 - `VITE_GITHUB_USERNAME` lets the Projects page fall back to public GitHub repositories if the authenticated API route is not available.
 - `VITE_CODEPEN_USERNAME` enables the CodePen tab on the Projects page.
+- `CODEPEN_API_BASE_URL` enables server-side CodePen fetching through a working upstream that can list your pens.
+- `CODEPEN_API_AUTHORIZATION`, `CODEPEN_API_COOKIE`, and `CODEPEN_API_HEADERS_JSON` let the CodePen API route send authenticated headers so that upstream can include private pens.
 
 Do not commit `.env.local` or any real secrets.
+
+CodePen does not provide a traditional public API for listing pens. Private pens are only possible here if `api/codepen-projects.js` talks to an authenticated upstream that you control or can access.
 
 ## GitHub repo proxy
 
