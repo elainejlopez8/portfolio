@@ -159,17 +159,9 @@ Use these layout classes so spacing scales with the same rhythm tokens:
 ## GitHub private repos (Netlify function)
 
 - **What:** A serverless proxy returns repository metadata server-side so the frontend can display public and private repos without embedding a token. See [netlify/functions/github-repos.js](netlify/functions/github-repos.js).
-- **Frontend:** The Projects UI calls the proxy via [src/components/ProjectsPlaceholder.tsx](src/components/ProjectsPlaceholder.tsx) and the page is wired in [src/pages/Projects.tsx](src/pages/Projects.tsx).
+- **Frontend:** The Projects UI calls the proxy via [src/components/ProjectCard.tsx](src/components/ProjectCard.tsx) and the page is wired in [src/pages/Projects.tsx](src/pages/Projects.tsx).
 - **Enable private repos (Netlify):** add `GITHUB_TOKEN` to your Netlify site environment variables (Site settings → Build & deploy → Environment → Add variable). The token needs `repo` scope (or use a GitHub App installation token configured for the repos).
-- **Local testing:** install Netlify CLI and run with your token in the environment:
-
-```bash
-# install once
-npm i -g netlify-cli
-
-# run dev with token
-GITHUB_TOKEN=your_token netlify dev
-```
+- **Local testing:** Configure your hosting provider's dev tools or run Netlify Dev if needed; see [netlify/functions/github-repos.js](netlify/functions/github-repos.js) for implementation details.
 
 - **Frontend env vars (optional):** you can also set these in a local `.env` (do NOT commit `.env`):
 
@@ -183,3 +175,5 @@ VITE_GITHUB_USE_AUTH=true
   - Never commit `GITHUB_TOKEN` or `.env` to the repo. Use the hosting platform's secret storage.
   - For multi-user apps prefer OAuth or a GitHub App instead of a shared PAT.
   - Limit token scopes to the minimum required (for private repo listing use `repo` scope).
+
+  - **Per-repo enrichment:** The function supports a `detailed=true` query parameter (for example `/api/github-repos?detailed=true`). When set, the function will make per-repo requests to enrich fields like `topics` and `homepage` from each repository's About section. This increases GitHub API usage and may require an authenticated `GITHUB_TOKEN` to avoid rate limits; use it only when needed.

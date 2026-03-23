@@ -19,6 +19,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    sourcemap: false,
+  },
   server: {
     allowedHosts: ['localhost', 'devserver-main--elainejlopezportfolio.netlify.app'],
   },

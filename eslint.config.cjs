@@ -7,7 +7,16 @@ const typescriptParser = require('@typescript-eslint/parser');
 
 module.exports = [
   {
-    ignores: ['*.config*', '**/*type*', '**/*types*', '**/dist/**', '**/build/**', '**/node_modules/**'],
+    ignores: [
+      '*.config*',
+      '**/*type*',
+      '**/*types*',
+      '**/dist/**',
+      '**/build/**',
+      '**/node_modules/**',
+      'server/**',
+      'netlify/functions/**',
+    ],
   },
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
