@@ -1,19 +1,20 @@
+const DEFAULT_PUBLIC_GITHUB_USERNAME = 'elainejlopez8';
+
 export default async function handler(request, response) {
   try {
     const githubToken = process.env.GITHUB_TOKEN;
     const rawUsername = request.query?.username;
-    const username = Array.isArray(rawUsername)
+    const requestedUsername = Array.isArray(rawUsername)
       ? rawUsername[0]
       : typeof rawUsername === 'string'
         ? rawUsername
         : undefined;
+    const fallbackUsername =
+      process.env.GITHUB_USERNAME || process.env.VITE_GITHUB_USERNAME || DEFAULT_PUBLIC_GITHUB_USERNAME;
+    const username = requestedUsername || (!githubToken ? fallbackUsername : undefined);
     const url = username
       ? `https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=100&sort=updated`
       : 'https://api.github.com/user/repos?per_page=100&sort=updated';
-
-    if (!username && !githubToken) {
-      return response.status(500).json({ error: 'GITHUB_TOKEN is required to list private repos' });
-    }
 
     const headers = { Accept: 'application/vnd.github.v3+json, application/vnd.github.mercy-preview+json' };
     if (githubToken) headers.Authorization = `token ${githubToken}`;

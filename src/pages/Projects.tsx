@@ -12,6 +12,7 @@ import { Container } from 'react-bootstrap';
 const DEFAULT_SECTION_ID = 'projects';
 const DEFAULT_TITLE = 'Projects';
 const GITHUB_REPOS_ENDPOINT = '/api/github-repos';
+const DEFAULT_GITHUB_USERNAME = 'elainejlopez8';
 
 const mapCodePenItem = (item: CodePenApiItem): CodePenProject => ({
   url: item.link || item.pen_link || item.url || '#',
@@ -31,34 +32,54 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
   useEffect(() => {
     let mounted = true;
 
+    async function fetchGithubRepos(username?: string) {
+      const url = username
+        ? `${GITHUB_REPOS_ENDPOINT}?username=${encodeURIComponent(username)}`
+        : GITHUB_REPOS_ENDPOINT;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        const errorMessage = body && body.error ? String(body.error) : `GitHub proxy: ${response.status}`;
+        throw new Error(errorMessage);
+      }
+
+      return (await response.json()) as Repo[];
+    }
+
     async function fetchGithub() {
+      const githubUsername = import.meta.env.VITE_GITHUB_USERNAME || DEFAULT_GITHUB_USERNAME;
+      const shouldUseAuth = import.meta.env.VITE_GITHUB_USE_AUTH !== 'false';
+
       try {
-        const res = await fetch(GITHUB_REPOS_ENDPOINT);
-        if (res.ok) {
-          const data: Repo[] = await res.json();
+        if (shouldUseAuth) {
+          const data = await fetchGithubRepos();
           if (!mounted) return;
           setRepos(data);
           return;
         }
 
-        const body = await res.json().catch(() => ({}));
-        const errMsg = body && body.error ? String(body.error) : `GitHub proxy: ${res.status}`;
-        const githubUsername = import.meta.env.VITE_GITHUB_USERNAME || '';
-
-        if (errMsg.includes('GITHUB_TOKEN') && githubUsername) {
-          const res2 = await fetch(`${GITHUB_REPOS_ENDPOINT}?username=${encodeURIComponent(githubUsername)}`);
-          if (!res2.ok) throw new Error(`GitHub proxy: ${res2.status}`);
-          const data2: Repo[] = await res2.json();
-
+        const publicRepos = await fetchGithubRepos(githubUsername);
+        if (!mounted) return;
+        setRepos(publicRepos);
+      } catch (authError: unknown) {
+        if (!githubUsername) {
           if (!mounted) return;
-          setRepos(data2);
+          setError(authError instanceof Error ? authError.message : 'Failed to load GitHub repos');
           return;
         }
 
-        throw new Error(errMsg);
-      } catch (e: unknown) {
-        if (!mounted) return;
-        setError(e instanceof Error ? e.message : 'Failed to load GitHub repos');
+        try {
+          const publicRepos = await fetchGithubRepos(githubUsername);
+          if (!mounted) return;
+          setRepos(publicRepos);
+        } catch (publicError: unknown) {
+          if (!mounted) return;
+
+          const message = publicError instanceof Error ? publicError.message : 'Failed to load GitHub repos';
+          const authMessage = authError instanceof Error ? authError.message : null;
+          setError(authMessage && authMessage !== message ? `${message} (${authMessage})` : message);
+        }
       } finally {
         if (!mounted) return;
         setLoading(false);
