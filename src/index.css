@@ -1,20 +1,18 @@
 @import 'tailwindcss';
 
-:root {
+@theme {
   --font-heading: 'Montserrat', sans-serif;
   --font-subheading: 'Ubuntu Sans Mono', monospace;
   --font-body: 'Ubuntu Sans', sans-serif;
 
   --font-size-heading-1: clamp(2.25rem, 1.6rem + 3vw, 4.5rem);
   --font-size-heading-2: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem);
-  --font-size-body: clamp(1rem, 0.95rem + 0.4vw, 1.25rem);
-  --font-size-nav: clamp(1rem, 0.95rem + 0.5vw, 1.35rem);
+  --font-size-nav: clamp(0.95rem, 0.9rem + 0.45vw, 1.25rem);
   --font-size-caption: clamp(0.9rem, 0.84rem + 0.3vw, 1.05rem);
   --font-size-icon: clamp(1.25rem, 1.05rem + 0.9vw, 2rem);
 
   --line-height-heading-1: 1.05;
   --line-height-heading-2: 1.2;
-  --line-height-body: 1.6;
   --line-height-nav: 1.2;
   --line-height-caption: 1.4;
 
@@ -42,11 +40,11 @@
   --color-pink-500: rgba(160, 95, 145, 1);
 
   /* blue contrast steps: subtle -> full */
-  --color-blue-100: rgba(90, 95, 160, 0.08);
-  --color-blue-200: rgba(90, 95, 160, 0.22);
-  --color-blue-300: rgba(90, 95, 160, 0.5);
-  --color-blue-400: rgba(90, 95, 160, 0.78);
-  --color-blue-500: rgba(90, 95, 160, 1);
+  --color-blue-100: rgba(50, 90, 190, 0.08);
+  --color-blue-200: rgba(50, 90, 190, 0.22);
+  --color-blue-300: rgba(50, 90, 190, 0.5);
+  --color-blue-400: rgba(50, 90, 190, 0.78);
+  --color-blue-500: rgba(50, 90, 190, 1);
 }
 
 html,
@@ -92,8 +90,6 @@ h2 {
 }
 
 p {
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
   font-family: var(--font-body);
 }
 
@@ -113,6 +109,7 @@ p {
 }
 
 .type-nav {
+  transform: none !important;
   font-size: var(--font-size-nav);
   line-height: var(--line-height-nav);
 }

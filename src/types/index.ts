@@ -18,3 +18,14 @@ export enum ResumeCategories {
   education = 'education',
   certifications = 'certifications',
 }
+
+export type Repo = {
+  description?: string | null;
+  id: number | string;
+  language?: string | null;
+  name: string;
+  prod_url?: string | null;
+  repo_url?: string | null;
+  topics?: string[];
+  updated_at?: string;
+};

@@ -1,3 +1,17 @@
 export const projects = {
-  content: 'Work in Progress...',
+  title: 'Projects',
+  wip: 'Work In Progress',
+  noCompleted: 'No completed projects yet.',
+  completed: 'Completed',
+  unfinished: 'Unfinished',
+  noUnfinished: 'No unfinished projects.',
+  archived: 'Archived',
+  viewProduct: 'View Product',
+  codepenTitle: 'CodePen Projects',
+  loading: 'Loading projects…',
+  noProjects: 'Projects are in progress, check back soon!',
+  goToRepo: 'Repository',
+  error: 'Failed to load projects. Please try again later.',
+  all: 'All',
+  liveSite: 'Live Site',
 };

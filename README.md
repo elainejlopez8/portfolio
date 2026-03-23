@@ -155,3 +155,27 @@ Use these layout classes so spacing scales with the same rhythm tokens:
 - Styling combines Tailwind utility classes with shared CSS tokens in `src/index.css`.
 - Markdown-based rich text is rendered through `src/components/Markdown.tsx`.
 - Husky, lint-staged, Commitlint, and GitHub Actions are configured for formatting and linting workflows.
+
+## GitHub private repos (Netlify function)
+
+- **What:** A serverless proxy returns repository metadata server-side so the frontend can display public and private repos without embedding a token. See [netlify/functions/github-repos.js](netlify/functions/github-repos.js).
+- **Frontend:** The Projects UI calls the proxy via [src/components/ProjectCard.tsx](src/components/ProjectCard.tsx) and the page is wired in [src/pages/Projects.tsx](src/pages/Projects.tsx).
+- **Enable private repos (Netlify):** add `GITHUB_TOKEN` to your Netlify site environment variables (Site settings → Build & deploy → Environment → Add variable). The token needs `repo` scope (or use a GitHub App installation token configured for the repos).
+- **Local testing:** Configure your hosting provider's dev tools or run Netlify Dev if needed; see [netlify/functions/github-repos.js](netlify/functions/github-repos.js) for implementation details.
+
+- **Frontend env vars (optional):** you can also set these in a local `.env` (do NOT commit `.env`):
+
+```env
+VITE_GITHUB_USERNAME=your-github-username
+VITE_GITHUB_USE_AUTH=true
+```
+
+- `VITE_GITHUB_USERNAME` is a public client-side value (not a secret). Netlify secret scanning is configured to omit this key to avoid false positives when your public username appears in content or built assets.
+
+- **Vercel:** If you deploy to Vercel instead, create an API route (for example `api/github-repos.ts`) that proxies requests and set `GITHUB_TOKEN` in your Vercel project environment variables.
+- **Security & notes:**
+  - Never commit `GITHUB_TOKEN` or `.env` to the repo. Use the hosting platform's secret storage.
+  - For multi-user apps prefer OAuth or a GitHub App instead of a shared PAT.
+  - Limit token scopes to the minimum required (for private repo listing use `repo` scope).
+
+  - **Per-repo enrichment:** The function supports a `detailed=true` query parameter (for example `/api/github-repos?detailed=true`). When set, the function will make per-repo requests to enrich fields like `topics` and `homepage` from each repository's About section. This increases GitHub API usage and may require an authenticated `GITHUB_TOKEN` to avoid rate limits; use it only when needed.

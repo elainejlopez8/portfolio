@@ -68,17 +68,15 @@ export default function CreateResumeTimeline({ details: details }: { details: st
           </TimelineSeparator>
           <TimelineContent sx={{ py: '12px', px: '20px' }}>
             <a href={`/resume/${ResumeCategories.education}/${kebabCase(content.educators[i].qualification)}`}>
-              <Typography component='span' className='text-xl font-black text-blue-400 md:text-2xl lg:text-3xl'>
+              <Typography component='span' className='text-xl font-black text-blue-400'>
                 {content.educators[i].qualification}
               </Typography>
-              <Typography className='text:lg font-bold text-blue-300 md:text-xl lg:text-2xl'>
-                {content.educators[i].name}
-              </Typography>
-              <Typography className='text-base text-pink-300 md:text-lg lg:text-xl'>
+              <Typography className='text-lg font-bold text-blue-300'>{content.educators[i].name}</Typography>
+              <Typography className='text-base text-pink-300'>
                 {content.educators[i].start_date} - {content.educators[i].end_date}
               </Typography>
             </a>
-            <Typography className='mt-2 hidden text-base whitespace-pre-line sm:flex md:text-lg lg:text-xl'>
+            <Typography className='mt-2 hidden text-base whitespace-pre-line sm:flex'>
               {content.educators[i].description}
             </Typography>
           </TimelineContent>
