@@ -93,7 +93,7 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
     };
   }, []);
 
-  const { t } = useContent('projects');
+  const { t } = useContent(sectionId as any);
   const now = new Date();
   const [activeTab, setActiveTab] = useState<string>('all');
 
