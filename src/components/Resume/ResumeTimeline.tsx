@@ -65,7 +65,7 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
           </time>
           {item?.description && item.description.length > 1 ? (
             <ul className='text-muted list-disc text-left text-base'>
-              {item.description.map((i, idx) => (
+              {item.description.map((i: string, idx: number) => (
                 <li key={idx}>{i}</li>
               ))}
             </ul>
