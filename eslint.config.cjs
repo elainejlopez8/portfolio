@@ -9,6 +9,7 @@ module.exports = [
   {
     ignores: [
       '*.config*',
+      '**/*.d.ts',
       '**/*type*',
       '**/*types*',
       '**/dist/**',

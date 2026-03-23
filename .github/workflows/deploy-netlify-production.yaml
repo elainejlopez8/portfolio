@@ -50,7 +50,7 @@ jobs:
           fi
 
       - name: Require GitHub owner approval
-        uses: trstringer/manual-approval@38dcf9658c1101031a7111c091ce5f87982917d3
+        uses: trstringer/manual-approval@v1
         with:
           secret: ${{ secrets.GITHUB_TOKEN }}
           approvers: ${{ github.repository_owner }}
