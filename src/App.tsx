@@ -1,10 +1,12 @@
 import PageLayout from '@/components/PageLayout';
-import ResumeItemCard from '@/components/Resume/ResumeCard';
-import AboutMe from '@/pages/AboutMe';
-import Home from '@/pages/Home';
-import Projects from '@/pages/Projects';
-import Resume from '@/pages/Resume';
+import { Suspense, lazy } from 'react';
 import { type RouteObject, useLocation, useRoutes } from 'react-router-dom';
+
+const Home = lazy(() => import('@/pages/Home'));
+const AboutMe = lazy(() => import('@/pages/AboutMe'));
+const Projects = lazy(() => import('@/pages/Projects'));
+const Resume = lazy(() => import('@/pages/Resume'));
+const ResumeItemCard = lazy(() => import('@/components/Resume/ResumeCard'));
 
 function App() {
   const routes: RouteObject[] = [
@@ -43,7 +45,11 @@ function App() {
   const location = useLocation();
   const showHeaderFooter = location.pathname !== '/';
 
-  return <PageLayout showHeaderFooter={showHeaderFooter}>{useRoutes(routes)}</PageLayout>;
+  return (
+    <PageLayout showHeaderFooter={showHeaderFooter}>
+      <Suspense fallback={null}>{useRoutes(routes)}</Suspense>
+    </PageLayout>
+  );
 }
 
 export default App;

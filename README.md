@@ -170,6 +170,8 @@ VITE_GITHUB_USERNAME=your-github-username
 VITE_GITHUB_USE_AUTH=true
 ```
 
+- `VITE_GITHUB_USERNAME` is a public client-side value (not a secret). Netlify secret scanning is configured to omit this key to avoid false positives when your public username appears in content or built assets.
+
 - **Vercel:** If you deploy to Vercel instead, create an API route (for example `api/github-repos.ts`) that proxies requests and set `GITHUB_TOKEN` in your Vercel project environment variables.
 - **Security & notes:**
   - Never commit `GITHUB_TOKEN` or `.env` to the repo. Use the hosting platform's secret storage.
