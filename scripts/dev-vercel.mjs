@@ -10,7 +10,7 @@ if (existsSync(envLocalPath)) {
   loadEnv({ path: envLocalPath });
 }
 
-const child = spawn('yarn', ['dlx', 'vercel', 'dev', ...process.argv.slice(2)], {
+const child = spawn('yarn', ['vercel', 'dev', ...process.argv.slice(2)], {
   cwd: rootDir,
   env: process.env,
   shell: process.platform === 'win32',
