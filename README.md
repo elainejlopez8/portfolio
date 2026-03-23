@@ -5,6 +5,8 @@
 
 Personal portfolio site built with React, TypeScript, Vite, Tailwind CSS, and Vercel.
 
+It combines a progressive landing page, standalone route views, local content management, and Vercel API routes for GitHub data and client log forwarding.
+
 ## Tech stack
 
 - React 19
@@ -34,13 +36,15 @@ yarn install
 yarn dev
 ```
 
+`yarn dev` is enough for UI and content work. It serves the SPA only and does not run Vercel API routes.
+
 If you need the API route locally for the Projects page, run Vercel Dev instead:
 
 ```bash
 yarn dev:vercel
 ```
 
-`yarn dev:vercel` loads server-side variables from `.env.local` before starting `vercel dev`, so API routes can read `GITHUB_TOKEN` locally.
+`yarn dev:vercel` loads server-side variables from `.env.local` before starting `vercel dev`, so API routes can read `GITHUB_TOKEN` and `GITHUB_USERNAME` locally.
 
 ## Available scripts
 
@@ -60,7 +64,7 @@ The home route renders a landing experience that expands into the main portfolio
 - Projects
 - Resume
 
-The site also exposes standalone route views for direct navigation.
+The home experience can also deep-link into the expanded layout via `/#aboutMe`, and the site exposes standalone route views for direct navigation.
 
 ## Routing
 
@@ -98,19 +102,95 @@ Translations are initialized in:
 
 - `src/services/content/i18n.ts`
 
+### Blob upload route
+
+The repo also includes a Vercel Blob upload route for updating content without editing source files:
+
+- `POST /api/content`
+
+Required environment variables:
+
+- `BLOB_READ_WRITE_TOKEN` - added by Vercel when a Blob store is connected to the project
+
+Supported namespaces:
+
+- `general`
+- `aboutMe`
+- `projects`
+- `resume`
+
+Request formats:
+
+```json
+{
+  "namespace": "resume",
+  "content": {
+    "downloadResume": {
+      "text": "Download Resume"
+    }
+  }
+}
+```
+
+Or upload multiple namespaces in one request:
+
+```json
+{
+  "entries": [
+    {
+      "namespace": "aboutMe",
+      "content": {
+        "title": "About Me"
+      }
+    },
+    {
+      "namespace": "resume",
+      "content": {
+        "tabs": {
+          "education": "Education"
+        }
+      }
+    }
+  ]
+}
+```
+
+Example using `curl`:
+
+```bash
+curl -X POST http://localhost:3000/api/content \
+	-H "Content-Type: application/json" \
+	-d '{
+		"namespace": "resume",
+		"content": {
+			"tabs": {
+				"employmentHistory": "Employment History",
+				"certifications": "Certifications",
+				"education": "Education"
+			}
+		}
+	}'
+```
+
+The route writes public JSON blobs to `content/<namespace>.json` with overwrite enabled and a short cache TTL suitable for content updates.
+
 ## Environment variables
 
 Use `.env.local` for local development. Start from `.env.local.template`.
 
 ```env
 GITHUB_TOKEN=your_github_token_here
+GITHUB_USERNAME=your-github-username
 VITE_GITHUB_USERNAME=your-github-username
+VITE_GITHUB_USE_AUTH=true
 ```
 
 `GITHUB_TOKEN` is server-only for the Vercel API route, so do not prefix it with `VITE_`.
 
 - `GITHUB_TOKEN` is used by `api/github-repos.js` when you want authenticated GitHub repository data locally.
-- `VITE_GITHUB_USERNAME` lets the Projects page fall back to public GitHub repositories if the authenticated API route is not available.
+- `GITHUB_USERNAME` is an optional server-side fallback username used by the GitHub API route when no token is available.
+- `VITE_GITHUB_USERNAME` is the client-side fallback username used by the Projects page when it retries against public repositories.
+- `VITE_GITHUB_USE_AUTH=false` forces the Projects page to skip the initial authenticated API request and load public repositories directly.
 
 Do not commit `.env.local` or any real secrets.
 
@@ -118,11 +198,30 @@ Do not commit `.env.local` or any real secrets.
 
 The Projects page reads repository data through the Vercel API route in `api/github-repos.js`.
 
-- If `GITHUB_TOKEN` is set in Vercel, the API route can return authenticated repository data, including private repos.
-- If `GITHUB_TOKEN` is missing and `VITE_GITHUB_USERNAME` is set, the frontend falls back to public repos for that user.
-- The API route enriches repository data with `topics` and `homepage` values before returning it to the client.
+- If `GITHUB_TOKEN` is set, the API route requests authenticated repository data from `https://api.github.com/user/repos`.
+- If `GITHUB_TOKEN` is missing, the API route falls back to `GITHUB_USERNAME`, or the built-in default username, and requests public repositories from `https://api.github.com/users/:username/repos`.
+- The frontend retries with `VITE_GITHUB_USERNAME` if an authenticated request fails and public fallback is enabled.
+- The API route enriches repository data with `topics` and `homepage` values before returning a trimmed payload to the client.
 
-For Vercel, add `GITHUB_TOKEN` in Project Settings -> Environment Variables for both the `Preview` and `Production` environments. Use the minimum GitHub scope required for the repositories you want to expose.
+Returned fields:
+
+- `id`
+- `name`
+- `repo_url`
+- `description`
+- `language`
+- `prod_url`
+- `topics`
+
+For Vercel, add `GITHUB_TOKEN` in Project Settings -> Environment Variables for both the `Preview` and `Production` environments. Add `GITHUB_USERNAME` only if you want a configurable server-side public fallback. Use the minimum GitHub scope required for the repositories you want to expose.
+
+## Client logging
+
+The frontend can forward structured client log events to the Vercel API route in `api/log.js`.
+
+- `POST /api/log` accepts `debug`, `info`, `warn`, and `error` levels.
+- The route normalizes browser metadata such as `pathname`, `timestamp`, `userAgent`, and optional `context`.
+- Logs are emitted through `lib/vercel-log.js`, so browser-side issues can be inspected in Vercel runtime logs.
 
 ## Deployment
 
@@ -158,6 +257,7 @@ Vercel environment variables:
 
 - `Preview`: `GITHUB_TOKEN`
 - `Production`: `GITHUB_TOKEN`
+- Optional for both: `GITHUB_USERNAME`
 
 Where to get the Vercel values:
 
@@ -221,4 +321,5 @@ Use these layout classes so spacing scales with the same rhythm tokens:
 
 - Styling combines Tailwind utilities with shared CSS tokens in `src/index.css`.
 - Markdown-based rich text is rendered through `src/components/Markdown.tsx`.
+- `scripts/dev-vercel.mjs` loads `.env.local` before launching `vercel dev`.
 - Husky, lint-staged, Commitlint, and GitHub Actions are configured for formatting and linting workflows.

@@ -9,12 +9,8 @@ import {
   timelineItemClasses,
   TimelineSeparator,
 } from '@mui/lab';
-import kebabCase from 'lodash/kebabCase';
-import { Button } from 'react-bootstrap';
 import { MdWork } from 'react-icons/md';
-import { Link } from 'react-router-dom';
 import { JSX } from 'react/jsx-runtime';
-import Markdown from '../Markdown';
 
 export default function ResumeTimeline({ details, category }: ResumeTimelineProps) {
   const { t } = useContent('resume');
@@ -31,30 +27,24 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
           <TimelineItem
             key={`${content?.companies[i]?.company ?? 'company'}-${prefix?.title ?? 'role'}-${prefix?.start_date ?? ''}-${prefix?.end_date ?? ''}-${i}-${j}`}>
             <TimelineSeparator>
-              <TimelineDot className='bg-blue-400 text-xl text-white md:text-2xl lg:text-3xl'>
+              <TimelineDot className='bg-purple-400! text-xl text-white md:text-3xl'>
                 <MdWork />
               </TimelineDot>
-              <TimelineConnector className='bg-blue-200' />
+              <TimelineConnector className='bg-purple-200!' />
             </TimelineSeparator>
 
-            <TimelineContent className='px-5 py-3'>
-              <Link
-                to={`/resume/${kebabCase(ResumeCategories.employmentHistory)}/${kebabCase(prefix?.title)}`}
-                className='text-inherit no-underline'>
-                <span className='text-blue-400'>
-                  {prefix?.title} <span className='text-right'>{prefix?.team}</span>
-                </span>
+            <TimelineContent className='px-4 py-2'>
+              {j === 0 && <div className='text-lg font-bold! text-purple-400'>{content?.companies[i]?.company}</div>}
 
-                <div className='font-semibold text-blue-300'>{content?.companies[i]?.company}</div>
-                <div className='text-base text-pink-300 md:text-lg lg:text-xl'>
-                  {prefix?.start_date} - {prefix?.end_date}
-                </div>
-              </Link>
-              {prefix?.description && (
-                <div className='mt-2 hidden text-base whitespace-pre-line sm:flex md:text-lg lg:text-xl'>
-                  <Markdown source={prefix?.description} />
-                </div>
-              )}
+              <div className='flex w-full items-start justify-between gap-3 text-lg font-semibold! text-purple-300'>
+                <span>{prefix?.title}</span>
+                <span className='ml-auto text-right'>{prefix?.team}</span>
+              </div>
+
+              <div className='text-base text-pink-400'>
+                {prefix?.start_date} - {prefix?.end_date}
+              </div>
+              {prefix?.description && <p className='text-muted mt-2'>{prefix?.description}</p>}
             </TimelineContent>
           </TimelineItem>
         );
@@ -67,17 +57,21 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
       const item = content[i];
       const key = `${item?.qualification}-${item?.start_date}-${item?.end_date}-${i}`;
       cards.push(
-        <article key={key} className='rounded-lg bg-blue-100 p-4 shadow transition hover:shadow-md dark:bg-purple-700'>
-          <Link
-            to={`/resume/${ResumeCategories.education}/${kebabCase(item?.qualification)}`}
-            className='text-inherit no-underline'>
-            <h3 className='text-xl font-bold text-blue-400'>{item?.qualification}</h3>
-            <div className='text-sm font-semibold text-pink-300'>{item?.name}</div>
-            <time className='mt-2 block text-xs text-blue-300' dateTime={`${item?.start_date || ''}`}>
-              {item?.start_date} {item?.end_date ? ' - ' + item?.end_date : ''}
-            </time>
-            {item?.description && <Markdown source={item?.description} />}
-          </Link>
+        <article key={key} className='rounded-lg bg-pink-100 p-4 shadow dark:bg-purple-700'>
+          <h3 className='font-subheading text-xl! font-bold! text-pink-400!'>{item?.qualification}</h3>
+          <div className='text-lg font-semibold text-pink-300'>{item?.name}</div>
+          <time className='mb-2 block text-base text-blue-300' dateTime={`${item?.start_date || ''}`}>
+            {item?.start_date} {item?.end_date ? ' - ' + item?.end_date : ''}
+          </time>
+          {item?.description && item.description.length > 1 ? (
+            <ul className='text-muted list-disc text-left text-base'>
+              {item.description.map((i, idx) => (
+                <li key={idx}>{i}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className='text-muted text-base'>{item.description[0]}</p>
+          )}
         </article>
       );
     }
@@ -91,23 +85,22 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
       const key = `${cert?.name}-${cert?.certifier}-${cert?.date}-${i}`;
       cards.push(
         <article key={key} className='rounded-lg bg-blue-100 p-4 shadow transition hover:shadow-md dark:bg-purple-700'>
-          <Link
-            to={`/resume/${ResumeCategories.certifications}/${kebabCase(cert?.name)}`}
-            className='text-inherit no-underline'>
-            <h3 className='text-lg font-bold text-blue-400'>{cert?.name}</h3>
-            <div className='text-sm font-semibold text-pink-300'>{cert?.certifier}</div>
-            <time className='mt-2 block text-xs text-blue-300' dateTime={`${cert?.date || ''}`}>
-              {cert?.date}
-            </time>
-            {cert?.description && <Markdown source={cert.description} />}
-            {cert?.url && (
-              <div className='mt-3'>
-                <Button href={cert?.url} target='_blank' rel='noopener noreferrer' className='py-2 text-base'>
-                  {t('certifications.viewCert')}
-                </Button>
-              </div>
-            )}
-          </Link>
+          <h3 className='font-subheading text-xl! font-bold! text-blue-400!'>{cert?.name}</h3>
+          <p className='text-lg font-semibold text-purple-300'>{cert?.certifier}</p>
+          <time className='text-muted mt-2 block text-base' dateTime={`${cert?.date || ''}`}>
+            {cert?.date}
+          </time>
+          {cert?.url && (
+            <div className='mt-3'>
+              <a
+                href={cert?.url}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='inline-block w-full rounded border-2 border-pink-500 bg-transparent px-3 py-1.5 text-center text-xs font-medium text-pink-500! hover:transform-none! hover:bg-pink-500! hover:text-white! sm:w-fit'>
+                {t('certifications.viewCert')}
+              </a>
+            </div>
+          )}
         </article>
       );
     }

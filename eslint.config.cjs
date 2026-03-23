@@ -60,7 +60,7 @@ module.exports = [
     },
   },
   {
-    files: ['api/**/*.js', 'scripts/**/*.{js,mjs}', 'vite.config.ts', 'eslint.config.cjs'],
+    files: ['api/**/*.{js,ts}', 'scripts/**/*.{js,mjs}', 'vite.config.ts', 'eslint.config.cjs'],
     languageOptions: {
       globals: globals.node,
     },

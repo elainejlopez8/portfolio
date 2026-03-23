@@ -10,6 +10,8 @@ export default function Markdown(props: MarkdownProps) {
   const { source } = props;
   if (!source) return null;
 
+  const normalizedSource = source.replace(/\bclassName=/g, 'class=');
+
   const sanitizeSchema = {
     attributes: {
       '*': ['class', 'className'],
@@ -32,7 +34,7 @@ export default function Markdown(props: MarkdownProps) {
         ul: (props) => <ul {...props} />,
         li: (props) => <li {...props} />,
       }}>
-      {source}
+      {normalizedSource}
     </ReactMarkdown>
   );
 }

@@ -33,8 +33,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ r, variant = 'wip' }) => {
   const projectName = String(r.name || '');
 
   return (
-    <div
-      className={`flex h-full flex-col justify-between rounded border p-4 hover:shadow-sm dark:bg-slate-800 ${styles.bg}`}>
+    <div className={`flex h-full flex-col justify-between rounded p-4 shadow dark:bg-slate-800 ${styles.bg}`}>
       <h4 className={`font-subheading text-xl! font-bold! ${styles.projectName}`}>{startCase(projectName)}</h4>
       {r.description && <p className='text-muted text-base!'>{r.description}</p>}
 

@@ -153,7 +153,7 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
                   role='tab'
                   aria-selected={activeTab === tab.key}
                   onClick={() => setActiveTab(tab.key)}
-                  className={`w-full flex-1 border-b-4 border-b-pink-500 px-1.5 py-2 text-sm! font-bold text-pink-500 sm:min-w-40 md:w-auto md:text-base! lg:text-lg! ${activeTab === tab.key ? 'rounded-t-lg! bg-pink-500 text-white' : 'btn-outline-secondary'} hover:rounded-t-lg! hover:border-b-blue-300 hover:bg-blue-300 hover:text-white`}>
+                  className={`w-full flex-1 border-b-4 border-b-blue-500 px-1.5 py-2 text-sm! font-bold text-blue-500 sm:min-w-40 md:w-auto md:text-base! lg:text-lg! ${activeTab === tab.key ? 'rounded-t-lg! bg-blue-300 text-white' : 'btn-outline-secondary'} hover:rounded-t-lg! hover:border-b-pink-500 hover:bg-pink-300 hover:text-white`}>
                   {tab.label}
                 </button>
               ))}

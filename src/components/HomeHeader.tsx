@@ -160,16 +160,18 @@ const HomeHeader = ({ onLearnMore, showContent = true }: { onLearnMore?: () => v
               <p className='type-body home-header-short-blurb'>{t('short_blurb')}</p>
 
               <div className='home-header-actions'>
-                <Button
-                  href='#aboutMe'
-                  variant='primary'
-                  size='sm'
-                  className='btn btn-primary home-header-cta text-pink-500! hover:transform-none! hover:text-white!'
-                  target='_self'
-                  onClick={handleScrollToAbout}
-                  aria-label={t('viewPortfolio')}>
-                  {tg('learnMore')}
-                </Button>
+                {!showContent && (
+                  <Button
+                    href='#aboutMe'
+                    variant='primary'
+                    size='sm'
+                    className='btn btn-primary home-header-cta text-pink-500! hover:transform-none! hover:text-white!'
+                    target='_self'
+                    onClick={handleScrollToAbout}
+                    aria-label={t('viewPortfolio')}>
+                    {tg('learnMore')}
+                  </Button>
+                )}
 
                 {socialLinks.map((link) => (
                   <a

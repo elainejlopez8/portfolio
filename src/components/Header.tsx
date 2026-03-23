@@ -38,7 +38,11 @@ const Header = () => {
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav className='site-header-nav'>
             {navLinks.map((link) => (
-              <Nav.Link key={link.href} as={Link} to={link.href} className='type-nav'>
+              <Nav.Link
+                key={link.href}
+                as={Link}
+                to={link.href}
+                className='type-nav active:font-bold! active:text-purple-500!'>
                 {link.label}
               </Nav.Link>
             ))}

@@ -21,6 +21,7 @@
   "include": [
     "src/**/*",
     "api/**/*.js",
+    "api/**/*.ts",
     "scripts/**/*.js",
     "scripts/**/*.mjs",
     "lib/**/*.js",
