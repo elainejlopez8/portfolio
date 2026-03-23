@@ -1,7 +1,9 @@
 export default async function handler(request, response) {
   try {
     const githubToken = process.env.GITHUB_TOKEN;
-    const username = request.query?.username;
+    const rawUsername = request.query?.username;
+    const username =
+      Array.isArray(rawUsername) ? rawUsername[0] : typeof rawUsername === 'string' ? rawUsername : undefined;
     const url = username
       ? `https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=100&sort=updated`
       : 'https://api.github.com/user/repos?per_page=100&sort=updated';
