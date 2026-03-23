@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:vercel": "yarn dlx vercel dev",
+    "dev:vercel": "node ./scripts/dev-vercel.mjs",
     "build": "tsc -b && vite build",
     "lint": "prettier --check . && eslint \"src/**/*.{js,jsx,ts,tsx}\" --max-warnings=0",
     "lint:fix": "prettier --write . && eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",

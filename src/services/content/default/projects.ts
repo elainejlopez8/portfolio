@@ -3,8 +3,6 @@ export const projects = {
   wip: 'Work In Progress',
   noCompleted: 'No completed projects yet.',
   completed: 'Completed Projects',
-  unfinished: 'Incomplete Projects',
-  noUnfinished: 'No incomplete projects.',
   noCodePenProjects: 'No CodePen projects yet.',
   archived: 'Archived',
   viewProduct: 'View Product',

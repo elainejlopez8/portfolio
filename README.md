@@ -40,6 +40,8 @@ If you need the API route locally for the Projects page, run Vercel Dev instead:
 yarn dev:vercel
 ```
 
+`yarn dev:vercel` loads server-side variables from `.env.local` before starting `vercel dev`, so API routes can read `GITHUB_TOKEN` locally.
+
 ## Available scripts
 
 - `yarn dev` - start the Vite development server
@@ -105,6 +107,8 @@ GITHUB_TOKEN=your_github_token_here
 VITE_GITHUB_USERNAME=your-github-username
 VITE_CODEPEN_USERNAME=your-codepen-username
 ```
+
+`GITHUB_TOKEN` is server-only for the Vercel API route, so do not prefix it with `VITE_`.
 
 - `GITHUB_TOKEN` is used by `api/github-repos.js` when you want authenticated GitHub repository data locally.
 - `VITE_GITHUB_USERNAME` lets the Projects page fall back to public GitHub repositories if the authenticated API route is not available.

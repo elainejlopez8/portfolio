@@ -140,6 +140,7 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
   const wip: Repo[] = repos
     ? repos.filter((r) => r.topics && (r.topics.includes('wip') || r.topics.includes('in-progress')))
     : [];
+
   const groupByType = (arr: Repo[]) =>
     arr.reduce(
       (acc: Record<string, Repo[]>, r) => {
@@ -182,7 +183,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
                 { key: 'all', label: t('all') },
                 { key: 'wip', label: t('wip') },
                 { key: 'completed', label: t('completed') },
-                { key: 'unfinished', label: t('unfinished') },
                 { key: 'codepen', label: t('codepenTitle') },
               ].map((tab) => (
                 <button
