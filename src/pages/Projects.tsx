@@ -164,35 +164,39 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
             <>
               {(activeTab === 'all' || activeTab === 'completed') && (
                 <section>
-                  {activeTab === 'all' && <h2 className='mb-6 text-purple-500!'>{t('completed')}</h2>}
-                  {Object.keys(completedGroups).length > 0 ? (
-                    Object.keys(completedGroups).map((type) => (
-                      <div key={`done-group-${type}`} className='mb-4'>
-                        <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
-                          {completedGroups[type].map((r) => (
-                            <ProjectCard key={`done-${r.id}`} r={r} variant='completed' />
-                          ))}
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <p className='text-muted'>{t('noCompleted')}</p>
+                  {activeTab === 'all' && Object.keys(completedGroups).length > 0 && (
+                    <h2 className='mb-4! text-purple-500!'>{t('completed')}</h2>
                   )}
+                  {Object.keys(completedGroups).length > 0
+                    ? Object.keys(completedGroups).map((type) => (
+                        <div key={`done-group-${type}`} className='mb-4'>
+                          <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
+                            {completedGroups[type].map((r) => (
+                              <ProjectCard key={`done-${r.id}`} r={r} variant='completed' />
+                            ))}
+                          </div>
+                        </div>
+                      ))
+                    : activeTab === 'completed' && <p className='text-muted'>{t('noCompleted')}</p>}
                 </section>
               )}
 
               {(activeTab === 'all' || activeTab === 'wip') && (
                 <section className='mb-6'>
-                  {activeTab === 'all' && <h2 className='mb-6 text-pink-500!'>{t('wip')}</h2>}
-                  {Object.keys(wipGroups).map((type) => (
-                    <div key={`wip-group-${type}`} className='mb-4'>
-                      <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
-                        {wipGroups[type].map((r) => (
-                          <ProjectCard key={`wip-${r.id}`} r={r} variant='wip' />
-                        ))}
-                      </div>
-                    </div>
-                  ))}
+                  {activeTab === 'all' && Object.keys(wipGroups).length > 0 && (
+                    <h2 className='mb-4! text-pink-500!'>{t('wip')}</h2>
+                  )}
+                  {Object.keys(wipGroups).length > 0
+                    ? Object.keys(wipGroups).map((type) => (
+                        <div key={`wip-group-${type}`} className='mb-4'>
+                          <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
+                            {wipGroups[type].map((r) => (
+                              <ProjectCard key={`wip-${r.id}`} r={r} variant='wip' />
+                            ))}
+                          </div>
+                        </div>
+                      ))
+                    : activeTab === 'wip' && <p className='text-muted'>{t('noWip')}</p>}
                 </section>
               )}
             </>
