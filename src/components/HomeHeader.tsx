@@ -123,7 +123,7 @@ const HomeHeader = ({ onLearnMore, showContent = true }: { onLearnMore?: () => v
   return (
     <Container
       fluid='lg'
-      className={clsx({ 'home-header-shell--initial': !showContent, 'home-header-shell': showContent })}
+      className={clsx('home-header-shell', { 'home-header-shell--initial': !showContent })}
       id='home'
       ref={containerRef}>
       <div
