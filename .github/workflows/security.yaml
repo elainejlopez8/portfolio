@@ -28,7 +28,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Audit production deps
-        run: yarn npm audit --environment production
+        run: yarn npm audit --environment production --recursive --severity high
 
   gitleaks:
     runs-on: ubuntu-latest
