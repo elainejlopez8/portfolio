@@ -1,4 +1,5 @@
 import PageLayout from '@/components/PageLayout';
+import { Analytics } from '@vercel/analytics/react';
 import { Suspense, lazy } from 'react';
 import { type RouteObject, useLocation, useRoutes } from 'react-router-dom';
 
@@ -48,6 +49,7 @@ function App() {
   return (
     <PageLayout showHeaderFooter={showHeaderFooter}>
       <Suspense fallback={null}>{useRoutes(routes)}</Suspense>
+      <Analytics />
     </PageLayout>
   );
 }
