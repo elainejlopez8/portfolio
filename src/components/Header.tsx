@@ -42,7 +42,7 @@ const Header = () => {
                 key={link.href}
                 as={Link}
                 to={link.href}
-                className='type-nav active:font-bold! active:text-purple-500!'>
+                className='type-nav visited:text-purple-500! visited:hover:text-pink-500! active:font-bold! active:text-purple-500!'>
                 {link.label}
               </Nav.Link>
             ))}
