@@ -48,7 +48,7 @@
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.7.1",
+    "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@types/lodash": "^4.17.15",
     "@types/node": "^25.5.0",
