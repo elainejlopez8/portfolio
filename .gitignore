@@ -24,6 +24,7 @@ dist-ssr
 *.sln
 *.sw?
 .vscode/settings.json
+.yarn/install-state.gz
 
 # Local deployment folder
 .vercel
