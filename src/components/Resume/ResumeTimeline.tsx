@@ -34,17 +34,19 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
             </TimelineSeparator>
 
             <TimelineContent className='px-4 py-2'>
-              {j === 0 && <div className='text-lg font-bold! text-purple-400'>{content?.companies[i]?.company}</div>}
+              {j === 0 && (
+                <p className='font-subheading! text-lg font-bold! text-purple-400'>{content?.companies[i]?.company}</p>
+              )}
 
               <div className='flex w-full items-start justify-between gap-3 text-lg font-semibold! text-purple-300'>
-                <span>{prefix?.title}</span>
-                <span className='ml-auto text-right'>{prefix?.team}</span>
+                <span className='font-subheading!'>{prefix?.title}</span>
+                <span className='ml-auto text-right font-subheading!'>
+                  {prefix?.start_date} - {prefix?.end_date}
+                </span>
               </div>
 
-              <div className='text-base text-pink-400'>
-                {prefix?.start_date} - {prefix?.end_date}
-              </div>
-              {prefix?.description && <p className='text-muted mt-2'>{prefix?.description}</p>}
+              <p className='font-subheading! text-base font-bold text-pink-400'></p>
+              {prefix?.description && <p className='text-muted'>{prefix?.description}</p>}
             </TimelineContent>
           </TimelineItem>
         );

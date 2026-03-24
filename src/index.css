@@ -415,6 +415,251 @@ p {
   text-align: left;
 }
 
+.about-terminal-section {
+  padding-top: var(--space-layout-block);
+  --about-shell-bg: color-mix(in srgb, var(--color-purple-500) 32%, black);
+  --about-shell-bg-soft: color-mix(in srgb, var(--color-purple-400) 24%, black);
+  --about-shell-border: var(--color-blue-300);
+  --about-shell-shadow: rgba(42, 28, 64, 0.4);
+  --about-shell-title: #f9f6ff;
+  --about-shell-copy: rgba(249, 246, 255, 0.9);
+  --about-shell-prompt: var(--color-pink-500);
+  --about-shell-command: var(--color-blue-500);
+}
+
+.about-terminal-line--command {
+  color: var(--color-blue-500);
+}
+
+.about-terminal-window {
+  position: relative;
+  margin-inline: auto;
+  box-shadow:
+    0 18px 50px var(--about-shell-shadow),
+    0 0 0 1px color-mix(in srgb, var(--about-shell-border) 28%, transparent);
+  border: 1px solid color-mix(in srgb, var(--about-shell-border) 55%, transparent);
+  border-radius: 0.875rem;
+  background: linear-gradient(180deg, var(--about-shell-bg), var(--about-shell-bg-soft));
+  width: min(100%, 72rem);
+  overflow: hidden;
+}
+
+.about-terminal-window::after {
+  position: absolute;
+  opacity: 0.16;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-blue-300) 70%, transparent),
+    color-mix(in srgb, var(--color-blue-300) 70%, transparent) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  content: '';
+}
+
+.about-terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--about-shell-border) 45%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-purple-500) 45%, black),
+    color-mix(in srgb, var(--color-purple-400) 35%, black)
+  );
+  padding: 0.75rem 1rem;
+}
+
+.about-terminal-controls {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.about-terminal-dot {
+  display: block;
+  border-radius: 999px;
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.about-terminal-dot--close {
+  background: var(--color-pink-500);
+}
+
+.about-terminal-dot--minimise {
+  background: var(--color-pink-300);
+}
+
+.about-terminal-dot--expand {
+  background: var(--color-blue-400);
+}
+
+.about-terminal-tab {
+  margin: 0;
+  color: var(--about-shell-title);
+  font-weight: 600;
+  font-size: var(--font-size-caption);
+  font-family: var(--font-subheading);
+  letter-spacing: 0.01em;
+}
+
+.about-terminal-body {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  gap: var(--space-type-base);
+  z-index: 1;
+  padding: clamp(1rem, 0.85rem + 0.75vw, 1.75rem);
+  color: var(--about-shell-copy);
+}
+
+.about-terminal-line {
+  margin: 0;
+  color: var(--about-shell-command);
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+  font-family: var(--font-subheading);
+  text-align: left;
+}
+
+.about-terminal-prompt {
+  margin-right: 0.55rem;
+  color: var(--about-shell-prompt);
+  font-weight: 700;
+}
+
+.about-terminal-title {
+  color: var(--about-shell-title);
+  text-align: left;
+  text-shadow: none;
+}
+
+.about-terminal-tagline {
+  color: color-mix(in srgb, var(--color-blue-300) 85%, white);
+  text-align: left;
+  text-shadow: none;
+}
+
+.about-terminal-content {
+  align-items: flex-start;
+  padding-inline: 0;
+}
+
+.about-terminal-media {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--color-purple-500) 32%, transparent);
+  border: 0.4rem solid color-mix(in srgb, var(--color-blue-100) 65%, white);
+  background: color-mix(in srgb, var(--color-purple-100) 40%, white);
+}
+
+.about-terminal-copy,
+.about-terminal-copy > * {
+  color: var(--about-shell-copy);
+}
+
+.about-terminal-copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-type-tight);
+}
+
+.about-terminal-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.about-terminal-command {
+  color: var(--about-shell-title);
+}
+
+.about-terminal-response {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-left: clamp(1.25rem, 0.9rem + 1vw, 1.75rem);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-purple-200) 55%, transparent);
+  border-left: 1px solid color-mix(in srgb, var(--color-blue-300) 40%, transparent);
+  background: color-mix(in srgb, var(--color-purple-500) 12%, transparent);
+  padding: 0.75rem 0.85rem;
+}
+
+.about-terminal-output-line {
+  margin: 0;
+  color: var(--about-shell-copy);
+  line-height: 1.6;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+.about-terminal-output-spacer {
+  height: 0.5rem;
+}
+
+.about-terminal-copy a {
+  color: color-mix(in srgb, var(--color-blue-300) 86%, white);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-blue-300) 45%, transparent);
+  text-underline-offset: 0.15em;
+}
+
+.about-terminal-copy a:hover {
+  color: var(--about-shell-title);
+}
+
+.about-terminal-line--command {
+  margin-bottom: 0;
+}
+
+.about-terminal-line--cursor {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.about-terminal-cursor {
+  animation: terminal-cursor-blink 1s steps(1, end) infinite;
+  background: var(--about-shell-prompt);
+  width: 0.6rem;
+  height: 1rem;
+}
+
+@keyframes terminal-cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .about-terminal-window {
+    border-radius: 0.7rem;
+  }
+
+  .about-terminal-header {
+    padding: 0.65rem 0.8rem;
+  }
+
+  .about-terminal-tab {
+    max-width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .about-terminal-response {
+    margin-left: 0;
+  }
+}
+
 @media (orientation: landscape) {
   .home-header {
     flex-direction: row;
@@ -463,6 +708,7 @@ a {
   color: var(--color-purple-500);
   text-decoration: none;
 }
+
 a:hover {
   color: var(--color-pink-500);
 }

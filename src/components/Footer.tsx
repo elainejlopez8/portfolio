@@ -15,7 +15,7 @@ const Footer = () => {
   const { t } = useContent('general');
   const footerLinks = t('footer.urls', { returnObjects: true }) as Record<
     string,
-    { url: string; icon?: string; alt?: string }
+    { href: string; icon?: string; alt?: string }
   >;
 
   return (
@@ -24,7 +24,7 @@ const Footer = () => {
         {Object.entries(footerLinks).map(([key, link]) => (
           <a
             key={key}
-            href={link.url}
+            href={link.href}
             target='_blank'
             rel='noopener noreferrer'
             aria-label={link.alt}
