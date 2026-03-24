@@ -19,8 +19,8 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/lab": "^6.0.0-beta.26",
-    "@mui/material": "^6.4.3",
+    "@mui/lab": "^7.0.1-beta.23",
+    "@mui/material": "^7.3.9",
     "@popperjs/core": "^2.11.8",
     "@tailwindcss/cli": "^4.2.1",
     "@tailwindcss/postcss": "^4.2.1",
@@ -51,7 +51,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "^9.0.0",
     "@types/lodash": "^4.17.15",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
@@ -61,7 +61,7 @@
     "@vitejs/plugin-react": "^6.0.1",
     "concurrently": "^9.2.1",
     "dotenv": "^16.1.4",
-    "eslint": "^10",
+    "eslint": "^9.0.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react": "^7.37.5",
