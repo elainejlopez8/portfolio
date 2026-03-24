@@ -20,13 +20,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install deps
-        run: npm ci
+        run: yarn install --immutable
 
       - name: Audit production deps
-        run: npm audit --omit=dev --audit-level=high
+        run: yarn npm audit --environment production
 
   gitleaks:
     runs-on: ubuntu-latest

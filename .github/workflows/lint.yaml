@@ -1,9 +1,9 @@
 ---
 name: Lint
 
-on: # yamllint disable-line rule:truthy
-  push: null
-  pull_request: null
+on:
+  push:
+  pull_request:
 
 permissions: {}
 
