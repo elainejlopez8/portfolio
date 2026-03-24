@@ -4480,12 +4480,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-declaration-sorter@npm:^7.1.1":
-  version: 7.2.0
-  resolution: "css-declaration-sorter@npm:7.2.0"
+"css-declaration-sorter@npm:^7.3.0":
+  version: 7.3.1
+  resolution: "css-declaration-sorter@npm:7.3.1"
   peerDependencies:
     postcss: ^8.0.9
-  checksum: 10c0/d8516be94f8f2daa233ef021688b965c08161624cbf830a4d7ee1099429437c0ee124d35c91b1c659cfd891a68e8888aa941726dab12279bc114aaed60a94606
+  checksum: 10c0/8348ec76157e4b370ce4383a80e23fde28dde53901572ae5bcb5cd02cfc2ba0a76a7b5433c361524ed4cea713023802abc7b56e2304aad0721e449011fa83b37
   languageName: node
   linkType: hard
 
@@ -8989,7 +8989,7 @@ __metadata:
     lodash: "npm:^4.17.23"
     postcss: "npm:^8.5.8"
     prettier: "npm:^3.5.0"
-    prettier-plugin-css-order: "npm:^2.1.2"
+    prettier-plugin-css-order: "npm:^2.2.0"
     prettier-plugin-multiline-arrays: "npm:^4.1.5"
     prettier-plugin-organize-attributes: "npm:^1.0.0"
     prettier-plugin-organize-imports: "npm:^4.1.0"
@@ -9076,16 +9076,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-css-order@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "prettier-plugin-css-order@npm:2.1.2"
+"prettier-plugin-css-order@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "prettier-plugin-css-order@npm:2.2.0"
   dependencies:
-    css-declaration-sorter: "npm:^7.1.1"
+    css-declaration-sorter: "npm:^7.3.0"
     postcss-less: "npm:^6.0.0"
     postcss-scss: "npm:^4.0.9"
   peerDependencies:
     prettier: 3.x
-  checksum: 10c0/e6e8230048fb9d994cde207796b35e0e074cb83420b0c17c764353da290bb2b3d099265bf65537a70c03e60a0854bfa4ce2576b436933d8b4b0d86bdd61a6e73
+  checksum: 10c0/8aa599ae787ccb7dfbb37f81ed22dba86d1f60826dccd4fcdfbe02e56b774980395f45f43a57775f895ba6f6237dee3048fe88b5e032b9d5280210535f923aef
   languageName: node
   linkType: hard
 
