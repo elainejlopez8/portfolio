@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Verify production environment requires repository owner approval
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const envName = 'production';
