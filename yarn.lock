@@ -6221,9 +6221,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:26.0.2":
-  version: 26.0.2
-  resolution: "i18next@npm:26.0.2"
+"i18next@npm:26.0.6":
+  version: 26.0.6
+  resolution: "i18next@npm:26.0.6"
   dependencies:
     "@babel/runtime": "npm:^7.29.2"
   peerDependencies:
@@ -6231,7 +6231,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/9a396b559a5e7eed56c9c31d56efbee760069ee55f371864e2730b76cbb65fd7fbea19d63f9406a2db1ce232f9d0f11b94b9c0c7a5b9294e0fec681b192c79b3
+  checksum: 10c0/3a2d81352393657fabf9903990e6cc3232ff4935ea131ecf6326d80aaf8394f7cb1099a00cad705ecc5b083ffcba80f45e6e77dfa2ca16c64ce1ef4c9de2d9c9
   languageName: node
   linkType: hard
 
@@ -8628,7 +8628,7 @@ __metadata:
     eslint-plugin-react-refresh: "npm:^0.5.2"
     globals: "npm:^17.4.0"
     husky: "npm:^9.1.7"
-    i18next: "npm:26.0.2"
+    i18next: "npm:26.0.6"
     i18next-http-backend: "npm:^3.0.2"
     jiti: "npm:^2.4.2"
     lint-staged: "npm:^16.4.0"
