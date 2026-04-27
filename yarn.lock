@@ -8644,7 +8644,7 @@ __metadata:
     react: "npm:^19.2.4"
     react-bootstrap: "npm:2.10.10"
     react-dom: "npm:^19.2.4"
-    react-i18next: "npm:17.0.2"
+    react-i18next: "npm:17.0.6"
     react-icons: "npm:^5.4.0"
     react-markdown: "npm:^10.1.0"
     react-router-dom: "npm:^7.13.1"
@@ -9022,9 +9022,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:17.0.2":
-  version: 17.0.2
-  resolution: "react-i18next@npm:17.0.2"
+"react-i18next@npm:17.0.6":
+  version: 17.0.6
+  resolution: "react-i18next@npm:17.0.6"
   dependencies:
     "@babel/runtime": "npm:^7.29.2"
     html-parse-stringify: "npm:^3.0.1"
@@ -9040,7 +9040,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 10c0/6bbaeccb919726a7f4fda1e547fa58936f1004e122b99234ac1a65d35077563864af7062c51ab9b8b0190be4cb384cd2ed7aeaa895d2785c1783c39cdae64ecd
+  checksum: 10c0/5d49ca6c34a4a0315d5acd8318653ae8f8cdb25b4dff2c8827cf0e33dc95f94775b8881ecb9652566289a0b34b7b3caf6c5c334e200023c3a2e5965af18f33c4
   languageName: node
   linkType: hard
 
