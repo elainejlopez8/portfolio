@@ -1,0 +1,674 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Ubuntu+Sans+Mono:ital,wght@0,200..800;1,200..800&family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap');
+
+/*
+  ─────────────────────────────────────────────────────────────────────────────
+  STRATEGY
+  Payload's own CSS is in @layer payload-default (lower priority).
+  Bootstrap's CSS is unlayered but we prefix with .template-default to win
+  on specificity (2 classes beat Bootstrap's 1 class).
+  ─────────────────────────────────────────────────────────────────────────────
+
+  PALETTE
+    purple  rgb(95 75 135)   – primary / base midpoint
+    pink    rgb(160 95 145)  – hover / action
+    blue    rgb(50 90 190)   – links / interactive
+*/
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. CSS VARIABLE OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Purple-tinted greyscale replaces Payload's neutral grey */
+  --color-base-0: rgb(249 246 255);
+  --color-base-50: rgb(240 235 250);
+  --color-base-100: rgb(228 220 242);
+  --color-base-150: rgb(214 204 231);
+  --color-base-200: rgb(198 186 219);
+  --color-base-250: rgb(180 167 205);
+  --color-base-300: rgb(161 147 190);
+  --color-base-350: rgb(140 126 174);
+  --color-base-400: rgb(120 105 158);
+  --color-base-450: rgb(108 92 147);
+  --color-base-500: rgb(95 75 135);
+  /* portfolio purple-500 */
+  --color-base-550: rgb(83 65 120);
+  --color-base-600: rgb(71 55 105);
+  --color-base-650: rgb(60 46 90);
+  --color-base-700: rgb(49 37 76);
+  --color-base-750: rgb(39 29 62);
+  --color-base-800: rgb(30 21 49);
+  --color-base-850: rgb(21 14 37);
+  --color-base-900: rgb(14 9 26);
+  --color-base-950: rgb(8 4 16);
+  --color-base-1000: rgb(4 2 9);
+
+  /* Portfolio blue as interactive / brand accent */
+  --color-blue-50: rgb(236 241 252);
+  --color-blue-100: rgb(214 224 249);
+  --color-blue-200: rgb(152 180 238);
+  --color-blue-300: rgb(88 134 220);
+  --color-blue-400: rgb(57 99 200);
+  --color-blue-450: rgb(50 90 190);
+  --color-blue-500: rgb(50 90 190);
+  --color-blue-600: rgb(37 67 147);
+  --color-blue-700: rgb(26 47 107);
+  --color-blue-800: rgb(16 30 69);
+  --color-blue-900: rgb(8 15 36);
+  --color-blue-950: rgb(5 9 21);
+
+  /* Re-map focus ring / success colour to portfolio pink */
+  --color-success-500: rgb(160 95 145);
+  --theme-success-500: rgb(160 95 145);
+
+  /* Payload's own font vars */
+  --font-body: 'Ubuntu Sans', system-ui, sans-serif;
+  --font-mono: 'Ubuntu Sans Mono', ui-monospace, monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. GLOBAL FONT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.template-default {
+  font-family: 'Ubuntu Sans', system-ui, sans-serif;
+}
+
+.template-default h1,
+.template-default h2,
+.template-default h3,
+.template-default h4,
+.template-default h5,
+.template-default h6,
+.template-default .render-title {
+  font-weight: 800;
+  font-family: 'Montserrat', system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. HEIGHTS — slimmer chrome
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Payload default is calc(var(--base) * 2.8) ≈ 57px.  Drop to 44px. */
+  --app-header-height: 2.75rem;
+  --cms-nav-height: 2.75rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. NAV — horizontal top bar (replaces sidebar)
+   ─────────────────────────────────────────────────────────────────────────
+   Payload uses CSS Grid on .template-default with two columns:
+     col 1 = nav sidebar  |  col 2 = main content
+   We collapse to a single column with two rows:
+     row 1 = nav top bar  |  row 2 = main content
+   This makes the nav a compact horizontal strip at the top.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 1 ─ Single-column grid so nav sits above content */
+.template-default,
+.template-default.template-default--nav-open,
+.template-default.template-default--nav-hydrated,
+.template-default.template-default--nav-hydrated.template-default--nav-open {
+  grid-template-rows: var(--cms-nav-height) 1fr;
+  grid-template-columns: 1fr !important;
+}
+
+/* 2 ─ Hide hamburger (nav is always visible as top bar) */
+.template-default__nav-toggler-wrapper {
+  display: none !important;
+}
+
+/* 3 ─ Nav = slim horizontal strip, always shown */
+.template-default aside.nav {
+  position: sticky;
+  top: 0;
+  left: unset;
+  opacity: 1 !important;
+  z-index: var(--z-nav);
+  border-right: none;
+  border-bottom: 1px solid var(--theme-elevation-150);
+  background: var(--theme-elevation-50);
+  width: 100%;
+  height: var(--cms-nav-height) !important;
+  overflow: visible;
+}
+
+/* 4 ─ Scroll container → horizontal flex row */
+.template-default .nav__scroll {
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  padding: 0 0.75rem !important;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* 5 ─ Logo: exit absolute positioning, join flex flow */
+.template-default .nav__header {
+  display: flex;
+  position: static !important;
+  flex-shrink: 0;
+  align-items: center;
+  margin-right: 0.5rem;
+  border-right: 1px solid var(--theme-elevation-150);
+  border-bottom: none;
+  padding: 0 0.75rem 0 0;
+  width: auto;
+  height: 100%;
+}
+
+.template-default .nav__header-content {
+  display: flex;
+  position: static !important;
+  align-items: center;
+  width: auto;
+  height: 100%;
+}
+
+.template-default .nav__header svg {
+  width: 100px;
+  max-width: 100px;
+  height: auto;
+  overflow: visible;
+}
+
+/* 6 ─ Nav link list → horizontal row */
+.template-default .nav__wrap {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0;
+  width: auto;
+}
+
+/* 7 ─ Nav group → horizontal; hide "Site Content" label */
+.template-default .nav-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 0;
+  width: auto;
+}
+
+.template-default .nav-group__toggle {
+  display: none !important;
+}
+
+.template-default .nav-group .collapsible__content {
+  display: flex !important;
+  flex-direction: row;
+  opacity: 1 !important;
+  max-height: none !important;
+  overflow: visible;
+}
+
+/* 8 ─ Individual nav links — compact, fit their text */
+.template-default .nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  width: auto;
+  color: var(--theme-elevation-700);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.template-default .nav__link:hover {
+  transform: none;
+  background: var(--theme-elevation-100);
+  color: var(--theme-elevation-900);
+  font-weight: 600;
+}
+
+.template-default .nav__link.active {
+  background: rgba(160, 95, 145, 0.12);
+  color: rgb(160 95 145);
+  font-weight: 700;
+}
+
+/* 9 ─ Account / logout controls → right end of bar */
+.template-default .nav__controls {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+  border-left: 1px solid var(--theme-elevation-150);
+  padding-left: 0.5rem;
+}
+
+.template-default .nav__controls > :first-child {
+  margin-top: 0;
+}
+
+/* 10 ─ App header (breadcrumbs + save) sits just below the nav bar */
+.template-default .app-header {
+  border-bottom: 1px solid var(--theme-elevation-150);
+  background: var(--theme-elevation-50);
+}
+
+/* Header actions row: keep buttons in a horizontal flex row */
+.template-default .app-header__wrapper,
+.template-default .app-header__content,
+.template-default .app-header__actions,
+.template-default .app-header__actions-wrapper,
+.template-default .doc-controls__wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. BUTTONS — restore Payload's intended layout, override Bootstrap
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.template-default .btn {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: unset;
+  gap: 0;
+  transition:
+    background 120ms ease,
+    color 120ms ease,
+    border 120ms ease;
+  cursor: pointer;
+  box-shadow: none;
+  border: var(--btn-border, 1px solid transparent);
+  border-radius: var(--style-radius-s, 3px);
+  background-color: var(--bg-color, transparent);
+  padding: var(--btn-padding-block-start, 0) var(--btn-padding-inline-end, 0.5rem) var(--btn-padding-block-end, 0)
+    var(--btn-padding-inline-start, 0.5rem);
+  color: var(--color, inherit);
+  font-weight: var(--btn-font-weight, normal);
+  font-size: var(--base-body-size, 0.875rem);
+  line-height: var(--btn-line-height, 1.2);
+  font-family: var(--font-body);
+  letter-spacing: unset;
+  text-decoration: none;
+  text-transform: unset;
+  white-space: nowrap;
+}
+
+.template-default .btn:hover {
+  transform: none;
+  border-width: unset;
+  /* cancel Bootstrap's scale-on-hover */
+  font-weight: inherit;
+}
+
+.template-default .btn__content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: var(--btn-icon-content-gap, 0.3em);
+}
+
+/* Collection list action buttons — space them out */
+.template-default .list-controls,
+.template-default .collection-list__header,
+.template-default .list-header__wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.template-default .list-controls .btn,
+.template-default .collection-list__header .btn,
+.template-default .doc-controls .btn {
+  /* Payload sets margin-block on .btn; zero it here */
+  margin-inline: 0;
+  margin-block: 0;
+}
+
+/* Table row action buttons */
+.template-default .table td .btn,
+.template-default .table th .btn {
+  margin-block: 0;
+}
+
+/* ─────────────────────────────────────────────────────────
+   ICON-ONLY BUTTON LABELS
+   Payload marks icon-only buttons with .btn--icon-only.
+   We show a small text label below the icon using the
+   aria-label attribute so nothing needs to be hardcoded.
+   ───────────────────────────────────────────────────────── */
+
+/* Make the button a column so the label sits beneath the icon */
+.template-default .btn--icon-only {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Inject the aria-label as a visible micro-label */
+.template-default .btn--icon-only::after {
+  opacity: 0.75;
+  content: attr(aria-label);
+  color: currentColor;
+  font-weight: 600;
+  font-size: 0.6rem;
+  line-height: 1;
+  font-family: var(--font-body);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Hide the label when there's no aria-label (avoids blank space) */
+.template-default .btn--icon-only:not([aria-label])::after {
+  display: none;
+}
+
+/* In the app header the buttons are very small — keep labels subtle */
+.template-default .app-header .btn--icon-only::after {
+  opacity: 0.65;
+  font-size: 0.55rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. FORMS — larger, more readable inputs
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Input & textarea sizing — full width, generous height */
+.template-default .field-type.text input,
+.template-default .field-type.email input,
+.template-default .field-type.number input,
+.template-default .field-type.date input,
+.template-default .field-type.url input {
+  box-sizing: border-box;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  max-width: 100%;
+  height: 3rem;
+  font-size: 1rem;
+  font-family: var(--font-body);
+}
+
+.template-default .field-type.textarea textarea {
+  box-sizing: border-box;
+  border-radius: 6px;
+  padding: 0.875rem 1rem;
+  width: 100%;
+  max-width: 100%;
+  min-height: 8rem;
+  resize: vertical;
+  font-size: 1rem;
+  font-family: var(--font-body);
+}
+
+/* Select / react-select */
+.template-default .field-type.select .rs__control,
+.template-default .react-select .rs__control {
+  border-radius: 6px;
+  min-height: 3rem;
+  font-size: 1rem;
+}
+
+/* Field labels */
+.template-default label.field-label {
+  padding-bottom: 0.4rem;
+  color: var(--theme-elevation-600);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  font-family: 'Montserrat', system-ui, sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Field description text */
+.template-default .field-description {
+  margin-top: 0.25rem;
+  color: var(--theme-elevation-500);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* Spacing between fields */
+.template-default .render-fields > .field-type {
+  margin-bottom: 1.5rem;
+}
+
+/* Group field: card-like treatment */
+.template-default .group-field--top-level {
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 8px;
+  background: var(--theme-elevation-50);
+  padding: 1.5rem 1.5rem;
+}
+
+.template-default .group-field__header {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--theme-elevation-150);
+  padding-bottom: 0.75rem;
+}
+
+.template-default .group-field__title {
+  color: var(--theme-elevation-700);
+  font-weight: 700;
+  font-size: 0.9rem;
+  font-family: 'Montserrat', system-ui, sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. SVG / IMAGE — Bootstrap bleed-in fix
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.template-default svg {
+  vertical-align: unset;
+  width: auto;
+  max-width: unset;
+  height: auto;
+  overflow: visible;
+}
+
+.template-default .nav svg,
+.template-default .nav img,
+.template-default .app-header svg,
+.template-default .app-header img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. MISC Bootstrap resets
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.template-default input,
+.template-default textarea,
+.template-default select {
+  box-sizing: border-box;
+  font-family: var(--font-body);
+}
+
+.template-default a {
+  text-decoration: none;
+}
+
+.template-default a:hover {
+  transform: none;
+  text-decoration: none;
+}
+
+.template-default .nav-toggler {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. COLOUR ACCENTS
+   ─────────────────────────────────────────────────────────────────────────
+   All rules here are purely additive — layout is handled above.
+   Palette:
+     purple-dark   rgb(21  14  37)
+     purple-mid    rgb(49  37  76)
+     purple        rgb(95  75 135)
+     pink          rgb(160 95 145)
+     blue          rgb(50  90 190)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Nav bar: deep purple gradient ──────────────────────────────────────── */
+.template-default aside.nav {
+  border-bottom-color: rgb(71 55 105) !important;
+  background: linear-gradient(90deg, rgb(21 14 37) 0%, rgb(39 29 62) 60%, rgb(49 37 76) 100%) !important;
+}
+
+/* Logo divider on dark nav */
+.template-default .nav__header {
+  border-right-color: rgb(71 55 105) !important;
+}
+
+/* Nav link text — light on the dark bar */
+.template-default .nav__link {
+  color: rgb(214 204 231) !important;
+}
+
+.template-default .nav__link:hover {
+  background: rgba(160, 95, 145, 0.18) !important;
+  color: rgb(249 246 255) !important;
+}
+
+/* Active nav link: pink/purple pill */
+.template-default .nav__link.active {
+  box-shadow: inset 0 0 0 1px rgba(160, 95, 145, 0.4);
+  background: linear-gradient(135deg, rgba(95, 75, 135, 0.55), rgba(160, 95, 145, 0.45)) !important;
+  color: rgb(249 246 255) !important;
+}
+
+/* Controls separator on dark nav */
+.template-default .nav__controls {
+  border-left-color: rgb(71 55 105) !important;
+}
+
+/* Nav SVG icons — lighten for dark background */
+.template-default aside.nav svg .stroke {
+  stroke: rgb(214 204 231);
+}
+
+.template-default aside.nav .nav__link svg .stroke,
+.template-default aside.nav .nav__link:hover svg .stroke,
+.template-default aside.nav .nav__controls svg .stroke {
+  stroke: rgb(214 204 231);
+}
+
+/* ── App header: coloured accent stripe on top ───────────────────────────── */
+.template-default .app-header {
+  border-top: 2px solid;
+  border-image: linear-gradient(90deg, rgb(95 75 135), rgb(160 95 145)) 1;
+}
+
+/* Doc controls bar (sticky below app-header): matching accent */
+.template-default .doc-controls {
+  border-top: 1px solid rgba(95, 75, 135, 0.25);
+}
+
+/* ── Field labels: purple tint ───────────────────────────────────────────── */
+.template-default label.field-label {
+  color: rgb(120 105 158) !important;
+}
+
+/* ── Group field cards: coloured left accent border ─────────────────────── */
+.template-default .group-field--top-level {
+  border-left: 3px solid rgb(95 75 135) !important;
+  border-color: var(--theme-elevation-150) !important;
+  border-left-color: rgb(95 75 135) !important;
+}
+
+.template-default .group-field__title {
+  color: rgb(160 95 145) !important;
+}
+
+/* ── Tabs: coloured active indicator ─────────────────────────────────────── */
+.template-default .tabs-field__tab-button--active,
+.template-default [class*='tabs__tab--active'],
+.template-default .tab-button--active {
+  border-bottom-color: rgb(160 95 145) !important;
+  color: rgb(160 95 145) !important;
+}
+
+/* ── Page / view headings ────────────────────────────────────────────────── */
+.template-default .render-title,
+.template-default .doc-header__title,
+.template-default .collection-list__header h1,
+.template-default .dashboard__label {
+  background: linear-gradient(135deg, rgb(140 126 174), rgb(160 95 145));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Dashboard welcome card ──────────────────────────────────────────────── */
+.template-default .dashboard__group {
+  border-left: 3px solid rgb(95 75 135);
+  padding-left: 1rem;
+}
+
+/* ── Primary (style-primary) buttons: portfolio gradient ─────────────────── */
+.template-default .btn--style-primary {
+  --color: rgb(249 246 255);
+  --bg-color: linear-gradient(135deg, rgb(95 75 135), rgb(160 95 145));
+  --hover-bg: linear-gradient(135deg, rgb(83 65 120), rgb(140 80 128));
+  border: none !important;
+  background: var(--bg-color);
+}
+
+/* ── Pill / subtle buttons: purple tint ──────────────────────────────────── */
+.template-default .btn--style-pill {
+  --bg-color: rgba(95, 75, 135, 0.12);
+  --color: rgb(180 167 205);
+  --hover-bg: rgba(95, 75, 135, 0.22);
+  --hover-color: rgb(214 204 231);
+}
+
+/* ── Focus ring: pink ─────────────────────────────────────────────────────── */
+.template-default *:focus-visible {
+  outline-color: rgb(160 95 145) !important;
+}
+
+/* ── Scrollbar: subtle purple ─────────────────────────────────────────────── */
+.template-default ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.template-default ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.template-default ::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: rgba(95, 75, 135, 0.4);
+}
+
+.template-default ::-webkit-scrollbar-thumb:hover {
+  background: rgba(160, 95, 145, 0.6);
+}

@@ -1,4 +1,5 @@
-import { useContent } from '@/hooks/useContent';
+'use client';
+
 import { ResumeCategories, type ResumeTimelineProps } from '@/types';
 import {
   Timeline,
@@ -12,8 +13,9 @@ import {
 import { MdWork } from 'react-icons/md';
 import { JSX } from 'react/jsx-runtime';
 
-export default function ResumeTimeline({ details, category }: ResumeTimelineProps) {
-  const { t } = useContent('resume');
+type ExtendedProps = ResumeTimelineProps & { viewCert?: string };
+
+export default function ResumeTimeline({ details, category, viewCert }: ExtendedProps) {
   const content = JSON.parse(details);
   const items = [];
   const isWork = category === ResumeCategories.employmentHistory;
@@ -52,7 +54,7 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
         );
       }
   }
-  // For education and certifications, render a responsive card grid
+
   if (isEducation) {
     const cards: JSX.Element[] = [];
     for (let i = 0; i < content?.length; i++) {
@@ -101,7 +103,7 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
                 target='_blank'
                 rel='noopener noreferrer'
                 className='inline-block w-full rounded border-2 border-pink-500 bg-transparent px-3 py-1.5 text-center text-xs font-medium text-pink-500! hover:transform-none! hover:bg-pink-500! hover:text-white! sm:w-fit'>
-                {t('certifications.viewCert')}
+                {viewCert ?? 'View Certificate'}
               </a>
             </div>
           )}
@@ -111,7 +113,6 @@ export default function ResumeTimeline({ details, category }: ResumeTimelineProp
     return <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>{cards}</div>;
   }
 
-  // Default: render work timeline using MUI
   return (
     <Timeline
       sx={{

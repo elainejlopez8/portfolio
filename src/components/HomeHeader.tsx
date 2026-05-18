@@ -1,5 +1,7 @@
+'use client';
+
 import landing from '@/assets/landing.png';
-import { useContent } from '@/hooks/useContent';
+import type { AboutMeContent, GeneralContent } from '@/payload/types';
 import clsx from 'clsx';
 import { type CSSProperties, type MouseEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
@@ -7,7 +9,6 @@ import { FaFigma, FaNodeJs, FaNpm, FaReact } from 'react-icons/fa6';
 import { PiCodepenLogoBold, PiGithubLogoBold } from 'react-icons/pi';
 import { TbBrandTypescript, TbUxCircle } from 'react-icons/tb';
 import { TfiLinkedin } from 'react-icons/tfi';
-import Markdown from './Markdown';
 
 const iconMap: Record<string, ReactNode> = {
   TfiLinkedin: <TfiLinkedin />,
@@ -25,17 +26,17 @@ const HOME_HEADER_MIN_SCALE = 0.82;
 const HOME_HEADER_SHRINK_DISTANCE_FACTOR = 0.95;
 const HOME_HEADER_SHELL_EXTRA_HEIGHT = 'clamp(10rem, 16vw, 18rem)';
 
-const HomeHeader = ({ onLearnMore, showContent = true }: { onLearnMore?: () => void; showContent?: boolean }) => {
-  const { t: tg } = useContent('general');
-  const { t } = useContent('aboutMe');
-  const footerLinks = tg('footer.urls', { returnObjects: true }) as Array<{
-    href: string;
-    icon?: string;
-    alt?: string;
-  }>;
-  const socialLinks = footerLinks.filter((link) => link.alt !== 'Email');
-  const webExperienceIcons = tg('header.web.icons', { returnObjects: true }) as string[];
-  const designExperienceIcons = tg('header.design.icons', { returnObjects: true }) as string[];
+type HomeHeaderProps = {
+  generalContent: GeneralContent;
+  aboutMeContent: AboutMeContent;
+  onLearnMore?: () => void;
+  showContent?: boolean;
+};
+
+const HomeHeader = ({ generalContent, aboutMeContent, onLearnMore, showContent = true }: HomeHeaderProps) => {
+  const socialLinks = generalContent.footer.urls.filter((link) => link.alt !== 'Email');
+  const webExperienceIcons = generalContent.header.web.icons;
+  const designExperienceIcons = generalContent.header.design.icons;
 
   const [isNavigatingToAbout, setIsNavigatingToAbout] = useState(false);
   const [shrinkProgress, setShrinkProgress] = useState(0);
@@ -94,7 +95,6 @@ const HomeHeader = ({ onLearnMore, showContent = true }: { onLearnMore?: () => v
 
     scrollTimeoutRef.current = window.setTimeout(() => {
       if (onLearnMore) {
-        // Only scroll and update hash if onLearnMore is provided
         const el = document.getElementById('aboutMe');
         if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -120,6 +120,9 @@ const HomeHeader = ({ onLearnMore, showContent = true }: { onLearnMore?: () => v
     margin: 0,
   } as CSSProperties;
 
+  const webYears = new Date().getFullYear() - 2023;
+  const designYears = new Date().getFullYear() - 2021;
+
   return (
     <Container
       fluid='lg'
@@ -139,12 +142,12 @@ const HomeHeader = ({ onLearnMore, showContent = true }: { onLearnMore?: () => v
           justifyContent: !showContent ? 'center' : undefined,
         }}>
         <div className='home-header-copy'>
-          <p className='type-body'>{tg('helloWorld')}</p>
-          <h1 className='type-display'>{tg('name')}</h1>
-          <h3 className='home-header-profession type-heading'>{t('profession')}</h3>
+          <p className='type-body'>{generalContent.helloWorld}</p>
+          <h1 className='type-display'>{generalContent.name}</h1>
+          <h3 className='home-header-profession type-heading'>{aboutMeContent.profession}</h3>
           {(!showContent || shrinkProgress === 0) && (
             <>
-              <p className='type-body home-header-short-blurb'>{t('short_blurb')}</p>
+              <p className='type-body home-header-short-blurb'>{aboutMeContent.short_blurb}</p>
 
               <div className='home-header-actions'>
                 {!showContent && (
@@ -155,8 +158,8 @@ const HomeHeader = ({ onLearnMore, showContent = true }: { onLearnMore?: () => v
                     className='btn btn-primary home-header-cta text-pink-500! hover:transform-none! hover:text-white!'
                     target='_self'
                     onClick={handleScrollToAbout}
-                    aria-label={t('viewPortfolio')}>
-                    {tg('learnMore')}
+                    aria-label={aboutMeContent.viewPortfolio}>
+                    {generalContent.learnMore}
                   </Button>
                 )}
 
@@ -176,26 +179,30 @@ const HomeHeader = ({ onLearnMore, showContent = true }: { onLearnMore?: () => v
           )}
           <div className='home-header-stats'>
             <div className='home-header-stat'>
-              <Markdown source={t('header.experience', { numberOfYears: new Date().getFullYear() - 2023 })} />
+              <p className='home-header-stat-value'>
+                {webYears}+<span className='home-header-stat-unit'>Years</span>
+              </p>
               <p className='home-header-stat-copy'>
-                <Markdown source={t('header.web.text')} />
+                {generalContent.header.web.text}
                 <span className='home-header-stat-icons home-header-stat-icons--web'>
-                  {webExperienceIcons?.map((icon) => iconMap[icon || ''])}
+                  {webExperienceIcons?.map((icon) => iconMap[icon])}
                 </span>
               </p>
             </div>
             <div className='home-header-stat'>
-              <Markdown source={t('header.experience', { numberOfYears: new Date().getFullYear() - 2021 })} />
+              <p className='home-header-stat-value'>
+                {designYears}+<span className='home-header-stat-unit'>Years</span>
+              </p>
               <p className='home-header-stat-copy'>
-                <Markdown source={t('header.design.text')} />
+                {generalContent.header.design.text}
                 <span className='home-header-stat-icons home-header-stat-icons--design'>
-                  {designExperienceIcons?.map((icon) => iconMap[icon || ''])}
+                  {designExperienceIcons?.map((icon) => iconMap[icon])}
                 </span>
               </p>
             </div>
           </div>
         </div>
-        <img src={landing} alt='Hi Bitmoji' aria-describedby='Hi Bitmoji' className='home-header-media' />
+        <img src={landing.src} alt='Hi Bitmoji' aria-describedby='Hi Bitmoji' className='home-header-media' />
       </div>
     </Container>
   );

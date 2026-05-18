@@ -1,20 +1,26 @@
+'use client';
+
 import errorImg from '@/assets/error.png';
 import loadingImg from '@/assets/loading.gif';
 import waitImg from '@/assets/wait.png';
 import { usePageLayout } from '@/components/PageLayout';
 import ProjectCard from '@/components/ProjectCard';
-import { useContent } from '@/hooks/useContent';
-import { CONTENT_KEYS } from '@/services/content/i18n';
-import type { PageProps, Repo } from '@/types';
+import type { ProjectLabels } from '@/payload/types';
+import type { Repo } from '@/types';
 import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 
 const DEFAULT_SECTION_ID = 'projects';
-const DEFAULT_TITLE = 'Projects';
 const GITHUB_REPOS_ENDPOINT = '/api/github-repos';
 const DEFAULT_GITHUB_USERNAME = 'elainejlopez8';
 
-const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: PageProps) => {
+type Props = {
+  sectionId?: string;
+  title?: string;
+  labels: ProjectLabels;
+};
+
+const Projects = ({ sectionId = DEFAULT_SECTION_ID, title, labels }: Props) => {
   const { setLoaded } = usePageLayout();
   const [repos, setRepos] = useState<Repo[] | null>(null);
   const [loading, setLoading] = useState(true);
@@ -41,8 +47,8 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
     }
 
     async function fetchGithub() {
-      const githubUsername = import.meta.env.VITE_GITHUB_USERNAME || DEFAULT_GITHUB_USERNAME;
-      const shouldUseAuth = import.meta.env.VITE_GITHUB_USE_AUTH !== 'false';
+      const githubUsername = process.env['NEXT_PUBLIC_GITHUB_USERNAME'] || DEFAULT_GITHUB_USERNAME;
+      const shouldUseAuth = process.env['NEXT_PUBLIC_GITHUB_USE_AUTH'] !== 'false';
 
       try {
         if (shouldUseAuth) {
@@ -56,7 +62,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
         if (!mounted) return;
         setRepos(publicRepos);
       } catch (authError: unknown) {
-        // If we never attempted an authenticated request, avoid retrying the same public request.
         if (!shouldUseAuth) {
           if (!mounted) return;
           const message = authError instanceof Error ? authError.message : 'Failed to load GitHub repos';
@@ -93,7 +98,6 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
     };
   }, []);
 
-  const { t } = useContent(sectionId as CONTENT_KEYS);
   const [activeTab, setActiveTab] = useState<string>('all');
 
   const completed: Repo[] = repos
@@ -123,19 +127,19 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
 
   return (
     <Container fluid='lg' className='page-section' id={sectionId}>
-      <h1 className='type-display uppercase'>{title || t('title')}</h1>
+      <h1 className='type-display uppercase'>{title || labels.title}</h1>
 
       {loading && (
         <div className='d-flex flex-column align-items-center justify-content-center my-4 text-center'>
-          <img src={loadingImg} alt='Loading projects...' className='mx-auto w-full md:w-1/3' />
-          <p className='text-muted mt-2'>{t('loading')}</p>
+          <img src={loadingImg.src} alt='Loading projects...' className='mx-auto w-full md:w-1/3' />
+          <p className='text-muted mt-2'>{labels.loading}</p>
         </div>
       )}
 
       {error && (
         <div className='d-flex flex-column align-items-center justify-content-center my-4 text-center'>
-          <img src={errorImg} alt='Oops' className='mx-auto' />
-          <p className='text-danger mt-2'>{t('error')}</p>
+          <img src={errorImg.src} alt='Oops' className='mx-auto' />
+          <p className='text-danger mt-2'>{labels.error}</p>
         </div>
       )}
 
@@ -144,9 +148,9 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
           <div className='mb-4'>
             <div role='tablist' aria-label='Project categories' className='mb-2 flex flex-wrap gap-2'>
               {[
-                { key: 'all', label: t('all') },
-                { key: 'wip', label: t('wip') },
-                { key: 'completed', label: t('completed') },
+                { key: 'all', label: labels.all },
+                { key: 'wip', label: labels.wip },
+                { key: 'completed', label: labels.completed },
               ].map((tab) => (
                 <button
                   key={tab.key}
@@ -165,38 +169,50 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
               {(activeTab === 'all' || activeTab === 'completed') && (
                 <section>
                   {activeTab === 'all' && Object.keys(completedGroups).length > 0 && (
-                    <h2 className='mb-4! text-purple-500!'>{t('completed')}</h2>
+                    <h2 className='mb-4! text-purple-500!'>{labels.completed}</h2>
                   )}
                   {Object.keys(completedGroups).length > 0
                     ? Object.keys(completedGroups).map((type) => (
                         <div key={`done-group-${type}`} className='mb-4'>
                           <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
                             {completedGroups[type].map((r) => (
-                              <ProjectCard key={`done-${r.id}`} r={r} variant='completed' />
+                              <ProjectCard
+                                key={`done-${r.id}`}
+                                r={r}
+                                variant='completed'
+                                goToRepo={labels.goToRepo}
+                                liveSite={labels.liveSite}
+                              />
                             ))}
                           </div>
                         </div>
                       ))
-                    : activeTab === 'completed' && <p className='text-muted'>{t('noCompleted')}</p>}
+                    : activeTab === 'completed' && <p className='text-muted'>{labels.noCompleted}</p>}
                 </section>
               )}
 
               {(activeTab === 'all' || activeTab === 'wip') && (
                 <section className='mb-6'>
                   {activeTab === 'all' && Object.keys(wipGroups).length > 0 && (
-                    <h2 className='mb-4! text-pink-500!'>{t('wip')}</h2>
+                    <h2 className='mb-4! text-pink-500!'>{labels.wip}</h2>
                   )}
                   {Object.keys(wipGroups).length > 0
                     ? Object.keys(wipGroups).map((type) => (
                         <div key={`wip-group-${type}`} className='mb-4'>
                           <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
                             {wipGroups[type].map((r) => (
-                              <ProjectCard key={`wip-${r.id}`} r={r} variant='wip' />
+                              <ProjectCard
+                                key={`wip-${r.id}`}
+                                r={r}
+                                variant='wip'
+                                goToRepo={labels.goToRepo}
+                                liveSite={labels.liveSite}
+                              />
                             ))}
                           </div>
                         </div>
                       ))
-                    : activeTab === 'wip' && <p className='text-muted'>{t('noWip')}</p>}
+                    : activeTab === 'wip' && <p className='text-muted'>{labels.noWip}</p>}
                 </section>
               )}
             </>
@@ -204,8 +220,8 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Pag
 
           {!hasGithubProjects && (
             <div className='w-full'>
-              <img src={waitImg} alt='No projects yet' className='mx-auto mb-4 w-full md:w-1/3' />
-              <p className='text-muted'>{t('noProjects')}</p>
+              <img src={waitImg.src} alt='No projects yet' className='mx-auto mb-4 w-full md:w-1/3' />
+              <p className='text-muted'>{labels.noProjects}</p>
             </div>
           )}
         </>

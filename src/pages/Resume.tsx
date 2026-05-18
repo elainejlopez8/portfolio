@@ -1,14 +1,15 @@
+'use client';
+
 import error from '@/assets/error.png';
 import { usePageLayout } from '@/components/PageLayout';
 import ResumeTimeline from '@/components/Resume/ResumeTimeline';
-import { useContent } from '@/hooks/useContent';
-import type { CONTENT_KEYS } from '@/services/content/i18n';
-import { ResumeCategories, type PageProps, type ResumeSectionProps } from '@/types';
+import type { ResumeContentData } from '@/payload/types';
+import { ResumeCategories } from '@/types';
 import { camelCase, kebabCase } from 'lodash';
+import { useParams } from 'next/navigation';
 import { JSX, useEffect, useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { PiDownloadSimpleBold } from 'react-icons/pi';
-import { useParams } from 'react-router-dom';
 
 const DEFAULT_SECTION_ID = 'resume';
 const DEFAULT_TITLE = 'Resume';
@@ -16,71 +17,77 @@ const iconMap: Record<string, JSX.Element> = {
   PiDownloadSimpleBold: <PiDownloadSimpleBold />,
 };
 
-const hasResumeSectionContent = (category: ResumeCategories, content: unknown) => {
+const hasResumeSectionContent = (category: ResumeCategories, resumeContent: ResumeContentData) => {
   if (category === ResumeCategories.employmentHistory) {
-    return Boolean(
-      content &&
-      typeof content === 'object' &&
-      'companies' in content &&
-      Array.isArray((content as { companies?: unknown[] }).companies) &&
-      (content as { companies?: unknown[] }).companies!.length > 0
+    return (
+      Array.isArray(resumeContent.employmentHistory?.companies) && resumeContent.employmentHistory.companies.length > 0
     );
   }
 
   if (category === ResumeCategories.education) {
-    return Array.isArray(content) && content.length > 0;
+    return Array.isArray(resumeContent.education) && resumeContent.education.length > 0;
   }
 
   if (category === ResumeCategories.certifications) {
-    return Boolean(
-      content &&
-      typeof content === 'object' &&
-      'certs' in content &&
-      Array.isArray((content as { certs?: unknown[] }).certs) &&
-      (content as { certs?: unknown[] }).certs!.length > 0
-    );
+    return Array.isArray(resumeContent.certifications?.certs) && resumeContent.certifications.certs.length > 0;
   }
 
   return false;
 };
 
-function ResumeSection({ category }: ResumeSectionProps) {
-  const { t } = useContent('resume');
-  const sectionContent = t(category, { returnObjects: true });
-  const resumeError = t('resumeError');
+type ResumeSectionProps = {
+  category: ResumeCategories;
+  resumeContent: ResumeContentData;
+};
 
-  if (!hasResumeSectionContent(category, sectionContent)) {
-    return typeof resumeError === 'string' && resumeError ? (
+function ResumeSection({ category, resumeContent }: ResumeSectionProps) {
+  if (!hasResumeSectionContent(category, resumeContent)) {
+    const resumeError = resumeContent.resumeError;
+    return resumeError ? (
       <div className='flex flex-col items-center justify-center'>
-        <img src={error} alt='Error' className='mt-6' />
+        <img src={error.src} alt='Error' className='mt-6' />
         <p className='mt-4 text-center text-pink-400'>{resumeError}</p>
       </div>
     ) : null;
   }
 
-  const details = JSON.stringify(sectionContent);
+  const sectionData =
+    category === ResumeCategories.employmentHistory
+      ? resumeContent.employmentHistory
+      : category === ResumeCategories.education
+        ? resumeContent.education
+        : resumeContent.certifications;
+
+  const details = JSON.stringify(sectionData);
 
   return (
     <>
       <div className='resume-section my-4'>
         <div className='resume-section-content'>
-          <ResumeTimeline details={details} category={category} />
+          <ResumeTimeline details={details} category={category} viewCert={resumeContent.certifications?.viewCert} />
         </div>
       </div>
     </>
   );
 }
 
-const Resume = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: PageProps) => {
+type Props = {
+  sectionId?: string;
+  title?: string;
+  resumeContent: ResumeContentData;
+};
+
+const Resume = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE, resumeContent }: Props) => {
   const { setLoaded } = usePageLayout();
-  const { t } = useContent(sectionId as CONTENT_KEYS);
-  const { resumeCategory } = useParams();
+  const params = useParams<{ resumeCategory?: string }>();
+  const resumeCategory = params?.resumeCategory;
   const [activeTab, setActiveTab] = useState<ResumeCategories>(ResumeCategories.employmentHistory);
-  const downloadResume = t('downloadResume', { returnObjects: true }) as { text: string; icon: string; url: string };
+  const { downloadResume, tabs } = resumeContent;
+
   const resumeTabs = [
-    { key: ResumeCategories.employmentHistory, label: t('tabs.employmentHistory') },
-    { key: ResumeCategories.certifications, label: t('tabs.certifications') },
-    { key: ResumeCategories.education, label: t('tabs.education') },
+    { key: ResumeCategories.employmentHistory, label: tabs?.employmentHistory ?? 'Employment History' },
+    { key: ResumeCategories.certifications, label: tabs?.certifications ?? 'Certifications' },
+    { key: ResumeCategories.education, label: tabs?.education ?? 'Education' },
   ];
 
   useEffect(() => setLoaded(true), [setLoaded]);
@@ -91,7 +98,9 @@ const Resume = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: PageP
     case ResumeCategories.certifications:
     case ResumeCategories.education:
     case kebabCase(ResumeCategories.employmentHistory):
-      resumeSection = <ResumeSection category={camelCase(resumeCategory) as ResumeCategories} />;
+      resumeSection = (
+        <ResumeSection category={camelCase(resumeCategory) as ResumeCategories} resumeContent={resumeContent} />
+      );
       break;
     default:
       resumeSection = (
@@ -108,7 +117,7 @@ const Resume = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: PageP
               </button>
             ))}
           </div>
-          <ResumeSection category={activeTab} />
+          <ResumeSection category={activeTab} resumeContent={resumeContent} />
         </div>
       );
       break;

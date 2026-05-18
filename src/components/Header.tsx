@@ -1,15 +1,13 @@
+'use client';
+
 import logo from '@/assets/logo.png';
-import { useContent } from '@/hooks/useContent';
+import { useGeneralContent } from '@/contexts/ContentContext';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const { t } = useContent('general');
-  const navLinks = t('navLinks', { returnObjects: true }) as Array<{
-    href: string;
-    label: string;
-  }>;
+  const { navLinks } = useGeneralContent();
   const [isEntering, setIsEntering] = useState(true);
 
   useEffect(() => {
@@ -22,7 +20,7 @@ const Header = () => {
       <Container className='layout-container'>
         <Navbar.Brand
           as={Link}
-          to='/'
+          href='/'
           className='site-header-brand'
           onClick={() => {
             if (window.location.hash) {
@@ -30,7 +28,7 @@ const Header = () => {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }
           }}>
-          <img src={logo} alt='Portfolio Site Logo' className='site-header-logo' />
+          <img src={logo.src} alt='Portfolio Site Logo' className='site-header-logo' />
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls='responsive-navbar-nav' className='site-header-toggle' />
@@ -41,7 +39,7 @@ const Header = () => {
               <Nav.Link
                 key={link.href}
                 as={Link}
-                to={link.href}
+                href={link.href}
                 className='type-nav visited:text-purple-500! visited:hover:text-pink-500! active:font-bold! active:text-purple-500!'>
                 {link.label}
               </Nav.Link>
