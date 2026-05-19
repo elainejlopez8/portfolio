@@ -24,7 +24,7 @@
     "@popperjs/core": "^2.11.8",
     "@tailwindcss/cli": "^4.2.1",
     "@tailwindcss/postcss": "^4.2.1",
-    "@tailwindcss/vite": "^4.2.2",
+    "@tailwindcss/vite": "^4.3.0",
     "@vercel/analytics": "2.0.1",
     "@vercel/blob": "^2.3.3",
     "bootstrap": "^5.3.3",
