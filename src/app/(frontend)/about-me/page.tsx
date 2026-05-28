@@ -1,4 +1,4 @@
-import { fallbackAboutMe } from '@/lib/payload-content';
+import { fallbackAboutMe, mergeAboutMeContent } from '@/lib/payload-content';
 import type { AboutMeContent } from '@/payload/types';
 import config from '@payload-config';
 import { getPayload } from 'payload';
@@ -10,7 +10,7 @@ export default async function AboutMePage() {
   try {
     const payload = await getPayload({ config });
     const raw = await payload.findGlobal({ slug: 'about-me-content' });
-    aboutMeContent = { ...fallbackAboutMe, ...(raw as unknown as Partial<AboutMeContent>) };
+    aboutMeContent = mergeAboutMeContent(raw);
   } catch {
     /* fall through to default */
   }

@@ -64,6 +64,24 @@ export const fallbackResumeContent: ResumeContentData = {
   certifications: { viewCert: 'View Certificate', certs: [] },
 };
 
+export function mergeAboutMeContent(raw: unknown): AboutMeContent {
+  const r = raw as Partial<AboutMeContent> | null | undefined;
+  if (!r) return fallbackAboutMe;
+  return {
+    name: r.name ?? fallbackAboutMe.name,
+    subtitle: r.subtitle ?? fallbackAboutMe.subtitle,
+    viewPortfolio: r.viewPortfolio ?? fallbackAboutMe.viewPortfolio,
+    profession: r.profession ?? fallbackAboutMe.profession,
+    tagline: r.tagline ?? fallbackAboutMe.tagline,
+    terminalTab: r.terminalTab ?? fallbackAboutMe.terminalTab,
+    terminalPrefix: r.terminalPrefix ?? fallbackAboutMe.terminalPrefix,
+    terminalCommand1: r.terminalCommand1 ?? fallbackAboutMe.terminalCommand1,
+    terminalCommand2: r.terminalCommand2 ?? fallbackAboutMe.terminalCommand2,
+    blurb: Array.isArray(r.blurb) && r.blurb.length > 0 ? r.blurb : fallbackAboutMe.blurb,
+    short_blurb: r.short_blurb ?? fallbackAboutMe.short_blurb,
+  };
+}
+
 export function mergeResumeContent(raw: unknown): ResumeContentData {
   const r = raw as Partial<ResumeContentData> | null | undefined;
   if (!r) return fallbackResumeContent;
@@ -103,3 +121,22 @@ export const fallbackProjectLabels: ProjectLabels = {
   all: 'All',
   liveSite: 'Live Site',
 };
+
+export function mergeProjectLabels(raw: unknown): ProjectLabels {
+  const r = raw as Partial<ProjectLabels> | null | undefined;
+  if (!r) return fallbackProjectLabels;
+  return {
+    title: r.title ?? fallbackProjectLabels.title,
+    wip: r.wip ?? fallbackProjectLabels.wip,
+    noCompleted: r.noCompleted ?? fallbackProjectLabels.noCompleted,
+    completed: r.completed ?? fallbackProjectLabels.completed,
+    viewProduct: r.viewProduct ?? fallbackProjectLabels.viewProduct,
+    loading: r.loading ?? fallbackProjectLabels.loading,
+    noProjects: r.noProjects ?? fallbackProjectLabels.noProjects,
+    noWip: r.noWip ?? fallbackProjectLabels.noWip,
+    goToRepo: r.goToRepo ?? fallbackProjectLabels.goToRepo,
+    error: r.error ?? fallbackProjectLabels.error,
+    all: r.all ?? fallbackProjectLabels.all,
+    liveSite: r.liveSite ?? fallbackProjectLabels.liveSite,
+  };
+}

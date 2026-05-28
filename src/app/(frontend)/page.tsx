@@ -2,6 +2,8 @@ import {
   fallbackAboutMe,
   fallbackProjectLabels,
   fallbackResumeContent,
+  mergeAboutMeContent,
+  mergeProjectLabels,
   mergeResumeContent,
 } from '@/lib/payload-content';
 import type { AboutMeContent, GeneralContent, ProjectLabels, ResumeContentData } from '@/payload/types';
@@ -20,15 +22,9 @@ async function getAllContent() {
       payload.findGlobal({ slug: 'project-labels' }).catch(() => null),
     ]);
 
-    const aboutMeContent: AboutMeContent = aboutMeRaw
-      ? { ...fallbackAboutMe, ...(aboutMeRaw as unknown as Partial<AboutMeContent>) }
-      : fallbackAboutMe;
-
+    const aboutMeContent: AboutMeContent = mergeAboutMeContent(aboutMeRaw);
     const resumeContent: ResumeContentData = mergeResumeContent(resumeRaw);
-
-    const projectLabels: ProjectLabels = labelsRaw
-      ? { ...fallbackProjectLabels, ...(labelsRaw as unknown as Partial<ProjectLabels>) }
-      : fallbackProjectLabels;
+    const projectLabels: ProjectLabels = mergeProjectLabels(labelsRaw);
 
     return {
       generalContent: generalRaw as GeneralContent | null,

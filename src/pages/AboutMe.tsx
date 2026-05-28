@@ -21,7 +21,7 @@ type Props = {
 
 const AboutMe = ({ sectionId = 'aboutMe', title = 'About Me', aboutMeContent }: Props) => {
   const { setLoaded } = usePageLayout();
-  const blurb: TerminalBlurbEntry[] = Array.isArray(aboutMeContent.blurb) ? aboutMeContent.blurb : [];
+  const blurb: TerminalBlurbEntry[] = Array.isArray(aboutMeContent?.blurb) ? aboutMeContent.blurb : [];
 
   useEffect(() => setLoaded(true), [setLoaded]);
 
