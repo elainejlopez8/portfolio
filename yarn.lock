@@ -1586,7 +1586,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faceless-ui/modal@npm:3.0.0":
+"@faceless-ui/modal@npm:3.0.0, @faceless-ui/modal@npm:^3.0.0":
   version: 3.0.0
   resolution: "@faceless-ui/modal@npm:3.0.0"
   dependencies:
@@ -1600,7 +1600,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faceless-ui/scroll-info@npm:2.0.0":
+"@faceless-ui/scroll-info@npm:2.0.0, @faceless-ui/scroll-info@npm:^2.0.0":
   version: 2.0.0
   resolution: "@faceless-ui/scroll-info@npm:2.0.0"
   peerDependencies:
@@ -11068,6 +11068,8 @@ __metadata:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
     "@eslint/js": "npm:^9.0.0"
+    "@faceless-ui/modal": "npm:^3.0.0"
+    "@faceless-ui/scroll-info": "npm:^2.0.0"
     "@mui/lab": "npm:^9.0.0-beta.3"
     "@mui/material": "npm:^9.0.0"
     "@payloadcms/db-sqlite": "npm:^3.35.0"
