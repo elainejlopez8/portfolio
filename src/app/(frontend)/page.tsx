@@ -1,4 +1,9 @@
-import { fallbackAboutMe, fallbackProjectLabels, fallbackResumeContent } from '@/lib/payload-content';
+import {
+  fallbackAboutMe,
+  fallbackProjectLabels,
+  fallbackResumeContent,
+  mergeResumeContent,
+} from '@/lib/payload-content';
 import type { AboutMeContent, GeneralContent, ProjectLabels, ResumeContentData } from '@/payload/types';
 import config from '@payload-config';
 import { Analytics } from '@vercel/analytics/react';
@@ -19,9 +24,7 @@ async function getAllContent() {
       ? { ...fallbackAboutMe, ...(aboutMeRaw as unknown as Partial<AboutMeContent>) }
       : fallbackAboutMe;
 
-    const resumeContent: ResumeContentData = resumeRaw
-      ? { ...fallbackResumeContent, ...(resumeRaw as unknown as Partial<ResumeContentData>) }
-      : fallbackResumeContent;
+    const resumeContent: ResumeContentData = mergeResumeContent(resumeRaw);
 
     const projectLabels: ProjectLabels = labelsRaw
       ? { ...fallbackProjectLabels, ...(labelsRaw as unknown as Partial<ProjectLabels>) }

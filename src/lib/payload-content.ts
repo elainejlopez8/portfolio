@@ -64,6 +64,31 @@ export const fallbackResumeContent: ResumeContentData = {
   certifications: { viewCert: 'View Certificate', certs: [] },
 };
 
+export function mergeResumeContent(raw: unknown): ResumeContentData {
+  const r = raw as Partial<ResumeContentData> | null | undefined;
+  if (!r) return fallbackResumeContent;
+  return {
+    resumeError: r.resumeError ?? fallbackResumeContent.resumeError,
+    tabs: r.tabs
+      ? {
+          employmentHistory: r.tabs.employmentHistory ?? fallbackResumeContent.tabs.employmentHistory,
+          education: r.tabs.education ?? fallbackResumeContent.tabs.education,
+          certifications: r.tabs.certifications ?? fallbackResumeContent.tabs.certifications,
+        }
+      : fallbackResumeContent.tabs,
+    downloadResume: r.downloadResume
+      ? {
+          text: r.downloadResume.text ?? fallbackResumeContent.downloadResume.text,
+          icon: r.downloadResume.icon ?? fallbackResumeContent.downloadResume.icon,
+          url: r.downloadResume.url ?? fallbackResumeContent.downloadResume.url,
+        }
+      : fallbackResumeContent.downloadResume,
+    employmentHistory: r.employmentHistory ?? fallbackResumeContent.employmentHistory,
+    education: r.education ?? fallbackResumeContent.education,
+    certifications: r.certifications ?? fallbackResumeContent.certifications,
+  };
+}
+
 export const fallbackProjectLabels: ProjectLabels = {
   title: 'Projects',
   wip: 'Work In Progress',

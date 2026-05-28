@@ -82,7 +82,7 @@ const Resume = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE, resumeC
   const params = useParams<{ resumeCategory?: string }>();
   const resumeCategory = params?.resumeCategory;
   const [activeTab, setActiveTab] = useState<ResumeCategories>(ResumeCategories.employmentHistory);
-  const { downloadResume, tabs } = resumeContent;
+  const { downloadResume, tabs } = resumeContent ?? {};
 
   const resumeTabs = [
     { key: ResumeCategories.employmentHistory, label: tabs?.employmentHistory ?? 'Employment History' },

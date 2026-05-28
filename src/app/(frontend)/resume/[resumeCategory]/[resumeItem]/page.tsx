@@ -1,4 +1,4 @@
-import { fallbackResumeContent } from '@/lib/payload-content';
+import { fallbackResumeContent, mergeResumeContent } from '@/lib/payload-content';
 import type { ResumeContentData } from '@/payload/types';
 import config from '@payload-config';
 import { getPayload } from 'payload';
@@ -10,7 +10,7 @@ export default async function ResumeItemPage() {
   try {
     const payload = await getPayload({ config });
     const raw = await payload.findGlobal({ slug: 'resume-content' });
-    resumeContent = { ...fallbackResumeContent, ...(raw as unknown as Partial<ResumeContentData>) };
+    resumeContent = mergeResumeContent(raw);
   } catch {
     /* fall through to default */
   }
