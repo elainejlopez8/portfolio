@@ -4,6 +4,7 @@ export const AboutMeContent: GlobalConfig = {
   slug: 'about-me-content',
   label: 'About Me',
   admin: {
+    group: 'Site Content',
     description: 'Content for the About Me page: your profile, interactive terminal widget, and bio.',
     components: {
       elements: {

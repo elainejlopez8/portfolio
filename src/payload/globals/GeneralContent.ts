@@ -6,6 +6,7 @@ export const GeneralContent: GlobalConfig = {
   slug: 'general-content',
   label: 'General',
   admin: {
+    group: 'Site Content',
     description: 'Site-wide content: your name, navigation links, header taglines, and footer.',
     components: {
       elements: {

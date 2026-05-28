@@ -4,6 +4,7 @@ export const ResumeContent: GlobalConfig = {
   slug: 'resume-content',
   label: 'Resume',
   admin: {
+    group: 'Site Content',
     description: 'All content for the Resume page: employment history, education, certifications, and UI labels.',
     components: {
       elements: {

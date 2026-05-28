@@ -4,6 +4,7 @@ export const ProjectLabels: GlobalConfig = {
   slug: 'project-labels',
   label: 'Projects',
   admin: {
+    group: 'Site Content',
     description: 'UI labels and messages used on the Projects page.',
     components: {
       elements: {

@@ -27,24 +27,6 @@ export default buildConfig({
       title: 'Portfolio CMS',
       description: 'Manage the content of your portfolio site.',
     },
-    globals: [
-      {
-        slug: 'general-content',
-        group: 'Site Content',
-      },
-      {
-        slug: 'about-me-content',
-        group: 'Site Content',
-      },
-      {
-        slug: 'resume-content',
-        group: 'Site Content',
-      },
-      {
-        slug: 'project-labels',
-        group: 'Site Content',
-      },
-    ],
   },
   collections: [Users],
   globals: [GeneralContent, AboutMeContent, ResumeContent, ProjectLabels],
