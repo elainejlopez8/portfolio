@@ -3,22 +3,18 @@
 [![Vercel Preview Deployment](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-vercel-preview.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-vercel-preview.yaml)
 [![Vercel Production Deployment](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-vercel-production.yaml/badge.svg)](https://github.com/elainejlopez8/portfolio/actions/workflows/deploy-vercel-production.yaml)
 
-Personal portfolio site built with React, TypeScript, Vite, Tailwind CSS, and Vercel.
-
-It combines a progressive landing page, standalone route views, local content management, and Vercel API routes for GitHub data and client log forwarding.
+Personal portfolio site built with Next.js, TypeScript, Tailwind CSS, Payload CMS, and Vercel.
 
 ## Tech stack
 
+- Next.js 16 (App Router)
 - React 19
 - TypeScript
-- Vite 8
 - Tailwind CSS v4
+- Payload CMS 3 (SQLite)
 - Bootstrap 5 / React Bootstrap
 - Material UI
-- React Router 7
-- i18next / react-i18next
 - React Markdown
-- Vercel API Routes
 
 ## Prerequisites
 
@@ -29,16 +25,16 @@ It combines a progressive landing page, standalone route views, local content ma
 
 ## Getting started
 
-Install dependencies and run the app with Vite:
+Install dependencies and run the app:
 
 ```bash
 yarn install
 yarn dev
 ```
 
-`yarn dev` is enough for UI and content work. It serves the SPA only and does not run Vercel API routes.
+`yarn dev` starts the Next.js development server on port 3000 and includes the Payload CMS admin at `/cms`.
 
-If you need the API route locally for the Projects page, run Vercel Dev instead:
+If you need Vercel API routes locally (e.g. to test the GitHub repos proxy with env vars), use:
 
 ```bash
 yarn dev:vercel
@@ -48,10 +44,10 @@ yarn dev:vercel
 
 ## Available scripts
 
-- `yarn dev` - start the Vite development server
+- `yarn dev` - start the Next.js development server
 - `yarn dev:vercel` - run the site with Vercel API routes locally
-- `yarn build` - type-check and create a production build
-- `yarn preview` - preview the production build locally
+- `yarn build` - run Payload migrations and create a production build
+- `yarn start` - start the production server
 - `yarn lint` - run Prettier check and ESLint
 - `yarn lint:fix` - auto-fix formatting and lint issues where possible
 - `yarn prettier` - format the codebase with Prettier
@@ -64,11 +60,11 @@ The home route renders a landing experience that expands into the main portfolio
 - Projects
 - Resume
 
-The home experience can also deep-link into the expanded layout via `/#aboutMe`, and the site exposes standalone route views for direct navigation.
+The site also exposes standalone route views for direct navigation.
 
 ## Routing
 
-Routes are defined in `src/App.tsx`:
+Routes are defined using the Next.js App Router under `src/app/(frontend)`:
 
 - `/` - home page with the progressive reveal layout
 - `/about-me` - about page
@@ -76,103 +72,43 @@ Routes are defined in `src/App.tsx`:
 - `/resume` - resume overview
 - `/resume/:resumeCategory` - a single resume category
 - `/resume/:resumeCategory/:resumeItem` - a single resume item card
+- `/cms` - Payload CMS admin panel
 
 ## Project structure
 
-- `src/pages` - route-level pages such as Home, Projects, and Resume
+- `src/app/(frontend)` - Next.js frontend routes
+- `src/app/(payload)` - Payload CMS admin routes
+- `src/app/api` - Next.js API routes used by the frontend
 - `src/components` - reusable UI components
 - `src/components/Resume` - resume timeline and card views
-- `src/services/content/default` - default portfolio copy and structured content
-- `src/services/content/i18n.ts` - translation initialization and content namespaces
-- `src/hooks` - shared hooks such as content access helpers
+- `src/pages` - legacy page-level components (Home, AboutMe, Projects, Resume)
+- `src/payload/collections` - Payload CMS collections
+- `src/payload/globals` - Payload CMS globals for site content
 - `src/types` - shared TypeScript types
 - `src/index.css` - global styles, design tokens, and layout utilities
-- `api` - Vercel API routes used by the frontend
+- `payload.config.ts` - Payload CMS configuration
+- `scripts/seed-payload.ts` - one-time seed script to populate Payload globals
 
 ## Content management
 
-Portfolio content is stored locally in:
+Portfolio content is managed through Payload CMS globals, accessible at `/cms`:
 
-- `src/services/content/default/aboutme.ts`
-- `src/services/content/default/projects.ts`
-- `src/services/content/default/resume.ts`
-- `src/services/content/default/general.ts`
+- `general-content` - site-wide copy (name, nav links, hero text)
+- `about-me-content` - about page content
+- `resume-content` - resume sections and items
+- `project-labels` - projects page labels
 
-Translations are initialized in:
+Content is fetched at request time from the Payload database via `src/components/payload-content.ts`.
 
-- `src/services/content/i18n.ts`
+### Seeding content
 
-### Blob upload route
-
-The repo also includes a Vercel Blob upload route for updating content without editing source files:
-
-- `POST /api/content`
-
-Required environment variables:
-
-- `BLOB_READ_WRITE_TOKEN` - added by Vercel when a Blob store is connected to the project
-
-Supported namespaces:
-
-- `general`
-- `aboutMe`
-- `projects`
-- `resume`
-
-Request formats:
-
-```json
-{
-  "namespace": "resume",
-  "content": {
-    "downloadResume": {
-      "text": "Download Resume"
-    }
-  }
-}
-```
-
-Or upload multiple namespaces in one request:
-
-```json
-{
-  "entries": [
-    {
-      "namespace": "aboutMe",
-      "content": {
-        "title": "About Me"
-      }
-    },
-    {
-      "namespace": "resume",
-      "content": {
-        "tabs": {
-          "education": "Education"
-        }
-      }
-    }
-  ]
-}
-```
-
-Example using `curl`:
+To populate the Payload globals with the default content on a fresh database:
 
 ```bash
-curl -X POST http://localhost:3000/api/content \
-	-H "Content-Type: application/json" \
-	-d '{
-		"namespace": "resume",
-		"content": {
-			"tabs": {
-				"employmentHistory": "Employment History",
-				"certifications": "Certifications",
-				"education": "Education"
-			}
-		}
-	}'
+yarn tsx scripts/seed-payload.ts
 ```
 
-The route writes public JSON blobs to `content/<namespace>.json` with overwrite enabled and a short cache TTL suitable for content updates.
+This is a one-time operation. Run it after the first deploy or when setting up a new local database.
 
 ## Environment variables
 
@@ -185,9 +121,9 @@ VITE_GITHUB_USERNAME=your-github-username
 VITE_GITHUB_USE_AUTH=true
 ```
 
-`GITHUB_TOKEN` is server-only for the Vercel API route, so do not prefix it with `VITE_`.
+`GITHUB_TOKEN` is server-only for the Next.js API route, so do not prefix it with `VITE_`.
 
-- `GITHUB_TOKEN` is used by `api/github-repos.js` when you want authenticated GitHub repository data locally.
+- `GITHUB_TOKEN` is used by `api/github-repos` when you want authenticated GitHub repository data.
 - `GITHUB_USERNAME` is an optional server-side fallback username used by the GitHub API route when no token is available.
 - `VITE_GITHUB_USERNAME` is the client-side fallback username used by the Projects page when it retries against public repositories.
 - `VITE_GITHUB_USE_AUTH=false` forces the Projects page to skip the initial authenticated API request and load public repositories directly.
@@ -196,12 +132,11 @@ Do not commit `.env.local` or any real secrets.
 
 ## GitHub repo proxy
 
-The Projects page reads repository data through the Vercel API route in `api/github-repos.js`.
+The Projects page reads repository data through the Next.js API route at `src/app/api/github-repos/route.ts`.
 
-- If `GITHUB_TOKEN` is set, the API route requests authenticated repository data from `https://api.github.com/user/repos`.
-- If `GITHUB_TOKEN` is missing, the API route falls back to `GITHUB_USERNAME`, or the built-in default username, and requests public repositories from `https://api.github.com/users/:username/repos`.
-- The frontend retries with `VITE_GITHUB_USERNAME` if an authenticated request fails and public fallback is enabled.
-- The API route enriches repository data with `topics` and `homepage` values before returning a trimmed payload to the client.
+- If `GITHUB_TOKEN` is set, the route requests authenticated repository data from `https://api.github.com/user/repos`.
+- If `GITHUB_TOKEN` is missing, the route falls back to `GITHUB_USERNAME`, or the built-in default username, and requests public repositories.
+- The route enriches repository data with `topics` and `homepage` values before returning a trimmed payload to the client.
 
 Returned fields:
 
@@ -213,11 +148,11 @@ Returned fields:
 - `prod_url`
 - `topics`
 
-For Vercel, add `GITHUB_TOKEN` in Project Settings -> Environment Variables for both the `Preview` and `Production` environments. Add `GITHUB_USERNAME` only if you want a configurable server-side public fallback. Use the minimum GitHub scope required for the repositories you want to expose.
+For Vercel, add `GITHUB_TOKEN` in Project Settings -> Environment Variables for both the `Preview` and `Production` environments.
 
 ## Client logging
 
-The frontend can forward structured client log events to the Vercel API route in `api/log.js`.
+The frontend forwards structured client log events to the Next.js API route at `src/app/api/log/route.ts`.
 
 - `POST /api/log` accepts `debug`, `info`, `warn`, and `error` levels.
 - The route normalizes browser metadata such as `pathname`, `timestamp`, `userAgent`, and optional `context`.
@@ -227,17 +162,10 @@ The frontend can forward structured client log events to the Vercel API route in
 
 This project is configured for Vercel.
 
-`vercel.json` defines the SPA route rewrites for direct navigation:
-
-- `/about-me` -> `/`
-- `/projects/:path*` -> `/`
-- `/resume/:path*` -> `/`
-
 Vercel project settings:
 
-- framework preset: Vite
+- framework preset: Next.js
 - build command: `yarn build`
-- output directory: `dist`
 - install command: `yarn install`
 - runtime environment variable in Vercel: `GITHUB_TOKEN`
 
@@ -265,10 +193,6 @@ Where to get the Vercel values:
 - `VERCEL_*_ORG_ID`: copy the team or personal account ID from the Vercel dashboard or from `.vercel/project.json` after running `vercel link`
 - `VERCEL_*_PROJECT_ID`: copy the project ID from the Vercel dashboard or from `.vercel/project.json` after running `vercel link`
 
-In most cases the preview and production org/project IDs are the same because both workflows deploy the same Vercel project. The secret names are separate so the GitHub environments stay isolated.
-
-If you want Vercel local development parity, use `yarn dev:vercel` so both the frontend and API route run together.
-
 ## Deployment flow
 
 1. Create or link the Vercel project.
@@ -287,11 +211,7 @@ The project uses the `@` alias for `src`:
 import Header from '@/components/Header';
 ```
 
-Configured in:
-
-- `vite.config.ts`
-- `tsconfig.app.json`
-- `tsconfig.node.json`
+Configured in `tsconfig.json`.
 
 ## Design tokens
 

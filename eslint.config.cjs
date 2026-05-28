@@ -56,7 +56,10 @@ module.exports = [
   {
     files: ['src/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     languageOptions: {
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        process: 'readonly',
+      },
     },
   },
   {
