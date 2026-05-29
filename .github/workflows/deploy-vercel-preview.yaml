@@ -64,6 +64,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_PREVIEW_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_PREVIEW_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PREVIEW_PROJECT_ID }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET || 'ci-preview-secret' }}
         run: yarn dlx --package vercel@latest vercel build --token="$VERCEL_TOKEN"
 
       - name: Deploy preview to Vercel

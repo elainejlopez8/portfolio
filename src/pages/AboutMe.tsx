@@ -2,6 +2,7 @@
 
 import aboutImg from '@/assets/about.jpg';
 import { usePageLayout } from '@/components/PageLayout';
+import { fallbackAboutMe } from '@/lib/payload-content';
 import type { AboutMeContent } from '@/payload/types';
 import { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
@@ -16,10 +17,10 @@ const splitTerminalOutput = (output: string) => output.split('\n');
 type Props = {
   sectionId?: string;
   title?: string;
-  aboutMeContent: AboutMeContent;
+  aboutMeContent?: AboutMeContent;
 };
 
-const AboutMe = ({ sectionId = 'aboutMe', title = 'About Me', aboutMeContent }: Props) => {
+const AboutMe = ({ sectionId = 'aboutMe', title = 'About Me', aboutMeContent = fallbackAboutMe }: Props) => {
   const { setLoaded } = usePageLayout();
   const blurb: TerminalBlurbEntry[] = Array.isArray(aboutMeContent?.blurb) ? aboutMeContent.blurb : [];
 
