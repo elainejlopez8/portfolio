@@ -9065,21 +9065,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^17.0.5":
-  version: 17.0.5
-  resolution: "lint-staged@npm:17.0.5"
+"lint-staged@npm:^17.0.7":
+  version: 17.0.7
+  resolution: "lint-staged@npm:17.0.7"
   dependencies:
     listr2: "npm:^10.2.1"
     picomatch: "npm:^4.0.4"
     string-argv: "npm:^0.3.2"
-    tinyexec: "npm:^1.1.2"
-    yaml: "npm:^2.8.4"
+    tinyexec: "npm:^1.2.4"
+    yaml: "npm:^2.9.0"
   dependenciesMeta:
     yaml:
       optional: true
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 10c0/6ecf2024744147ea768dbd550c0c47f04b295f07d30e5ecb5e375c18d8fc24d4bfa897042f4aabd7c3510054ad5bbbb51fa36e60e8dca853e31f9876ef9a3726
+  checksum: 10c0/c4e7100becb327d817999a231b8d345e6be389c555d9cd8d668797d2670832ad15c4e5085b61895e3fbf937f0fbd6be5c78ca76a4599ed332227f37270ebe8eb
   languageName: node
   linkType: hard
 
@@ -10992,7 +10992,7 @@ __metadata:
     graphql: "npm:^16.14.0"
     husky: "npm:^9.1.7"
     jiti: "npm:^2.7.0"
-    lint-staged: "npm:^17.0.5"
+    lint-staged: "npm:^17.0.7"
     lodash: "npm:^4.18.1"
     next: "npm:^16.2.6"
     payload: "npm:^3.85.0"
@@ -11015,7 +11015,7 @@ __metadata:
     remark-gfm: "npm:^4.0.1"
     sharp: "npm:^0.34.5"
     tailwindcss: "npm:^4.3.0"
-    typescript: "npm:~6.0.3"
+    typescript: "npm:^6.0.3"
     vercel: "npm:^54.5.1"
   languageName: unknown
   linkType: soft
@@ -12863,10 +12863,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinyexec@npm:^1.1.2":
-  version: 1.2.2
-  resolution: "tinyexec@npm:1.2.2"
-  checksum: 10c0/8bcb4969c572c21d570c033e29cb896e26d96e49e58f4fe07a532d3d65e10bdfae59733bf8a6a0fd9b611543c4ed3b890c939c3234489599296fb92515eb4625
+"tinyexec@npm:^1.2.4":
+  version: 1.2.4
+  resolution: "tinyexec@npm:1.2.4"
+  checksum: 10c0/153b8db6b080194b558ff145b9cffc36b80a6e07babd644dcfbe49c807eee668c876049d28bdee90b96304476f883352f2dad91b3f86bc23832532f4363e66ff
   languageName: node
   linkType: hard
 
@@ -13145,6 +13145,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "typescript@npm:6.0.3"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/4a25ff5045b984370f48f196b3a0120779b1b343d40b9a68d114ea5e5fff099809b2bb777576991a63a5cd59cf7bffd96ff6fe10afcefbcb8bd6fb96ad4b6606
+  languageName: node
+  linkType: hard
+
 "typescript@npm:typescript@5.9.3":
   version: 5.9.3
   resolution: "typescript@npm:5.9.3"
@@ -13165,13 +13175,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~6.0.3":
+"typescript@patch:typescript@npm%3A^6.0.3#optional!builtin<compat/typescript>":
   version: 6.0.3
-  resolution: "typescript@npm:6.0.3"
+  resolution: "typescript@patch:typescript@npm%3A6.0.3#optional!builtin<compat/typescript>::version=6.0.3&hash=5786d5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/4a25ff5045b984370f48f196b3a0120779b1b343d40b9a68d114ea5e5fff099809b2bb777576991a63a5cd59cf7bffd96ff6fe10afcefbcb8bd6fb96ad4b6606
+  checksum: 10c0/2f25c74e65663c248fa1ade2b8459d9ce5372ff9dad07067310f132966ebec1d93f6c42f0baf77a6b6a7a91460463f708e6887013aaade22111037457c6b25df
   languageName: node
   linkType: hard
 
@@ -13192,16 +13202,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10c0/6fd7e0ed3bf23a81246878c613423730c40e8bdbfec4c6e4d7bf1b847cbb39076e56ad5f50aa9d7ebd89877999abaee216002d3f2818885e41c907caaa192cc4
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A~6.0.3#optional!builtin<compat/typescript>":
-  version: 6.0.3
-  resolution: "typescript@patch:typescript@npm%3A6.0.3#optional!builtin<compat/typescript>::version=6.0.3&hash=5786d5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/2f25c74e65663c248fa1ade2b8459d9ce5372ff9dad07067310f132966ebec1d93f6c42f0baf77a6b6a7a91460463f708e6887013aaade22111037457c6b25df
   languageName: node
   linkType: hard
 
@@ -13867,7 +13867,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.8.4":
+"yaml@npm:^2.9.0":
   version: 2.9.0
   resolution: "yaml@npm:2.9.0"
   bin:
