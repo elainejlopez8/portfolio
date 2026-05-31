@@ -3,6 +3,7 @@
 import error from '@/assets/error.png';
 import { usePageLayout } from '@/components/PageLayout';
 import ResumeTimeline from '@/components/Resume/ResumeTimeline';
+import { fallbackResumeContent } from '@/lib/payload-content';
 import type { ResumeContentData } from '@/payload/types';
 import { ResumeCategories } from '@/types';
 import { camelCase, kebabCase } from 'lodash';
@@ -17,7 +18,9 @@ const iconMap: Record<string, JSX.Element> = {
   PiDownloadSimpleBold: <PiDownloadSimpleBold />,
 };
 
-const hasResumeSectionContent = (category: ResumeCategories, resumeContent: ResumeContentData) => {
+const hasResumeSectionContent = (category: ResumeCategories, resumeContent?: ResumeContentData) => {
+  if (!resumeContent) return false;
+
   if (category === ResumeCategories.employmentHistory) {
     return (
       Array.isArray(resumeContent.employmentHistory?.companies) && resumeContent.employmentHistory.companies.length > 0
@@ -37,12 +40,12 @@ const hasResumeSectionContent = (category: ResumeCategories, resumeContent: Resu
 
 type ResumeSectionProps = {
   category: ResumeCategories;
-  resumeContent: ResumeContentData;
+  resumeContent?: ResumeContentData;
 };
 
 function ResumeSection({ category, resumeContent }: ResumeSectionProps) {
   if (!hasResumeSectionContent(category, resumeContent)) {
-    const resumeError = resumeContent.resumeError;
+    const resumeError = resumeContent?.resumeError;
     return resumeError ? (
       <div className='flex flex-col items-center justify-center'>
         <img src={error.src} alt='Error' className='mt-6' />
@@ -53,18 +56,18 @@ function ResumeSection({ category, resumeContent }: ResumeSectionProps) {
 
   const sectionData =
     category === ResumeCategories.employmentHistory
-      ? resumeContent.employmentHistory
+      ? (resumeContent?.employmentHistory ?? fallbackResumeContent.employmentHistory)
       : category === ResumeCategories.education
-        ? resumeContent.education
-        : resumeContent.certifications;
+        ? (resumeContent?.education ?? fallbackResumeContent.education)
+        : (resumeContent?.certifications ?? fallbackResumeContent.certifications);
 
-  const details = JSON.stringify(sectionData);
+  const details = JSON.stringify(sectionData ?? {});
 
   return (
     <>
       <div className='resume-section my-4'>
         <div className='resume-section-content'>
-          <ResumeTimeline details={details} category={category} viewCert={resumeContent.certifications?.viewCert} />
+          <ResumeTimeline details={details} category={category} viewCert={resumeContent?.certifications?.viewCert} />
         </div>
       </div>
     </>
@@ -82,12 +85,12 @@ const Resume = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE, resumeC
   const params = useParams<{ resumeCategory?: string }>();
   const resumeCategory = params?.resumeCategory;
   const [activeTab, setActiveTab] = useState<ResumeCategories>(ResumeCategories.employmentHistory);
-  const { downloadResume, tabs } = resumeContent ?? {};
+  const { downloadResume } = resumeContent ?? {};
 
   const resumeTabs = [
-    { key: ResumeCategories.employmentHistory, label: tabs?.employmentHistory ?? 'Employment History' },
-    { key: ResumeCategories.certifications, label: tabs?.certifications ?? 'Certifications' },
-    { key: ResumeCategories.education, label: tabs?.education ?? 'Education' },
+    { key: ResumeCategories.employmentHistory, label: 'Employment History' },
+    { key: ResumeCategories.certifications, label: 'Certifications' },
+    { key: ResumeCategories.education, label: 'Education' },
   ];
 
   useEffect(() => setLoaded(true), [setLoaded]);

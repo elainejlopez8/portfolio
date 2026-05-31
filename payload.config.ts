@@ -13,6 +13,11 @@ import { ResumeContent } from './src/payload/globals/ResumeContent';
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+// Normalize empty TURSO_DATABASE_URL so other modules don't see an empty string
+if (process.env.TURSO_DATABASE_URL === '') {
+  delete process.env.TURSO_DATABASE_URL;
+}
+
 export default buildConfig({
   routes: {
     admin: '/cms',
@@ -37,7 +42,10 @@ export default buildConfig({
   },
   db: sqliteAdapter({
     client: {
-      url: process.env.TURSO_DATABASE_URL ?? 'file:./dev.db',
+      url:
+        process.env.TURSO_DATABASE_URL && process.env.TURSO_DATABASE_URL.length > 0
+          ? process.env.TURSO_DATABASE_URL
+          : 'file:./dev.db',
       authToken: process.env.TURSO_AUTH_TOKEN,
     },
   }),

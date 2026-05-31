@@ -5,6 +5,7 @@ import loadingImg from '@/assets/loading.gif';
 import waitImg from '@/assets/wait.png';
 import { usePageLayout } from '@/components/PageLayout';
 import ProjectCard from '@/components/ProjectCard';
+import { fallbackProjectLabels } from '@/lib/payload-content';
 import type { ProjectLabels } from '@/payload/types';
 import type { Repo } from '@/types';
 import { useEffect, useState } from 'react';
@@ -125,21 +126,23 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title, labels }: Props) => {
   const completedGroups = groupByType(completed);
   const hasGithubProjects = Boolean(repos && repos.length > 0);
 
+  const safeLabels = labels ?? fallbackProjectLabels;
+
   return (
     <Container fluid='lg' className='page-section' id={sectionId}>
-      <h1 className='type-display uppercase'>{title || labels.title}</h1>
+      <h1 className='type-display uppercase'>{title || safeLabels.title}</h1>
 
       {loading && (
         <div className='d-flex flex-column align-items-center justify-content-center my-4 text-center'>
           <img src={loadingImg.src} alt='Loading projects...' className='mx-auto w-full md:w-1/3' />
-          <p className='text-muted mt-2'>{labels.loading}</p>
+          <p className='text-muted mt-2'>{safeLabels.loading}</p>
         </div>
       )}
 
       {error && (
         <div className='d-flex flex-column align-items-center justify-content-center my-4 text-center'>
           <img src={errorImg.src} alt='Oops' className='mx-auto' />
-          <p className='text-danger mt-2'>{labels.error}</p>
+          <p className='text-danger mt-2'>{safeLabels.error}</p>
         </div>
       )}
 
@@ -148,9 +151,9 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title, labels }: Props) => {
           <div className='mb-4'>
             <div role='tablist' aria-label='Project categories' className='mb-2 flex flex-wrap gap-2'>
               {[
-                { key: 'all', label: labels.all },
-                { key: 'wip', label: labels.wip },
-                { key: 'completed', label: labels.completed },
+                { key: 'all', label: safeLabels.all },
+                { key: 'wip', label: safeLabels.wip },
+                { key: 'completed', label: safeLabels.completed },
               ].map((tab) => (
                 <button
                   key={tab.key}
@@ -164,12 +167,12 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title, labels }: Props) => {
             </div>
           </div>
 
-          {hasGithubProjects && (
+          {hasGithubProjects ? (
             <>
               {(activeTab === 'all' || activeTab === 'completed') && (
                 <section>
                   {activeTab === 'all' && Object.keys(completedGroups).length > 0 && (
-                    <h2 className='mb-4! text-purple-500!'>{labels.completed}</h2>
+                    <h2 className='mb-4! text-purple-500!'>{safeLabels.completed}</h2>
                   )}
                   {Object.keys(completedGroups).length > 0
                     ? Object.keys(completedGroups).map((type) => (
@@ -180,21 +183,21 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title, labels }: Props) => {
                                 key={`done-${r.id}`}
                                 r={r}
                                 variant='completed'
-                                goToRepo={labels.goToRepo}
-                                liveSite={labels.liveSite}
+                                goToRepo={safeLabels.goToRepo}
+                                liveSite={safeLabels.liveSite}
                               />
                             ))}
                           </div>
                         </div>
                       ))
-                    : activeTab === 'completed' && <p className='text-muted'>{labels.noCompleted}</p>}
+                    : activeTab === 'completed' && <p className='text-muted'>{safeLabels.noCompleted}</p>}
                 </section>
               )}
 
               {(activeTab === 'all' || activeTab === 'wip') && (
                 <section className='mb-6'>
                   {activeTab === 'all' && Object.keys(wipGroups).length > 0 && (
-                    <h2 className='mb-4! text-pink-500!'>{labels.wip}</h2>
+                    <h2 className='mb-4! text-pink-500!'>{safeLabels.wip}</h2>
                   )}
                   {Object.keys(wipGroups).length > 0
                     ? Object.keys(wipGroups).map((type) => (
@@ -205,23 +208,21 @@ const Projects = ({ sectionId = DEFAULT_SECTION_ID, title, labels }: Props) => {
                                 key={`wip-${r.id}`}
                                 r={r}
                                 variant='wip'
-                                goToRepo={labels.goToRepo}
-                                liveSite={labels.liveSite}
+                                goToRepo={safeLabels.goToRepo}
+                                liveSite={safeLabels.liveSite}
                               />
                             ))}
                           </div>
                         </div>
                       ))
-                    : activeTab === 'wip' && <p className='text-muted'>{labels.noWip}</p>}
+                    : activeTab === 'wip' && <p className='text-muted'>{safeLabels.noWip}</p>}
                 </section>
               )}
             </>
-          )}
-
-          {!hasGithubProjects && (
+          ) : (
             <div className='w-full'>
               <img src={waitImg.src} alt='No projects yet' className='mx-auto mb-4 w-full md:w-1/3' />
-              <p className='text-muted'>{labels.noProjects}</p>
+              <p className='text-muted'>{safeLabels.noProjects}</p>
             </div>
           )}
         </>
