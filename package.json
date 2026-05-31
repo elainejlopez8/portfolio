@@ -54,7 +54,7 @@
   "devDependencies": {
     "@commitlint/cli": "^21.0.1",
     "@commitlint/config-conventional": "^21.0.1",
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "9.0.0",
     "@types/lodash": "^4.17.24",
     "@types/node": "^25.9.1",
     "@types/react": "^19.2.15",
@@ -63,7 +63,7 @@
     "@typescript-eslint/parser": "^8.60.0",
     "concurrently": "^9.2.1",
     "dotenv": "^17.4.2",
-    "eslint": "^10.4.0",
+    "eslint": "^9.0.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react": "^7.37.5",
