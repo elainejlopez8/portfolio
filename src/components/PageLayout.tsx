@@ -1,3 +1,5 @@
+'use client';
+
 import loadingImg from '@/assets/loading.gif';
 import type { PageLayoutContextProps, PageLayoutProps } from '@/types';
 import { createContext, type FC, Suspense, useContext, useEffect, useMemo, useState } from 'react';
@@ -67,7 +69,7 @@ const PageLayout: FC<PageLayoutProps> = ({ children, showHeaderFooter = true, on
       {loading ? (
         <div className='flex min-h-screen w-full items-center justify-center overflow-hidden'>
           <img
-            src={loadingImg}
+            src={loadingImg.src}
             alt='Loading'
             className='h-auto w-fit object-contain p-5 sm:w-1/2 md:w-2/3 md:p-2.5 lg:w-3/4 md:landscape:w-2/5'
           />

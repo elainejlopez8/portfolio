@@ -56,13 +56,22 @@ module.exports = [
   {
     files: ['src/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     languageOptions: {
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        process: 'readonly',
+      },
     },
   },
   {
-    files: ['api/**/*.{js,ts}', 'scripts/**/*.{js,mjs}', 'vite.config.ts', 'eslint.config.cjs'],
+    files: [
+      'lib/**/*.{js,ts}',
+      'scripts/**/*.{js,mjs,ts}',
+      'eslint.config.cjs',
+      'src/app/api/**/*.ts',
+      'payload.config.ts',
+    ],
     languageOptions: {
-      globals: globals.node,
+      globals: { ...globals.node, ...globals.nodeBuiltin },
     },
   },
   {

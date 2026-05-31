@@ -1,33 +1,28 @@
+'use client';
+
 import aboutImg from '@/assets/about.jpg';
 import { usePageLayout } from '@/components/PageLayout';
-import { useContent } from '@/hooks/useContent';
-import type { CONTENT_KEYS } from '@/services/content/i18n';
-import type { PageProps } from '@/types';
+import { fallbackAboutMe } from '@/lib/payload-content';
+import type { AboutMeContent } from '@/payload/types';
 import { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
-
-const DEFAULT_SECTION_ID = 'aboutMe';
-const DEFAULT_TITLE = 'About Me';
 
 type TerminalBlurbEntry = {
   command: string;
   output: string;
 };
 
-const isTerminalBlurbEntry = (value: unknown): value is TerminalBlurbEntry => {
-  if (!value || typeof value !== 'object') return false;
-
-  const entry = value as Record<string, unknown>;
-  return typeof entry.command === 'string' && typeof entry.output === 'string';
-};
-
 const splitTerminalOutput = (output: string) => output.split('\n');
 
-const AboutMe = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: PageProps) => {
+type Props = {
+  sectionId?: string;
+  title?: string;
+  aboutMeContent?: AboutMeContent;
+};
+
+const AboutMe = ({ sectionId = 'aboutMe', title = 'About Me', aboutMeContent = fallbackAboutMe }: Props) => {
   const { setLoaded } = usePageLayout();
-  const { t } = useContent(sectionId as CONTENT_KEYS);
-  const rawBlurb = t('blurb', { returnObjects: true });
-  const blurb = Array.isArray(rawBlurb) ? rawBlurb.filter(isTerminalBlurbEntry) : [];
+  const blurb: TerminalBlurbEntry[] = Array.isArray(aboutMeContent?.blurb) ? aboutMeContent.blurb : [];
 
   useEffect(() => setLoaded(true), [setLoaded]);
 
@@ -40,27 +35,29 @@ const AboutMe = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Page
             <span className='about-terminal-dot about-terminal-dot--minimise' />
             <span className='about-terminal-dot about-terminal-dot--expand' />
           </div>
-          <p className='about-terminal-tab'>{t('terminalTab')}</p>
+          <p className='about-terminal-tab'>{aboutMeContent.terminalTab}</p>
         </div>
 
         <div className='about-terminal-body'>
           <p className='about-terminal-line'>
-            <span className='about-terminal-prompt'>{t('terminalPrefix')}</span> {t('terminalCommand1')}
+            <span className='about-terminal-prompt'>{aboutMeContent.terminalPrefix}</span>{' '}
+            {aboutMeContent.terminalCommand1}
           </p>
 
           <h1 className='type-display about-terminal-title uppercase'>{title}</h1>
-          <h2 className='type-heading about-terminal-tagline'>{t('tagline')}</h2>
+          <h2 className='type-heading about-terminal-tagline'>{aboutMeContent.tagline}</h2>
 
           <div className='page-section-content about-terminal-content'>
-            <img src={aboutImg} alt={title} className='page-section-media about-terminal-media' />
+            <img src={aboutImg.src} alt={title} className='page-section-media about-terminal-media' />
             <div className='page-section-copy about-terminal-copy'>
               <p className='about-terminal-line about-terminal-line--command'>
-                <span className='about-terminal-prompt'>{t('terminalPrefix')}</span> {t('terminalCommand2')}
+                <span className='about-terminal-prompt'>{aboutMeContent.terminalPrefix}</span>{' '}
+                {aboutMeContent.terminalCommand2}
               </p>
               {blurb.map((entry) => (
                 <div key={entry.command} className='about-terminal-entry'>
                   <p className='about-terminal-line about-terminal-line--command'>
-                    <span className='about-terminal-prompt'>{t('terminalPrefix')}</span>
+                    <span className='about-terminal-prompt'>{aboutMeContent.terminalPrefix}</span>
                     <span className='about-terminal-command'>{entry.command}</span>
                   </p>
                   <div className='about-terminal-response'>
@@ -84,7 +81,7 @@ const AboutMe = ({ sectionId = DEFAULT_SECTION_ID, title = DEFAULT_TITLE }: Page
           </div>
 
           <p className='about-terminal-line about-terminal-line--cursor'>
-            <span className='about-terminal-prompt'>{t('terminalPrefix')}</span>
+            <span className='about-terminal-prompt'>{aboutMeContent.terminalPrefix}</span>
             <span className='about-terminal-cursor' aria-hidden='true' />
           </p>
         </div>

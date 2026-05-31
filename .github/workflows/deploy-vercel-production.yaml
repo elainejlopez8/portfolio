@@ -100,6 +100,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_PRODUCTION_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_PRODUCTION_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PRODUCTION_PROJECT_ID }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET || 'ci-production-secret' }}
         run: yarn dlx --package vercel@latest vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
 
       - name: Build Vercel production artifacts
@@ -107,6 +108,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_PRODUCTION_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_PRODUCTION_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PRODUCTION_PROJECT_ID }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET || 'ci-production-secret' }}
         run: yarn dlx --package vercel@latest vercel build --prod --token="$VERCEL_TOKEN"
 
       - name: Deploy production to Vercel

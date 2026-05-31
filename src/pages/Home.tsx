@@ -1,27 +1,36 @@
-import PageLayout, { usePageLayout } from '@/components/PageLayout';
+'use client';
+
+import PageLayout from '@/components/PageLayout';
 import AboutMe from '@/pages/AboutMe';
 import Projects from '@/pages/Projects';
 import Resume from '@/pages/Resume';
+import type { AboutMeContent, GeneralContent, ProjectLabels, ResumeContentData } from '@/payload/types';
+import { usePathname } from 'next/navigation';
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 const HomeHeader = lazy(() => import('@/components/HomeHeader'));
 
-const Home = () => {
-  const location = useLocation();
-  const [showMainContent, setShowMainContent] = useState(location.hash === '#aboutMe');
-  const { setLoaded } = usePageLayout();
+type Props = {
+  generalContent: GeneralContent;
+  aboutMeContent: AboutMeContent;
+  resumeContent: ResumeContentData;
+  projectLabels: ProjectLabels;
+};
+
+function HomeInner({ generalContent, aboutMeContent, resumeContent, projectLabels }: Props) {
+  const pathname = usePathname();
+  const [showMainContent, setShowMainContent] = useState(
+    typeof window !== 'undefined' && window.location.hash === '#aboutMe'
+  );
 
   useEffect(() => {
-    if (location.hash === '#aboutMe') {
+    if (window.location.hash === '#aboutMe') {
       setShowMainContent(true);
     }
-  }, [location.hash]);
-
-  useEffect(() => setLoaded(true), [setLoaded]);
+  }, [pathname]);
 
   useEffect(() => {
-    if (!showMainContent || location.hash !== '#aboutMe') {
+    if (!showMainContent || window.location.hash !== '#aboutMe') {
       return;
     }
 
@@ -30,7 +39,7 @@ const Home = () => {
     }, 0);
 
     return () => window.clearTimeout(t);
-  }, [location.hash, showMainContent]);
+  }, [showMainContent]);
 
   const handleLearnMore = () => {
     setShowMainContent(true);
@@ -44,7 +53,12 @@ const Home = () => {
     return (
       <PageLayout onlyShowChildren>
         <Suspense fallback={null}>
-          <HomeHeader onLearnMore={handleLearnMore} showContent={showMainContent} />
+          <HomeHeader
+            generalContent={generalContent}
+            aboutMeContent={aboutMeContent}
+            onLearnMore={handleLearnMore}
+            showContent={showMainContent}
+          />
         </Suspense>
       </PageLayout>
     );
@@ -54,14 +68,16 @@ const Home = () => {
     <PageLayout>
       <div className='layout-stack flex w-full flex-col'>
         <Suspense fallback={null}>
-          <HomeHeader showContent={showMainContent} />
+          <HomeHeader generalContent={generalContent} aboutMeContent={aboutMeContent} showContent={showMainContent} />
         </Suspense>
-        <AboutMe />
-        <Projects />
-        <Resume />
+        <AboutMe aboutMeContent={aboutMeContent} />
+        <Projects labels={projectLabels} />
+        <Resume resumeContent={resumeContent} />
       </div>
     </PageLayout>
   );
-};
+}
+
+const Home = (props: Props) => <HomeInner {...props} />;
 
 export default Home;

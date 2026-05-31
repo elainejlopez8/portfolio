@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.next
+src/payload/generated-types.ts
 
 # Editor directories and files
 .vscode/settings.json
@@ -31,3 +33,4 @@ dist-ssr
 
 # Environment variable files
 .env.local
+.env*.local

@@ -1,4 +1,6 @@
-import { useContent } from '@/hooks/useContent';
+'use client';
+
+import { useGeneralContent } from '@/contexts/ContentContext';
 import type { JSX } from 'react';
 import { MdAlternateEmail } from 'react-icons/md';
 import { PiCodepenLogoBold, PiGithubLogoBold } from 'react-icons/pi';
@@ -12,18 +14,15 @@ const iconMap: Record<string, JSX.Element> = {
 };
 
 const Footer = () => {
-  const { t } = useContent('general');
-  const footerLinks = t('footer.urls', { returnObjects: true }) as Record<
-    string,
-    { href: string; icon?: string; alt?: string }
-  >;
+  const { footer, name } = useGeneralContent();
+  const footerText = footer.text.replace('{year}', String(new Date().getFullYear())).replace('{name}', name);
 
   return (
     <footer className='layout-section w-full rounded-md bg-linear-to-b from-transparent via-purple-100 to-purple-200'>
       <div className='layout-cluster-tight layout-offset-tight flex justify-center gap-x-5!'>
-        {Object.entries(footerLinks).map(([key, link]) => (
+        {footer.urls.map((link) => (
           <a
-            key={key}
+            key={link.href}
             href={link.href}
             target='_blank'
             rel='noopener noreferrer'
@@ -33,7 +32,7 @@ const Footer = () => {
           </a>
         ))}
       </div>
-      <p className='text-center text-sm'>{t('footer.text', { year: new Date().getFullYear(), name: t('name') })}</p>
+      <p className='text-center text-sm'>{footerText}</p>
     </footer>
   );
 };

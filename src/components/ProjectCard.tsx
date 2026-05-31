@@ -1,7 +1,10 @@
-import { useContent } from '@/hooks/useContent';
+'use client';
+
 import type { ProjectCardProps } from '@/types';
 import { startCase } from 'lodash';
 import React from 'react';
+
+type ExtendedProps = ProjectCardProps & { goToRepo: string; liveSite: string };
 
 const variantStyles = {
   archived: {
@@ -27,8 +30,7 @@ const variantStyles = {
   },
 } as const;
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ r, variant = 'wip' }) => {
-  const { t } = useContent('projects');
+const ProjectCard: React.FC<ExtendedProps> = ({ r, variant = 'wip', goToRepo, liveSite }) => {
   const styles = variantStyles[variant];
   const projectName = String(r.name || '');
 
@@ -52,8 +54,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ r, variant = 'wip' }) => {
             target='_blank'
             rel='noreferrer'
             className={`inline-block w-full rounded border-2 bg-transparent px-3 py-1.5 text-center text-xs font-medium hover:transform-none! hover:text-white! sm:w-fit ${styles.repoButton}`}
-            aria-label={t('goToRepo')}>
-            {t('goToRepo')}
+            aria-label={goToRepo}>
+            {goToRepo}
           </a>
         )}
         {r.prod_url && (
@@ -62,8 +64,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ r, variant = 'wip' }) => {
             target='_blank'
             rel='noreferrer'
             className={`inline-block w-full rounded border-2 px-3 py-1.5 text-center text-xs font-medium text-white hover:transform-none! hover:border-2 hover:bg-transparent sm:w-fit ${styles.prodButton}`}
-            aria-label={t('liveSite')}>
-            {t('liveSite')}
+            aria-label={liveSite}>
+            {liveSite}
           </a>
         )}
       </div>
