@@ -1016,7 +1016,7 @@
 }
 
 .create-first-user,
-.login__form__inputWrap {
+.login {
   place-items: center;
   padding: 3rem 2rem !important;
   text-align: center !important;
