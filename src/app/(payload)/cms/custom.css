@@ -796,10 +796,10 @@
 .template-default .render,
 .template-default .collection-list__content,
 .template-default .render-fields {
+  margin-right: auto !important;
+  margin-left: auto !important;
   padding: 1.5rem 2rem !important;
   max-width: 1100px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
 }
 
 /* Increase spacing between fields */
@@ -814,13 +814,13 @@
 
 /* Bigger labels */
 .template-default label.field-label {
-  font-size: 0.875rem !important;
   padding-bottom: 0.6rem !important;
+  font-size: 0.875rem !important;
 }
 
 .template-default .field-description {
-  font-size: 0.9rem !important;
   color: rgba(21, 14, 37, 0.55) !important;
+  font-size: 0.9rem !important;
 }
 
 /* Input sizing for comfortable touch targets */
@@ -829,14 +829,14 @@
 .template-default .field-type.number input,
 .template-default .field-type.date input,
 .template-default .field-type.url input {
-  height: 3.5rem !important;
   padding: 0.9rem 1rem !important;
+  height: 3.5rem !important;
   font-size: 1.02rem !important;
 }
 
 .template-default .field-type.textarea textarea {
-  min-height: 10rem !important;
   padding: 1rem 1rem !important;
+  min-height: 10rem !important;
   font-size: 1.02rem !important;
 }
 
@@ -856,22 +856,22 @@
 /* Reduce size of collapsible toggles so they don't fill the page */
 .template-default .collapsible__toggle-wrap {
   display: inline-flex !important;
-  align-items: center !important;
+  flex-shrink: 0 !important;
   justify-content: flex-start !important;
+  align-items: center !important;
+  margin: 0 0.5rem 0 0 !important;
+  padding: 0 !important;
   width: auto !important;
   min-width: 0 !important;
-  padding: 0 !important;
-  margin: 0 0.5rem 0 0 !important;
-  flex-shrink: 0 !important;
 }
 
 .template-default .collapsible__toggle-wrap .btn,
 .template-default .collapsible__toggle-wrap button {
-  padding: 0.25rem 0.6rem !important;
-  height: 2rem !important;
-  min-width: 2rem !important;
-  font-size: 0.75rem !important;
   border-radius: 6px !important;
+  padding: 0.25rem 0.6rem !important;
+  min-width: 2rem !important;
+  height: 2rem !important;
+  font-size: 0.75rem !important;
 }
 
 .template-default .collapsible__toggle-wrap .btn .btn__content {
@@ -882,4 +882,224 @@
 .template-default .collapsible__title,
 .template-default .collapsible__header {
   padding: 0.25rem 0 !important;
+}
+
+/* =====================
+   Login screen styling
+   - Center login card, add subtle background gradient
+   - Clean card with rounded corners, shadow, and logo/title
+   - Larger inputs, clearer labels and primary button
+   ===================== */
+
+.template-default .auth {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: linear-gradient(180deg, rgba(95, 75, 135, 0.03), rgba(160, 95, 145, 0.02)) !important;
+  padding: 2rem !important;
+  min-height: calc(100vh - var(--cms-nav-height)) !important;
+}
+
+.template-default .auth__card,
+.template-default .auth-card {
+  box-shadow: 0 12px 30px rgba(21, 14, 37, 0.12) !important;
+  border: 1px solid var(--theme-elevation-150) !important;
+  border-radius: 12px !important;
+  background: var(--theme-elevation-0, #fff) !important;
+  padding: 2rem !important;
+  width: 100% !important;
+  max-width: 480px !important;
+}
+
+.template-default .auth__header,
+.template-default .auth-card__header {
+  margin-bottom: 1rem !important;
+  text-align: center !important;
+}
+
+.template-default .auth__logo svg,
+.template-default .auth-card__logo svg {
+  display: block !important;
+  margin: 0 auto !important;
+  width: 72px !important;
+  height: auto !important;
+}
+
+.template-default .auth__title,
+.template-default .auth-card__title {
+  margin-top: 0.6rem !important;
+  color: rgb(95 75 135) !important;
+  font-weight: 800 !important;
+  font-size: 1.125rem !important;
+}
+
+.template-default .auth__form .field-type,
+.template-default .auth-card__form .field-type {
+  margin-bottom: 1.1rem !important;
+}
+
+.template-default .auth__form input,
+.template-default .auth__form textarea,
+.template-default .auth-card__form input {
+  border: 1px solid var(--theme-elevation-150) !important;
+  border-radius: 8px !important;
+  background: var(--theme-elevation-0, #fff) !important;
+  padding: 0.9rem 1rem !important;
+  width: 100% !important;
+  font-size: 1rem !important;
+}
+
+.template-default .auth__form .btn--style-primary,
+.template-default .auth-card__form .btn--style-primary {
+  box-shadow: 0 6px 18px rgba(95, 75, 135, 0.18) !important;
+  border-radius: 8px !important;
+  padding: 0.9rem 1rem !important;
+  width: 100% !important;
+  font-size: 1rem !important;
+}
+
+.template-default .auth__footer,
+.template-default .auth-card__footer {
+  margin-top: 0.75rem !important;
+  color: var(--theme-elevation-500) !important;
+  font-size: 0.9rem !important;
+  text-align: center !important;
+}
+
+/* =====================
+   Create-first-user / initial setup screen
+   - Reuse the auth card styles but give a slightly different header
+   - Make instructions clearer and space out form sections
+   - Emphasise the primary action and reduce visual clutter
+   ===================== */
+
+.template-default .create-first-user,
+.template-default .create-first-user-wrap,
+.template-default .first-user,
+.template-default .create-user {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: linear-gradient(180deg, rgba(95, 75, 135, 0.02), rgba(95, 75, 135, 0.01)) !important;
+  padding: 2rem !important;
+  min-height: calc(100vh - var(--cms-nav-height)) !important;
+}
+
+.template-default .create-first-user .auth__card,
+.template-default .create-first-user .auth-card,
+.template-default .create-user .auth__card,
+.template-default .first-user .auth__card {
+  padding: 2rem 2.25rem !important;
+  max-width: 640px !important;
+}
+
+.template-default .create-first-user .auth__title,
+.template-default .create-user .auth__title,
+.template-default .first-user .auth__title {
+  color: rgb(83 65 120) !important;
+  font-size: 1.25rem !important;
+}
+
+.template-default .create-first-user .auth__subtitle,
+.template-default .create-user .auth__subtitle,
+.template-default .first-user .auth__subtitle {
+  display: block !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1rem !important;
+  color: var(--theme-elevation-600) !important;
+  font-size: 0.95rem !important;
+}
+
+.template-default .create-first-user .field-type,
+.template-default .create-user .field-type {
+  margin-bottom: 1.25rem !important;
+}
+
+.create-first-user,
+.login__form__inputWrap {
+  text-align: center !important;
+  padding: 3rem 2rem !important;
+  place-items: center;
+}
+
+.field-type {
+  padding: 1rem 0 !important;
+}
+
+.field-type input {
+  padding: 0.75rem !important;
+  width: 20rem !important;
+  border-radius: 5px !important;
+}
+
+.field-label {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+
+.form-submit {
+  border: 2px solid black;
+  border-radius: 8px !important;
+  padding: 0.5rem 1rem !important;
+  width: 40%;
+  margin: 0 auto !important;
+}
+
+.form-submit:hover {
+  background-color: purple;
+  color: white;
+  font-weight: 800;
+}
+
+/* Make email and password inputs larger and more prominent */
+.template-default .auth__form input[type='email'],
+.template-default .auth__form input[type='password'],
+.template-default .auth-card__form input[type='email'],
+.template-default .auth-card__form input[type='password'],
+.template-default .create-first-user input[type='email'],
+.template-default .create-first-user input[type='password'],
+.template-default .create-user input[type='email'],
+.template-default .create-user input[type='password'] {
+  box-shadow: none !important;
+  border-radius: 10px !important;
+  padding: 1.1rem 1rem !important;
+  height: 4rem !important;
+  font-size: 1.08rem !important;
+}
+
+/* Ensure the auth and create-user containers are perfectly centered */
+.template-default .auth,
+.template-default .create-first-user,
+.template-default .create-user,
+.template-default .first-user {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: calc(100vh - var(--cms-nav-height)) !important;
+}
+
+/* Group password fields and hint text */
+.template-default .create-first-user .password-hint,
+.template-default .create-user .password-hint {
+  margin-top: 0.25rem !important;
+  color: var(--theme-elevation-500) !important;
+  font-size: 0.85rem !important;
+}
+
+.template-default .create-first-user .btn--style-primary,
+.template-default .create-user .btn--style-primary {
+  border-radius: 10px !important;
+  padding: 0.95rem 1rem !important;
+  width: 100% !important;
+  font-size: 1rem !important;
+}
+
+/* Small screens: keep card full width with breathing room */
+@media (max-width: 640px) {
+
+  .template-default .create-first-user .auth__card,
+  .template-default .create-user .auth__card {
+    margin: 0 1rem !important;
+    padding: 1.25rem !important;
+  }
 }
