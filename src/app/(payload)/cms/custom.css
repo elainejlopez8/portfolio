@@ -1053,8 +1053,8 @@ html {
   border-radius: 5px !important;
   padding: 0.75rem !important;
   width: 20rem !important;
-  text-align: center !important;
   font-size: 1rem !important;
+  text-align: center !important;
 }
 
 .field-label {
@@ -1127,4 +1127,179 @@ html {
     margin: 0 1rem !important;
     padding: 1.25rem !important;
   }
+}
+
+/* =====================
+   Visual polish
+   - Tidy dashboard layout into a responsive card grid
+   - Constrain content width and reduce large empty gaps
+   - Subtle card backgrounds and shadows for hierarchy
+   - Tighter nav spacing and smaller logo to save vertical space
+   ===================== */
+
+.template-default .collection-list__content,
+.template-default .dashboard__content,
+.template-default main,
+.template-default .doc {
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding: 1.25rem 1.5rem !important;
+  max-width: 1100px !important;
+}
+
+.template-default .collection-list__groups,
+.template-default .dashboard__groups,
+.template-default .dashboard__cards {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+  align-items: start !important;
+  gap: 1.5rem !important;
+}
+
+.template-default .collection-card,
+.template-default .dashboard__card,
+.template-default .dashboard__group,
+.template-default .group-field--top-level {
+  box-shadow: 0 8px 24px rgba(21, 14, 37, 0.06) !important;
+  border: 1px solid var(--theme-elevation-150) !important;
+  border-radius: 10px !important;
+  background: var(--theme-elevation-0, #fff) !important;
+  padding: 1rem !important;
+}
+
+/* Reduce large logo and free up vertical space */
+.template-default .nav__header svg {
+  width: 48px !important;
+  max-width: 48px !important;
+}
+
+.template-default .nav__wrap {
+  gap: 0.5rem !important;
+  padding-left: 0.5rem !important;
+}
+
+/* Headings & titles spacing */
+.template-default .collection-list__header h1,
+.template-default .render-title,
+.template-default .doc-header__title {
+  margin-top: 0 !important;
+  margin-bottom: 0.75rem !important;
+}
+
+/* Make side controls less visually dominant */
+.template-default .nav__controls {
+  opacity: 0.95 !important;
+}
+
+/* Improve contrast for small interactive labels */
+.template-default .nav__link {
+  color: rgb(230 225 240) !important;
+}
+
+/* Center main form area and align header controls with the form */
+.template-default .render,
+.template-default .doc,
+.template-default .collection-list__content {
+  display: block !important;
+  width: 100% !important;
+}
+
+/* Constrain the editable form column and center it */
+.template-default .render-fields,
+.template-default .doc .render-fields,
+.template-default .collection-list__content .render-fields {
+  max-width: 920px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Ensure each field spans the available content width */
+.template-default .render-fields>.field-type,
+.template-default .field-type {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Make inputs in the main CMS forms clearly visible and full-width
+   - override any generic rules that force fixed widths (eg. login helpers)
+   - give a subtle off-white background, stronger border and soft inset
+   - ensure text is left-aligned and placeholder contrast is readable */
+.template-default .render .field-type input,
+.template-default .render .field-type textarea,
+.template-default .doc .field-type input,
+.template-default .doc .field-type textarea,
+.template-default .collection-list__content .field-type input,
+.template-default .collection-list__content .field-type textarea,
+.template-default .group-field--top-level input,
+.template-default .group-field--top-level textarea {
+  width: 100% !important;
+  text-align: left !important;
+  background: var(--color-base-50) !important;
+  border: 1px solid var(--color-base-300) !important;
+  color: var(--color-base-900) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(21, 14, 37, 0.03) !important;
+  padding: 0.9rem 1rem !important;
+  border-radius: 8px !important;
+}
+
+.template-default .render .field-type input::placeholder,
+.template-default .doc .field-type input::placeholder,
+.template-default .collection-list__content .field-type input::placeholder {
+  color: var(--theme-elevation-500) !important;
+  opacity: 1 !important;
+}
+
+/* Focus state for clarity */
+.template-default .render .field-type input:focus,
+.template-default .render .field-type textarea:focus,
+.template-default .doc .field-type input:focus,
+.template-default .doc .field-type textarea:focus {
+  outline: none !important;
+  border-color: var(--color-base-500) !important;
+  box-shadow: 0 0 0 4px rgba(160, 95, 145, 0.08) !important;
+}
+
+/* Align the app header (save button / breadcrumbs) to the same content width */
+.template-default .app-header {
+  display: flex !important;
+  justify-content: center !important;
+  background: var(--theme-elevation-50) !important;
+}
+
+.template-default .app-header__wrapper,
+.template-default .app-header__content {
+  width: 100% !important;
+  max-width: 920px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+/* Force the admin layout to use a single top nav row so the left column
+   does not reserve horizontal space and the form can be centered. */
+.template-default,
+.template-default.template-default--nav-open,
+.template-default.template-default--nav-hydrated,
+.template-default.template-default--nav-hydrated.template-default--nav-open {
+  grid-template-columns: 1fr !important;
+  grid-template-rows: var(--cms-nav-height) 1fr !important;
+}
+
+.template-default aside.nav {
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: var(--cms-nav-height) !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Keep doc-controls and header actions aligned */
+.template-default .doc-controls__wrapper,
+.template-default .app-header__actions {
+  align-items: center !important;
 }
