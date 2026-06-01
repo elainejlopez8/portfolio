@@ -253,7 +253,7 @@
   padding-left: 0.5rem;
 }
 
-.template-default .nav__controls > :first-child {
+.template-default .nav__controls> :first-child {
   margin-top: 0;
 }
 
@@ -293,8 +293,7 @@
   border: var(--btn-border, 1px solid transparent);
   border-radius: var(--style-radius-s, 3px);
   background-color: var(--bg-color, transparent);
-  padding: var(--btn-padding-block-start, 0) var(--btn-padding-inline-end, 0.5rem) var(--btn-padding-block-end, 0)
-    var(--btn-padding-inline-start, 0.5rem);
+  padding: var(--btn-padding-block-start, 0) var(--btn-padding-inline-end, 0.5rem) var(--btn-padding-block-end, 0) var(--btn-padding-inline-start, 0.5rem);
   color: var(--color, inherit);
   font-weight: var(--btn-font-weight, normal);
   font-size: var(--base-body-size, 0.875rem);
@@ -446,7 +445,7 @@
 }
 
 /* Spacing between fields */
-.template-default .render-fields > .field-type {
+.template-default .render-fields>.field-type {
   margin-bottom: 1.5rem;
 }
 
@@ -804,7 +803,7 @@
 }
 
 /* Increase spacing between fields */
-.template-default .render-fields > .field-type {
+.template-default .render-fields>.field-type {
   margin-bottom: 2rem !important;
 }
 
@@ -1031,6 +1030,8 @@
   border-radius: 5px !important;
   padding: 0.75rem !important;
   width: 20rem !important;
+  text-align: center !important;
+  font-size: 1rem !important;
 }
 
 .field-label {
@@ -1047,9 +1048,9 @@
 }
 
 .form-submit:hover {
-  background-color: purple;
+  background-color: var(--color-base-300);
   color: white;
-  font-weight: 800;
+  font-weight: bolder !important;
 }
 
 /* Make email and password inputs larger and more prominent */
@@ -1097,6 +1098,7 @@
 
 /* Small screens: keep card full width with breathing room */
 @media (max-width: 640px) {
+
   .template-default .create-first-user .auth__card,
   .template-default .create-user .auth__card {
     margin: 0 1rem !important;
