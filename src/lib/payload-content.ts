@@ -196,7 +196,9 @@ export function mergeResumeContent(raw: unknown): ResumeContentData {
   const r = raw as Partial<ResumeContentData> | null | undefined;
   if (!r) return fallbackResumeContent;
   return {
-    resumeError: r.resumeError ?? fallbackResumeContent.resumeError,
+    // If a resume global exists, don't default to the fallback error message -
+    // leave `resumeError` empty unless the global explicitly provides one.
+    resumeError: r.resumeError ?? '',
     tabs: r.tabs
       ? {
           employmentHistory: r.tabs.employmentHistory ?? fallbackResumeContent.tabs.employmentHistory,
