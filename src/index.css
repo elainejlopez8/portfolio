@@ -137,11 +137,11 @@ p {
   gap: var(--space-type-loose);
 }
 
-.type-flow>*+* {
+.type-flow > * + * {
   margin-top: var(--space-type-base);
 }
 
-.type-flow-tight>*+* {
+.type-flow-tight > * + * {
   margin-top: var(--space-type-tight);
 }
 
@@ -386,7 +386,7 @@ p {
   padding: var(--space-layout-surface);
 }
 
-.page-section>* {
+.page-section > * {
   text-align: center;
 }
 
@@ -412,7 +412,7 @@ p {
   text-align: left;
 }
 
-.page-section-copy>* {
+.page-section-copy > * {
   text-align: left;
 }
 
@@ -449,11 +449,13 @@ p {
   position: absolute;
   opacity: 0.16;
   inset: 0;
-  background-image: repeating-linear-gradient(to bottom,
-      color-mix(in srgb, var(--color-blue-300) 70%, transparent),
-      color-mix(in srgb, var(--color-blue-300) 70%, transparent) 1px,
-      transparent 1px,
-      transparent 4px);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-blue-300) 70%, transparent),
+    color-mix(in srgb, var(--color-blue-300) 70%, transparent) 1px,
+    transparent 1px,
+    transparent 4px
+  );
   pointer-events: none;
   content: '';
 }
@@ -463,9 +465,11 @@ p {
   align-items: center;
   gap: 1rem;
   border-bottom: 1px solid color-mix(in srgb, var(--about-shell-border) 45%, transparent);
-  background: linear-gradient(180deg,
-      color-mix(in srgb, var(--color-purple-500) 45%, black),
-      color-mix(in srgb, var(--color-purple-400) 35%, black));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-purple-500) 45%, black),
+    color-mix(in srgb, var(--color-purple-400) 35%, black)
+  );
   padding: 0.75rem 1rem;
 }
 
@@ -553,7 +557,7 @@ p {
 }
 
 .about-terminal-copy,
-.about-terminal-copy>* {
+.about-terminal-copy > * {
   color: var(--about-shell-copy);
 }
 
@@ -625,7 +629,6 @@ p {
 }
 
 @keyframes terminal-cursor-blink {
-
   0%,
   49% {
     opacity: 1;
