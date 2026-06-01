@@ -267,7 +267,7 @@ html {
   padding-left: 0.5rem;
 }
 
-.template-default .nav__controls> :first-child {
+.template-default .nav__controls > :first-child {
   margin-top: 0;
 }
 
@@ -307,7 +307,8 @@ html {
   border: var(--btn-border, 1px solid transparent);
   border-radius: var(--style-radius-s, 3px);
   background-color: var(--bg-color, transparent);
-  padding: var(--btn-padding-block-start, 0) var(--btn-padding-inline-end, 0.5rem) var(--btn-padding-block-end, 0) var(--btn-padding-inline-start, 0.5rem);
+  padding: var(--btn-padding-block-start, 0) var(--btn-padding-inline-end, 0.5rem) var(--btn-padding-block-end, 0)
+    var(--btn-padding-inline-start, 0.5rem);
   color: var(--color, inherit);
   font-weight: var(--btn-font-weight, normal);
   font-size: var(--base-body-size, 0.875rem);
@@ -437,8 +438,8 @@ html {
 
 .template-default input::placeholder,
 .template-default textarea::placeholder {
-  color: var(--theme-elevation-500) !important;
   opacity: 1 !important;
+  color: var(--theme-elevation-500) !important;
 }
 
 .template-default input:focus,
@@ -505,7 +506,7 @@ html {
 }
 
 /* Spacing between fields */
-.template-default .render-fields>.field-type {
+.template-default .render-fields > .field-type {
   margin-bottom: 1.5rem;
 }
 
@@ -863,7 +864,7 @@ html {
 }
 
 /* Increase spacing between fields */
-.template-default .render-fields>.field-type {
+.template-default .render-fields > .field-type {
   margin-bottom: 2rem !important;
 }
 
@@ -1169,7 +1170,6 @@ html {
 
 /* Small screens: keep card full width with breathing room */
 @media (max-width: 640px) {
-
   .template-default .create-first-user .auth__card,
   .template-default .create-user .auth__card {
     margin: 0 1rem !important;
@@ -1264,7 +1264,7 @@ html {
 }
 
 /* Ensure each field spans the available content width */
-.template-default .render-fields>.field-type,
+.template-default .render-fields > .field-type,
 .template-default .field-type {
   box-sizing: border-box !important;
   width: 100% !important;
@@ -1373,22 +1373,22 @@ html {
 .template-default .doc .api,
 .template-default .collection-list__content .api,
 .template-default .collection-list__content .api-url {
-  max-width: 920px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  padding: 1rem 0 !important;
   display: block !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding: 1rem 0 !important;
+  max-width: 920px !important;
 }
 
 .template-default .doc .api a,
 .template-default .collection-list__content .api a {
   display: inline-block !important;
-  word-break: break-all !important;
-  background: var(--theme-elevation-0, #fff) !important;
   border: 1px solid var(--theme-elevation-150) !important;
-  padding: 0.5rem 0.75rem !important;
   border-radius: 8px !important;
+  background: var(--theme-elevation-0, #fff) !important;
+  padding: 0.5rem 0.75rem !important;
   color: var(--color-blue-500) !important;
+  word-break: break-all !important;
 }
 
 /* Keep doc-controls and header actions aligned */
@@ -1399,21 +1399,21 @@ html {
 
 /* Tidy the API view in the CMS: make API URL readable and centered */
 .template-default .doc .api {
-  max-width: 920px !important;
-  margin-left: auto !important;
   margin-right: auto !important;
+  margin-left: auto !important;
   padding: 1rem 0 !important;
+  max-width: 920px !important;
 }
 
 .template-default .doc .api .api-url,
 .template-default .doc .api a {
   display: inline-block !important;
-  word-break: break-all !important;
-  background: var(--theme-elevation-0, #fff) !important;
   border: 1px solid var(--theme-elevation-150) !important;
-  padding: 0.6rem 0.9rem !important;
   border-radius: 8px !important;
+  background: var(--theme-elevation-0, #fff) !important;
+  padding: 0.6rem 0.9rem !important;
   color: var(--color-blue-500) !important;
+  word-break: break-all !important;
 }
 
 .template-default .doc .api .api-controls {
