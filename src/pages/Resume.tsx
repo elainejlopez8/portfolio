@@ -19,7 +19,6 @@ const iconMap: Record<string, JSX.Element> = {
 };
 
 const hasResumeSectionContent = (category: ResumeCategories, resumeContent?: ResumeContentData) => {
-  console.log('>>>', resumeContent);
   if (!resumeContent) return false;
 
   if (category === ResumeCategories.employmentHistory) {
