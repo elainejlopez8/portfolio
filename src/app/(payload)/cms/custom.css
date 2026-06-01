@@ -253,7 +253,7 @@
   padding-left: 0.5rem;
 }
 
-.template-default .nav__controls > :first-child {
+.template-default .nav__controls> :first-child {
   margin-top: 0;
 }
 
@@ -293,8 +293,7 @@
   border: var(--btn-border, 1px solid transparent);
   border-radius: var(--style-radius-s, 3px);
   background-color: var(--bg-color, transparent);
-  padding: var(--btn-padding-block-start, 0) var(--btn-padding-inline-end, 0.5rem) var(--btn-padding-block-end, 0)
-    var(--btn-padding-inline-start, 0.5rem);
+  padding: var(--btn-padding-block-start, 0) var(--btn-padding-inline-end, 0.5rem) var(--btn-padding-block-end, 0) var(--btn-padding-inline-start, 0.5rem);
   color: var(--color, inherit);
   font-weight: var(--btn-font-weight, normal);
   font-size: var(--base-body-size, 0.875rem);
@@ -446,7 +445,7 @@
 }
 
 /* Spacing between fields */
-.template-default .render-fields > .field-type {
+.template-default .render-fields>.field-type {
   margin-bottom: 1.5rem;
 }
 
@@ -671,4 +670,105 @@
 
 .template-default ::-webkit-scrollbar-thumb:hover {
   background: rgba(160, 95, 145, 0.6);
+}
+
+/* =====================
+   Additional polish
+   - Tighter logo sizing
+   - Save button styles (matches primary buttons)
+   - Inputs: clearer focus state
+   - Global font enforcement inside the CMS
+   - Small nav/link spacing tweaks
+   ===================== */
+
+/* Ensure fonts apply to all elements inside the payload UI */
+.template-default,
+.template-default * {
+  font-family: var(--font-body) !important;
+}
+
+/* Tame overly-large logo SVGs */
+.template-default .nav__header svg {
+  width: 64px !important;
+  max-width: 64px !important;
+  height: auto !important;
+}
+
+/* Slightly more room for nav links, and consistent active pill */
+.template-default .nav__link {
+  padding: 0.45rem 0.9rem !important;
+  border-radius: 8px !important;
+}
+
+.template-default .nav__link.active {
+  box-shadow: none !important;
+  border: 1px solid rgba(160, 95, 145, 0.18) !important;
+}
+
+/* Save button used in custom component */
+.save-btn-custom {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  padding: 0.5rem 1.25rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  border-radius: 6px !important;
+  border: none !important;
+  color: #fff !important;
+  background: linear-gradient(135deg, rgb(95 75 135), rgb(160 95 145)) !important;
+  box-shadow: 0 2px 8px rgba(95, 75, 135, 0.35) !important;
+  cursor: pointer !important;
+  transition: transform 120ms ease, opacity 120ms ease, filter 120ms ease !important;
+}
+
+.save-btn-custom[disabled] {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  filter: grayscale(0.2) !important;
+  box-shadow: none !important;
+}
+
+.save-btn-custom:hover:not([disabled]) {
+  transform: translateY(-1px) !important;
+}
+
+/* Global spinner keyframes (SaveSpinner defines inline but provide fallback) */
+@keyframes cms-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Inputs: stronger focus ring and clear border on focus */
+.template-default input:focus,
+.template-default textarea:focus,
+.template-default select:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 4px rgba(160, 95, 145, 0.09), 0 1px 2px rgba(21, 14, 37, 0.05) !important;
+  border-color: rgb(160 95 145) !important;
+}
+
+/* Make form controls look slightly elevated on light backgrounds */
+.template-default .field-type input,
+.template-default .field-type textarea,
+.template-default .react-select .rs__control {
+  background: var(--theme-elevation-0, #fff) !important;
+  border: 1px solid var(--theme-elevation-150) !important;
+}
+
+/* Make primary and pill buttons have clearer hover/active states */
+.template-default .btn--style-primary:hover,
+.template-default .save-btn-custom:hover {
+  filter: brightness(0.98) saturate(1.03) !important;
+}
+
+.template-default .btn--style-pill:hover {
+  box-shadow: inset 0 0 0 1px rgba(160, 95, 145, 0.08) !important;
+}
+
+/* Slightly increase label contrast for readability */
+.template-default label.field-label {
+  color: rgb(100 85 130) !important;
 }
