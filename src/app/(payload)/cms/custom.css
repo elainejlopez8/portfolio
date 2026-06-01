@@ -66,6 +66,20 @@
   --font-mono: 'Ubuntu Sans Mono', ui-monospace, monospace;
 }
 
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  color: var(--color-purple-500);
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    2. GLOBAL FONT
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -1016,10 +1030,19 @@
 }
 
 .create-first-user,
-.login {
+.login,
+.forgot-password {
   place-items: center;
   padding: 3rem 2rem !important;
   text-align: center !important;
+}
+
+.login .form-submit {
+  margin-top: 1rem !important;
+}
+
+.forgot-password .form-submit {
+  margin-bottom: 1rem !important;
 }
 
 .field-type {
