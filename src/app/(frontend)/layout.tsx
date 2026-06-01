@@ -1,6 +1,6 @@
 import '@/index.css';
-import '@/styles/bootstrap.css';
 
+import logo from '@/assets/logo.png';
 import { ContentProvider } from '@/contexts/ContentContext';
 import type { GeneralContent } from '@/payload/types';
 import config from '@payload-config';
@@ -91,6 +91,7 @@ export default async function FrontendLayout({ children }: { children: ReactNode
       <head>
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
+        <link rel='icon' href={logo.src} />
         <link
           href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap'
           rel='stylesheet'

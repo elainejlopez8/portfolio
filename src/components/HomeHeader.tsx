@@ -185,7 +185,9 @@ const HomeHeader = ({ generalContent, aboutMeContent, onLearnMore, showContent =
               <p className='home-header-stat-copy'>
                 {generalContent.header.web.text}
                 <span className='home-header-stat-icons home-header-stat-icons--web'>
-                  {webExperienceIcons?.map((icon) => iconMap[icon])}
+                  {webExperienceIcons?.map((icon, idx) => (
+                    <span key={`web-icon-${icon}-${idx}`}>{iconMap[icon]}</span>
+                  ))}
                 </span>
               </p>
             </div>
@@ -196,7 +198,9 @@ const HomeHeader = ({ generalContent, aboutMeContent, onLearnMore, showContent =
               <p className='home-header-stat-copy'>
                 {generalContent.header.design.text}
                 <span className='home-header-stat-icons home-header-stat-icons--design'>
-                  {designExperienceIcons?.map((icon) => iconMap[icon])}
+                  {designExperienceIcons?.map((icon, idx) => (
+                    <span key={`design-icon-${icon}-${idx}`}>{iconMap[icon]}</span>
+                  ))}
                 </span>
               </p>
             </div>

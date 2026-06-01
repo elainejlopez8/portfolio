@@ -66,6 +66,20 @@
   --font-mono: 'Ubuntu Sans Mono', ui-monospace, monospace;
 }
 
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  color: var(--color-purple-500);
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    2. GLOBAL FONT
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -671,4 +685,623 @@
 
 .template-default ::-webkit-scrollbar-thumb:hover {
   background: rgba(160, 95, 145, 0.6);
+}
+
+/* =====================
+   Additional polish
+   - Tighter logo sizing
+   - Save button styles (matches primary buttons)
+   - Inputs: clearer focus state
+   - Global font enforcement inside the CMS
+   - Small nav/link spacing tweaks
+   ===================== */
+
+/* Ensure fonts apply to all elements inside the payload UI */
+.template-default,
+.template-default * {
+  font-family: var(--font-body) !important;
+}
+
+/* Tame overly-large logo SVGs */
+.template-default .nav__header svg {
+  width: 64px !important;
+  max-width: 64px !important;
+  height: auto !important;
+}
+
+/* Slightly more room for nav links, and consistent active pill */
+.template-default .nav__link {
+  border-radius: 8px !important;
+  padding: 0.45rem 0.9rem !important;
+}
+
+.template-default .nav__link.active {
+  box-shadow: none !important;
+  border: 1px solid rgba(160, 95, 145, 0.18) !important;
+}
+
+/* Save button used in custom component */
+.save-btn-custom {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  transition:
+    transform 120ms ease,
+    opacity 120ms ease,
+    filter 120ms ease !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(95, 75, 135, 0.35) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  background: linear-gradient(135deg, rgb(95 75 135), rgb(160 95 145)) !important;
+  padding: 0.5rem 1.25rem !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.04em !important;
+}
+
+.save-btn-custom[disabled] {
+  opacity: 0.5 !important;
+  filter: grayscale(0.2) !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+}
+
+.save-btn-custom:hover:not([disabled]) {
+  transform: translateY(-1px) !important;
+}
+
+/* Global spinner keyframes (SaveSpinner defines inline but provide fallback) */
+@keyframes cms-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Inputs: stronger focus ring and clear border on focus */
+.template-default input:focus,
+.template-default textarea:focus,
+.template-default select:focus {
+  outline: none !important;
+  box-shadow:
+    0 0 0 4px rgba(160, 95, 145, 0.09),
+    0 1px 2px rgba(21, 14, 37, 0.05) !important;
+  border-color: rgb(160 95 145) !important;
+}
+
+/* Make form controls look slightly elevated on light backgrounds */
+.template-default .field-type input,
+.template-default .field-type textarea,
+.template-default .react-select .rs__control {
+  border: 1px solid var(--theme-elevation-150) !important;
+  background: var(--theme-elevation-0, #fff) !important;
+}
+
+/* Make primary and pill buttons have clearer hover/active states */
+.template-default .btn--style-primary:hover,
+.template-default .save-btn-custom:hover {
+  filter: brightness(0.98) saturate(1.03) !important;
+}
+
+.template-default .btn--style-pill:hover {
+  box-shadow: inset 0 0 0 1px rgba(160, 95, 145, 0.08) !important;
+}
+
+/* Slightly increase label contrast for readability */
+.template-default label.field-label {
+  color: rgb(100 85 130) !important;
+}
+
+/* =====================
+   Layout spacing & form readability
+   - Wider page padding, centered content for readability
+   - Larger inputs and textareas, increased spacing between fields
+   - Bigger labels and descriptions for legibility
+   - Slightly larger buttons
+   ===================== */
+
+.template-default {
+  line-height: 1.6 !important;
+}
+
+/* Page content container — add horizontal padding and constrain max width */
+.template-default main,
+.template-default .doc,
+.template-default .render,
+.template-default .collection-list__content,
+.template-default .render-fields {
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding: 1.5rem 2rem !important;
+  max-width: 1100px !important;
+}
+
+/* Increase spacing between fields */
+.template-default .render-fields > .field-type {
+  margin-bottom: 2rem !important;
+}
+
+/* Make group cards more airy */
+.template-default .group-field--top-level {
+  padding: 2rem !important;
+}
+
+/* Bigger labels */
+.template-default label.field-label {
+  padding-bottom: 0.6rem !important;
+  font-size: 0.875rem !important;
+}
+
+.template-default .field-description {
+  color: rgba(21, 14, 37, 0.55) !important;
+  font-size: 0.9rem !important;
+}
+
+/* Input sizing for comfortable touch targets */
+.template-default .field-type.text input,
+.template-default .field-type.email input,
+.template-default .field-type.number input,
+.template-default .field-type.date input,
+.template-default .field-type.url input {
+  padding: 0.9rem 1rem !important;
+  height: 3.5rem !important;
+  font-size: 1.02rem !important;
+}
+
+.template-default .field-type.textarea textarea {
+  padding: 1rem 1rem !important;
+  min-height: 10rem !important;
+  font-size: 1.02rem !important;
+}
+
+/* React-select control spacing */
+.template-default .field-type.select .rs__control,
+.template-default .react-select .rs__control {
+  min-height: 3.5rem !important;
+}
+
+/* Slightly larger buttons across the CMS */
+.template-default .btn,
+.template-default .save-btn-custom {
+  padding: 0.6rem 1rem !important;
+  font-size: 0.95rem !important;
+}
+
+/* Reduce size of collapsible toggles so they don't fill the page */
+.template-default .collapsible__toggle-wrap {
+  display: inline-flex !important;
+  flex-shrink: 0 !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  margin: 0 0.5rem 0 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  min-width: 0 !important;
+}
+
+.template-default .collapsible__toggle-wrap .btn,
+.template-default .collapsible__toggle-wrap button {
+  border-radius: 6px !important;
+  padding: 0.25rem 0.6rem !important;
+  min-width: 2rem !important;
+  height: 2rem !important;
+  font-size: 0.75rem !important;
+}
+
+.template-default .collapsible__toggle-wrap .btn .btn__content {
+  gap: 0.25rem !important;
+}
+
+/* When the collapsible container expands, keep its header compact */
+.template-default .collapsible__title,
+.template-default .collapsible__header {
+  padding: 0.25rem 0 !important;
+}
+
+/* =====================
+   Login screen styling
+   - Center login card, add subtle background gradient
+   - Clean card with rounded corners, shadow, and logo/title
+   - Larger inputs, clearer labels and primary button
+   ===================== */
+
+.template-default .auth {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: linear-gradient(180deg, rgba(95, 75, 135, 0.03), rgba(160, 95, 145, 0.02)) !important;
+  padding: 2rem !important;
+  min-height: calc(100vh - var(--cms-nav-height)) !important;
+}
+
+.template-default .auth__card,
+.template-default .auth-card {
+  box-shadow: 0 12px 30px rgba(21, 14, 37, 0.12) !important;
+  border: 1px solid var(--theme-elevation-150) !important;
+  border-radius: 12px !important;
+  background: var(--theme-elevation-0, #fff) !important;
+  padding: 2rem !important;
+  width: 100% !important;
+  max-width: 480px !important;
+}
+
+.template-default .auth__header,
+.template-default .auth-card__header {
+  margin-bottom: 1rem !important;
+  text-align: center !important;
+}
+
+.template-default .auth__logo svg,
+.template-default .auth-card__logo svg {
+  display: block !important;
+  margin: 0 auto !important;
+  width: 72px !important;
+  height: auto !important;
+}
+
+.template-default .auth__title,
+.template-default .auth-card__title {
+  margin-top: 0.6rem !important;
+  color: rgb(95 75 135) !important;
+  font-weight: 800 !important;
+  font-size: 1.125rem !important;
+}
+
+.template-default .auth__form .field-type,
+.template-default .auth-card__form .field-type {
+  margin-bottom: 1.1rem !important;
+}
+
+.template-default .auth__form input,
+.template-default .auth__form textarea,
+.template-default .auth-card__form input {
+  border: 1px solid var(--theme-elevation-150) !important;
+  border-radius: 8px !important;
+  background: var(--theme-elevation-0, #fff) !important;
+  padding: 0.9rem 1rem !important;
+  width: 100% !important;
+  font-size: 1rem !important;
+}
+
+.template-default .auth__form .btn--style-primary,
+.template-default .auth-card__form .btn--style-primary {
+  box-shadow: 0 6px 18px rgba(95, 75, 135, 0.18) !important;
+  border-radius: 8px !important;
+  padding: 0.9rem 1rem !important;
+  width: 100% !important;
+  font-size: 1rem !important;
+}
+
+.template-default .auth__footer,
+.template-default .auth-card__footer {
+  margin-top: 0.75rem !important;
+  color: var(--theme-elevation-500) !important;
+  font-size: 0.9rem !important;
+  text-align: center !important;
+}
+
+/* =====================
+   Create-first-user / initial setup screen
+   - Reuse the auth card styles but give a slightly different header
+   - Make instructions clearer and space out form sections
+   - Emphasise the primary action and reduce visual clutter
+   ===================== */
+
+.template-default .create-first-user,
+.template-default .create-first-user-wrap,
+.template-default .first-user,
+.template-default .create-user {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: linear-gradient(180deg, rgba(95, 75, 135, 0.02), rgba(95, 75, 135, 0.01)) !important;
+  padding: 2rem !important;
+  min-height: calc(100vh - var(--cms-nav-height)) !important;
+}
+
+.template-default .create-first-user .auth__card,
+.template-default .create-first-user .auth-card,
+.template-default .create-user .auth__card,
+.template-default .first-user .auth__card {
+  padding: 2rem 2.25rem !important;
+  max-width: 640px !important;
+}
+
+.template-default .create-first-user .auth__title,
+.template-default .create-user .auth__title,
+.template-default .first-user .auth__title {
+  color: rgb(83 65 120) !important;
+  font-size: 1.25rem !important;
+}
+
+.template-default .create-first-user .auth__subtitle,
+.template-default .create-user .auth__subtitle,
+.template-default .first-user .auth__subtitle {
+  display: block !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1rem !important;
+  color: var(--theme-elevation-600) !important;
+  font-size: 0.95rem !important;
+}
+
+.template-default .create-first-user .field-type,
+.template-default .create-user .field-type {
+  margin-bottom: 1.25rem !important;
+}
+
+.create-first-user,
+.login,
+.forgot-password {
+  place-items: center;
+  padding: 3rem 2rem !important;
+  text-align: center !important;
+}
+
+.login .form-submit {
+  margin-top: 1rem !important;
+}
+
+.forgot-password .form-submit {
+  margin-bottom: 1rem !important;
+}
+
+.field-type {
+  padding: 1rem 0 !important;
+}
+
+.field-type input {
+  border-radius: 5px !important;
+  padding: 0.75rem !important;
+  width: 20rem !important;
+  font-size: 1rem !important;
+  text-align: center !important;
+}
+
+.field-label {
+  font-weight: 600 !important;
+  font-size: 18px !important;
+}
+
+.form-submit {
+  margin: 0 auto !important;
+  border: 2px solid black;
+  border-radius: 8px !important;
+  padding: 0.5rem 1rem !important;
+  width: 40%;
+}
+
+.form-submit:hover {
+  background-color: var(--color-base-300);
+  color: white;
+  font-weight: bolder !important;
+}
+
+/* Make email and password inputs larger and more prominent */
+.template-default .auth__form input[type='email'],
+.template-default .auth__form input[type='password'],
+.template-default .auth-card__form input[type='email'],
+.template-default .auth-card__form input[type='password'],
+.template-default .create-first-user input[type='email'],
+.template-default .create-first-user input[type='password'],
+.template-default .create-user input[type='email'],
+.template-default .create-user input[type='password'] {
+  box-shadow: none !important;
+  border-radius: 10px !important;
+  padding: 1.1rem 1rem !important;
+  height: 4rem !important;
+  font-size: 1.08rem !important;
+}
+
+/* Ensure the auth and create-user containers are perfectly centered */
+.template-default .auth,
+.template-default .create-first-user,
+.template-default .create-user,
+.template-default .first-user {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: calc(100vh - var(--cms-nav-height)) !important;
+}
+
+/* Group password fields and hint text */
+.template-default .create-first-user .password-hint,
+.template-default .create-user .password-hint {
+  margin-top: 0.25rem !important;
+  color: var(--theme-elevation-500) !important;
+  font-size: 0.85rem !important;
+}
+
+.template-default .create-first-user .btn--style-primary,
+.template-default .create-user .btn--style-primary {
+  border-radius: 10px !important;
+  padding: 0.95rem 1rem !important;
+  width: 100% !important;
+  font-size: 1rem !important;
+}
+
+/* Small screens: keep card full width with breathing room */
+@media (max-width: 640px) {
+  .template-default .create-first-user .auth__card,
+  .template-default .create-user .auth__card {
+    margin: 0 1rem !important;
+    padding: 1.25rem !important;
+  }
+}
+
+/* =====================
+   Visual polish
+   - Tidy dashboard layout into a responsive card grid
+   - Constrain content width and reduce large empty gaps
+   - Subtle card backgrounds and shadows for hierarchy
+   - Tighter nav spacing and smaller logo to save vertical space
+   ===================== */
+
+.template-default .collection-list__content,
+.template-default .dashboard__content,
+.template-default main,
+.template-default .doc {
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding: 1.25rem 1.5rem !important;
+  max-width: 1100px !important;
+}
+
+.template-default .collection-list__groups,
+.template-default .dashboard__groups,
+.template-default .dashboard__cards {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+  align-items: start !important;
+  gap: 1.5rem !important;
+}
+
+.template-default .collection-card,
+.template-default .dashboard__card,
+.template-default .dashboard__group,
+.template-default .group-field--top-level {
+  box-shadow: 0 8px 24px rgba(21, 14, 37, 0.06) !important;
+  border: 1px solid var(--theme-elevation-150) !important;
+  border-radius: 10px !important;
+  background: var(--theme-elevation-0, #fff) !important;
+  padding: 1rem !important;
+}
+
+/* Reduce large logo and free up vertical space */
+.template-default .nav__header svg {
+  width: 48px !important;
+  max-width: 48px !important;
+}
+
+.template-default .nav__wrap {
+  gap: 0.5rem !important;
+  padding-left: 0.5rem !important;
+}
+
+/* Headings & titles spacing */
+.template-default .collection-list__header h1,
+.template-default .render-title,
+.template-default .doc-header__title {
+  margin-top: 0 !important;
+  margin-bottom: 0.75rem !important;
+}
+
+/* Make side controls less visually dominant */
+.template-default .nav__controls {
+  opacity: 0.95 !important;
+}
+
+/* Improve contrast for small interactive labels */
+.template-default .nav__link {
+  color: rgb(230 225 240) !important;
+}
+
+/* Center main form area and align header controls with the form */
+.template-default .render,
+.template-default .doc,
+.template-default .collection-list__content {
+  display: block !important;
+  width: 100% !important;
+}
+
+/* Constrain the editable form column and center it */
+.template-default .render-fields,
+.template-default .doc .render-fields,
+.template-default .collection-list__content .render-fields {
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  max-width: 920px !important;
+}
+
+/* Ensure each field spans the available content width */
+.template-default .render-fields > .field-type,
+.template-default .field-type {
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+/* Make inputs in the main CMS forms clearly visible and full-width
+   - override any generic rules that force fixed widths (eg. login helpers)
+   - give a subtle off-white background, stronger border and soft inset
+   - ensure text is left-aligned and placeholder contrast is readable */
+.template-default .render .field-type input,
+.template-default .render .field-type textarea,
+.template-default .doc .field-type input,
+.template-default .doc .field-type textarea,
+.template-default .collection-list__content .field-type input,
+.template-default .collection-list__content .field-type textarea,
+.template-default .group-field--top-level input,
+.template-default .group-field--top-level textarea {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 1px 2px rgba(21, 14, 37, 0.03) !important;
+  border: 1px solid var(--color-base-300) !important;
+  border-radius: 8px !important;
+  background: var(--color-base-50) !important;
+  padding: 0.9rem 1rem !important;
+  width: 100% !important;
+  color: var(--color-base-900) !important;
+  text-align: left !important;
+}
+
+.template-default .render .field-type input::placeholder,
+.template-default .doc .field-type input::placeholder,
+.template-default .collection-list__content .field-type input::placeholder {
+  opacity: 1 !important;
+  color: var(--theme-elevation-500) !important;
+}
+
+/* Focus state for clarity */
+.template-default .render .field-type input:focus,
+.template-default .render .field-type textarea:focus,
+.template-default .doc .field-type input:focus,
+.template-default .doc .field-type textarea:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 4px rgba(160, 95, 145, 0.08) !important;
+  border-color: var(--color-base-500) !important;
+}
+
+/* Align the app header (save button / breadcrumbs) to the same content width */
+.template-default .app-header {
+  display: flex !important;
+  justify-content: center !important;
+  background: var(--theme-elevation-50) !important;
+}
+
+.template-default .app-header__wrapper,
+.template-default .app-header__content {
+  margin-right: auto !important;
+  margin-left: auto !important;
+  padding-right: 0.5rem !important;
+  padding-left: 0.5rem !important;
+  width: 100% !important;
+  max-width: 920px !important;
+}
+
+/* Force the admin layout to use a single top nav row so the left column
+   does not reserve horizontal space and the form can be centered. */
+.template-default,
+.template-default.template-default--nav-open,
+.template-default.template-default--nav-hydrated,
+.template-default.template-default--nav-hydrated.template-default--nav-open {
+  grid-template-rows: var(--cms-nav-height) 1fr !important;
+  grid-template-columns: 1fr !important;
+}
+
+.template-default aside.nav {
+  display: flex !important;
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: var(--cms-nav-height) !important;
+}
+
+/* Keep doc-controls and header actions aligned */
+.template-default .doc-controls__wrapper,
+.template-default .app-header__actions {
+  align-items: center !important;
 }

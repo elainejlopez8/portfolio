@@ -1,3 +1,4 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'tailwindcss';
 
 @theme {
@@ -827,14 +828,14 @@ img {
 }
 
 .home-header--initial {
-  display: 'flex';
-  justify-content: 'stretch';
-  align-items: 'stretch';
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
   margin: 0;
   padding: 0 10px;
-  width: '100%';
-  max-width: '100%';
-  height: '100dvh';
-  min-height: '100dvh';
-  overflow: 'hidden';
+  width: 100%;
+  max-width: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
 }
