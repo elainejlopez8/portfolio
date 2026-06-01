@@ -1,5 +1,13 @@
+import jiti from 'jiti';
 import { getPayload } from 'payload';
-import config from '../payload.config.js';
+
+// Support loading the TypeScript payload config (payload.config.ts) in Node ESM
+const require = jiti(import.meta.url);
+const config =
+  require('../payload.config.ts')?.default ??
+  require('../payload.config.js')?.default ??
+  require('../payload.config.ts') ??
+  require('../payload.config.js');
 
 const generalData = {
   name: 'Elaine Lopez',
