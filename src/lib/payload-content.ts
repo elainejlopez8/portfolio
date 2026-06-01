@@ -109,7 +109,7 @@ export const fallbackResumeContent: ResumeContentData = {
               'Assisted with answering the online chat system (via LiveChat) implemented for online classes, afterschool classes, and camp classes to help debug and fix issues in projects for students and other staff.',
           },
           {
-            title: 'Head Teacher/Afterschool Facilitor',
+            title: 'Head Teacher/Afterschool Facilitator',
             start_date: 'Jul 2018',
             end_date: 'Jan 2023',
             description:
@@ -196,7 +196,9 @@ export function mergeResumeContent(raw: unknown): ResumeContentData {
   const r = raw as Partial<ResumeContentData> | null | undefined;
   if (!r) return fallbackResumeContent;
   return {
-    resumeError: r.resumeError ?? fallbackResumeContent.resumeError,
+    // If a resume global exists, don't default to the fallback error message -
+    // leave `resumeError` empty unless the global explicitly provides one.
+    resumeError: r.resumeError ?? '',
     tabs: r.tabs
       ? {
           employmentHistory: r.tabs.employmentHistory ?? fallbackResumeContent.tabs.employmentHistory,

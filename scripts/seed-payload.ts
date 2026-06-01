@@ -148,7 +148,7 @@ const resumeData = {
               'Assisted with answering the online chat system (via LiveChat) implemented for online classes, afterschool classes, and camp classes to help debug and fix issues in projects for students and other staff.',
           },
           {
-            title: 'Head Teacher/Afterschool Facilitor',
+            title: 'Head Teacher/Afterschool Facilitator',
             start_date: 'Jul 2018',
             end_date: 'Jan 2023',
             description:
