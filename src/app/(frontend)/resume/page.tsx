@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { fallbackResumeContent, mergeResumeContent } from '@/lib/payload-content';
 import type { ResumeContentData } from '@/payload/types';
 import config from '@payload-config';
