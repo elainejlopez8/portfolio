@@ -1,5 +1,4 @@
 import '@/index.css';
-import '@/styles/bootstrap.css';
 
 import { ContentProvider } from '@/contexts/ContentContext';
 import type { GeneralContent } from '@/payload/types';
