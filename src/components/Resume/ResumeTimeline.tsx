@@ -11,6 +11,7 @@ import {
   TimelineSeparator,
 } from '@mui/lab';
 import { MdWork } from 'react-icons/md';
+import Markdown from 'react-markdown';
 import { JSX } from 'react/jsx-runtime';
 
 type ExtendedProps = ResumeTimelineProps & { viewCert?: string };
@@ -48,7 +49,7 @@ export default function ResumeTimeline({ details, category, viewCert }: Extended
               </div>
 
               <p className='font-subheading! text-base font-bold text-pink-400'></p>
-              {prefix?.description && <p className='text-muted'>{prefix?.description}</p>}
+              {prefix?.description && <Markdown>{prefix?.description}</Markdown>}
             </TimelineContent>
           </TimelineItem>
         );
@@ -74,9 +75,7 @@ export default function ResumeTimeline({ details, category, viewCert }: Extended
               ))}
             </ul>
           ) : item?.description ? (
-            <p className='text-muted text-base'>
-              {Array.isArray(item.description) ? item.description[0] : item.description}
-            </p>
+            <Markdown>{Array.isArray(item.description) ? item.description[0] : item.description}</Markdown>
           ) : null}
         </article>
       );
